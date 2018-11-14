@@ -3,7 +3,10 @@ import { SummonerSchema } from '../models'
 export default {
     Query: {
         getSummonerInfo: async (_source, _args, {dataSources}) => {
-            return await dataSources.summonerDataSource.getSummoner(_args.summonerName);
+            return SummonerSchema.findOne({name: _args.summonerName}, (err, data) => {
+                console.log(data)
+                return data
+            })
         },
     },
     Mutation: {
