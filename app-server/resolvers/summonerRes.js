@@ -19,7 +19,7 @@ export default {
             let data2 = await dataSources.leagueDataSource.getLeagueRank(data.id);
             let data3 = await dataSources.matchDataSource.getMatches(data.accountId);
             let finalData = Object.assign({}, data, data2[1], data3);
-            // console.log(finalData);
+            console.log(finalData);
             SummonerSchema.create(finalData);
             return true
         },

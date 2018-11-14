@@ -1,14 +1,22 @@
 {
   "name": "new",
   "version": "1.0.0",
-  "description": "",
+  "description": "Analyze league of legends players and create a community",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon -r esm index.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "league of legends",
+    "Data visualization",
+    "Community"
+  ],
+  "author": "Nikolaos Rentas",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/satner/diplomatiki.git"
+  },
   "devDependencies": {
     "nodemon": "^1.18.6"
   },
