@@ -10,10 +10,10 @@ export default {
         setSummonerInfo: async (_source, _args, {dataSources}) => {
 
             SummonerSchema.findOne({name: _args.summonerName}, async (err, user) => {
-                // if (user) {
-                //     console.log('Summoner exist!')
-                //     return
-                // }
+                if (user) {
+                    console.log('Summoner exist!')
+                    return
+                }
 
                 console.log('Summoner does not exist');
                 let summonerData = await dataSources.summonerDataSource.getSummoner(_args.summonerName);
