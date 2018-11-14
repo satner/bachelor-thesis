@@ -18,7 +18,8 @@ const summonerSchema = new mongoose.Schema({
         lane: String,
         gameId: Number,
         champion: Number
-    }]
+    }],
+    matchDetails: { type : Array , "default" : [] }
 }, {
     timestamp: true
 });

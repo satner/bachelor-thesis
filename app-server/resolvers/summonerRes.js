@@ -41,12 +41,10 @@ export default {
                 Perimeno na teliosoun ola ta request gia ta match details
                 kai meta tha ta insert sto database
                 */
+                // TODO: clean trash fields of matchDetails
                 Promise.all(requests).then(() => {
-                    finalData = Object.assign(finalData, results)
+                    (finalData.matchDetails = results ) &&  SummonerSchema.create(finalData)
                 });
-
-                //SummonerSchema.create(finalData);
-
                 return true
             });
         },
