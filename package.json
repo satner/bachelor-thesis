@@ -1,0 +1,24 @@
+{
+  "name": "new",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^1.18.6"
+  },
+  "dependencies": {
+    "apollo-datasource-rest": "^0.2.0",
+    "apollo-server-express": "^2.2.2",
+    "esm": "^3.0.84",
+    "express": "^4.16.4",
+    "graphql": "^14.0.2",
+    "mongoose": "^5.3.12",
+    "node-fetch": "^2.3.0"
+  }
+}
