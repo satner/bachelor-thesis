@@ -1,10 +1,15 @@
 import { SummonerSchema } from '../models'
+import Bottleneck from "bottleneck";
+
+const limiter = new Bottleneck({
+    maxConcurrent: 100,
+    minTime: 100
+});
 
 export default {
     Query: {
         getSummonerInfo: async (_source, _args, {dataSources}) => {
             return SummonerSchema.findOne({name: _args.summonerName}, (err, data) => {
-                console.log(data)
                 return data
             })
         },
@@ -13,8 +18,8 @@ export default {
         setSummonerInfo: async (_source, _args, {dataSources}) => {
 
             SummonerSchema.findOne({name: _args.summonerName}, async (err, user) => {
-                if (user) {
-                    console.log('Summoner exist!')
+                if ( user) {
+                    console.log('Summoner exist!');
                     return
                 }
 
@@ -27,12 +32,11 @@ export default {
 
                 let results = [];
                 let requests = finalData.matches.map(async function (match) {
-                    let data = await dataSources.matchDetailDataSource.getMatcheDetails(match.gameId);
+                    let data = await limiter.schedule(() => dataSources.matchDetailDataSource.getMatcheDetails(match.gameId));
 
                     let summonerID =  data.participantIdentities.filter(function(summoner) {
                         return summoner.player.summonerName === _args.summonerName
                     });
-                    console.log(summonerID[0].participantId)
 
                     let temp = data.participants.filter(function(summoner) {
                         return summoner.participantId === summonerID[0].participantId
