@@ -1,12 +1,38 @@
 import { SummonerSchema } from '../models'
+import { API_KEY } from '../lol-config'
+const _kayn = require('kayn')
+const Kayn = _kayn.Kayn
+const REGIONS = _kayn.REGIONS
+
+
+const kayn = Kayn(API_KEY)(/* optional config */)
+
 
 export default {
     Query: {
         getSummonerInfo: async (_source, _args, {dataSources}) => {
-            return SummonerSchema.findOne({name: _args.summonerName}, (err, data) => {
-                console.log(data)
-                return data
-            })
+            kayn.Summoner.by
+                .name('Contractz')
+                .region(REGIONS.NORTH_AMERICA) // same as 'na'
+                .callback(function(unhandledError, summoner) {
+                    kayn.Matchlist.by
+                        .accountID(summoner.accountId)
+                        /* Note that region falls back to default if unused. */
+                        .query({
+                            season: 11,
+                            champion: 67,
+                        })
+                        .then(function(matchlist) {
+                            console.log('actual matches:', matchlist.matches)
+                            console.log('total number of games:', matchlist.totalGames)
+                        })
+                        .catch(console.error)
+                })
+
+            // return SummonerSchema.findOne({name: _args.summonerName}, (err, data) => {
+            //
+            //     return data
+            // })
         },
     },
     Mutation: {
