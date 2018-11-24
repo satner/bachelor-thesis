@@ -12,15 +12,14 @@ export default {
     Query: {
         getSummonerInfo: async (_source, _args, {dataSources}) => {
             kayn.Summoner.by
-                .name('Contractz')
-                .region(REGIONS.NORTH_AMERICA) // same as 'na'
+                .name('PozerasLeeSin')
+                .region(REGIONS.EUROPE) // same as 'na'
                 .callback(function(unhandledError, summoner) {
                     kayn.Matchlist.by
                         .accountID(summoner.accountId)
                         /* Note that region falls back to default if unused. */
                         .query({
-                            season: 11,
-                            champion: 67,
+                            season: 11
                         })
                         .then(function(matchlist) {
                             console.log('actual matches:', matchlist.matches)
