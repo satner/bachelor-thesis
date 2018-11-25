@@ -30,7 +30,7 @@ export default {
                 let finalData = Object.assign({}, summonerData, leagueData[1], matchData);
 
 
-                let results = [];
+                /*let results = [];
                 let requests = finalData.matches.map(async function (match) {
                     let data = await limiter.schedule(() => dataSources.matchDetailDataSource.getMatcheDetails(match.gameId));
 
@@ -42,7 +42,7 @@ export default {
                         return summoner.participantId === summonerID[0].participantId
                     });
                     results.push(temp[0])
-                });
+                });*/
 
                 /*
                 Perimeno na teliosoun ola ta request gia ta match details
