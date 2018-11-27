@@ -25,6 +25,7 @@
     "apollo-server-express": "^2.2.2",
     "bottleneck": "^2.13.0",
     "esm": "^3.0.84",
+    "event-stream": "^3.3.4",
     "express": "^4.16.4",
     "graphql": "^14.0.2",
     "mongoose": "^5.3.12"
