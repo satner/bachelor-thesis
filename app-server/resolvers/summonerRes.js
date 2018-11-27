@@ -1,12 +1,32 @@
 import { SummonerSchema } from '../models'
 
+import LeagueJs from 'leaguejs';
+import { API_KEY } from '../lol-config'
+const api = new LeagueJs(API_KEY);
+
+
 export default {
     Query: {
         getSummonerInfo: async (_source, _args, {dataSources}) => {
-            return SummonerSchema.findOne({name: _args.summonerName}, (err, data) => {
-                console.log(data)
-                return data
-            })
+            api.Summoner
+                .gettingByName(_args.summonerName, 'eun1')
+                .then(data => {
+                    'use strict';
+                    console.log(data);
+                    return data
+                })
+                .catch(err => {
+                    'use strict';
+                    console.log(err);
+                });
+
+            api.Match.gettingListByAccount(1973922219692704 , 'eun1', {queue: [420], season: [11]})
+                .then(data => {
+                    'use strict';
+                    console.log(data.matches.length);
+                    return data
+                })
+
         },
     },
     Mutation: {

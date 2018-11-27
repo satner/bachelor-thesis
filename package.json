@@ -27,6 +27,7 @@
     "event-stream": "^3.3.4",
     "express": "^4.16.4",
     "graphql": "^14.0.2",
+    "leaguejs": "^1.10.1",
     "mongoose": "^5.3.12"
   }
 }
