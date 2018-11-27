@@ -1,8 +1,8 @@
 import { SummonerSchema } from '../models'
 import { API_KEY } from '../lol-config'
-const _kayn = require('kayn')
-const Kayn = _kayn.Kayn
-const REGIONS = _kayn.REGIONS
+const _kayn = require('kayn');
+const Kayn = _kayn.Kayn;
+const REGIONS = _kayn.REGIONS;
 
 
 const kayn = Kayn(API_KEY)(/* optional config */)
@@ -11,6 +11,7 @@ const kayn = Kayn(API_KEY)(/* optional config */)
 export default {
     Query: {
         getSummonerInfo: async (_source, _args, {dataSources}) => {
+            console.log("eeeeeeeeeeee :" + REGIONS.EUROPE)
             kayn.Summoner.by
                 .name('PozerasLeeSin')
                 .region(REGIONS.EUROPE) // same as 'na'
