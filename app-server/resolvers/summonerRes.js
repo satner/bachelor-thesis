@@ -49,27 +49,6 @@ export default {
                     console.log('kappa reality of the gods: ' + matchDetails.length)
                 })
             })
-                /*.then(matches => {
-                    matches.map(function (match) {
-                        api.Match.gettingById(match.gameId, 'eun1')
-                            .then( data => {
-                                // Pernw to participantid tou summoner
-                                let summonerID =  data.participantIdentities.filter(function(summoner) {
-                                    return summoner.player.summonerName === _args.summonerName
-                                });
-                                console.log(summonerID[0].participantId)
-                                let temp = data.participants.filter(function(summoner) {
-                                    return summoner.participantId === summonerID[0].participantId
-                                });
-                                matchDetails.push(temp[0])
-                            })
-                            .catch(err => {
-                                console.log('>>> Match Endpoint Error (details)')
-                            })
-                    })
-
-                })*/
-
         },
     },
     Mutation: {
