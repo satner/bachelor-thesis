@@ -1,5 +1,4 @@
 import { SummonerSchema } from '../models'
-
 import LeagueJs from 'leaguejs';
 import { API_KEY } from '../lol-config'
 const api = new LeagueJs(API_KEY);
@@ -7,25 +6,69 @@ const api = new LeagueJs(API_KEY);
 
 export default {
     Query: {
-        getSummonerInfo: async (_source, _args, {dataSources}) => {
-            api.Summoner
+        getSummonerInfo: async (_source, _args) => {
+            let matchDetails = [];
+            let semiData = {};
+            let promisesUntilMatchesList = api.Summoner
                 .gettingByName(_args.summonerName, 'eun1')
+                // Summoner endpoint
                 .then(data => {
-                    'use strict';
-                    console.log(data);
-                    return data
+                    semiData.summonerInfo = data;
+                    return api.Match.gettingListByAccount(data.accountId , 'eun1', {queue: [420], season: [11]})
                 })
                 .catch(err => {
-                    'use strict';
-                    console.log(err);
-                });
-
-            api.Match.gettingListByAccount(1973922219692704 , 'eun1', {queue: [420], season: [11]})
-                .then(data => {
-                    'use strict';
-                    console.log(data.matches.length);
-                    return data
+                    console.log(">>> Summoner Endpoint Error: " + err);
                 })
+                // Match endpoints: returns matches[... gameId, champion, role, season, queue ...], totalGames, startIndex, endIndex
+                .then(matchList => {
+                    return matchList.matches
+                })
+                .catch(err => {
+                    console.log(">>> Match Endpoint Error: " + err);
+                })
+
+            promisesUntilMatchesList.then(matchList => {
+                Promise
+                    .all(matchList.map(async function (match) {
+                    await api.Match.gettingById(match.gameId, 'eun1')
+                        .then( data => {
+                            // Pernw to participantid tou summoner
+                            let summonerID =  data.participantIdentities.filter(function(summoner) {
+                                return summoner.player.summonerName === _args.summonerName
+                            });
+                            console.log(summonerID[0].participantId)
+                            let temp = data.participants.filter(function(summoner) {
+                                return summoner.participantId === summonerID[0].participantId
+                            });
+                            matchDetails.push(temp[0])
+                        })
+                        .catch(err => {
+                            console.log('>>> Match Endpoint Error (details)')
+                        })
+                })).then(() => {
+                    console.log('kappa reality of the gods: ' + matchDetails.length)
+                })
+            })
+                /*.then(matches => {
+                    matches.map(function (match) {
+                        api.Match.gettingById(match.gameId, 'eun1')
+                            .then( data => {
+                                // Pernw to participantid tou summoner
+                                let summonerID =  data.participantIdentities.filter(function(summoner) {
+                                    return summoner.player.summonerName === _args.summonerName
+                                });
+                                console.log(summonerID[0].participantId)
+                                let temp = data.participants.filter(function(summoner) {
+                                    return summoner.participantId === summonerID[0].participantId
+                                });
+                                matchDetails.push(temp[0])
+                            })
+                            .catch(err => {
+                                console.log('>>> Match Endpoint Error (details)')
+                            })
+                    })
+
+                })*/
 
         },
     },
