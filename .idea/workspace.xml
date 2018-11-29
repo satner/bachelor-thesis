@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f41da0cd-806b-4252-92f5-9f1da7979db5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app-server/resolvers/summonerRes.js" beforeDir="false" afterPath="$PROJECT_DIR$/app-server/resolvers/summonerRes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app-server/typeDefs/matchDef.js" beforeDir="false" afterPath="$PROJECT_DIR$/app-server/typeDefs/matchDef.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app-server/typeDefs/root.js" beforeDir="false" afterPath="$PROJECT_DIR$/app-server/typeDefs/root.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app-server/typeDefs/summonerDef.js" beforeDir="false" afterPath="$PROJECT_DIR$/app-server/typeDefs/summonerDef.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -33,7 +33,8 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="gitignore" value="8" />
-          <entry key="js" value="124" />
+          <entry key="graphqls" value="1" />
+          <entry key="js" value="127" />
           <entry key="json" value="10" />
           <entry key="log" value="4" />
           <entry key="md" value="1" />
@@ -42,8 +43,9 @@
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
+          <entry key="GraphQL Schema" value="1" />
           <entry key="JSON" value="10" />
-          <entry key="JavaScript" value="124" />
+          <entry key="JavaScript" value="127" />
           <entry key="Log" value="1" />
           <entry key="Markdown" value="1" />
           <entry key="PLAIN_TEXT" value="12" />
@@ -52,16 +54,16 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="gitignore" value="76" />
-          <entry key="js" value="6121" />
+          <entry key="js" value="6356" />
           <entry key="json" value="119" />
           <entry key="md" value="62" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="GraphQL" value="12" />
+          <entry key="GraphQL" value="67" />
           <entry key="JSON" value="119" />
-          <entry key="JavaScript" value="6109" />
+          <entry key="JavaScript" value="6289" />
           <entry key="Markdown" value="62" />
           <entry key="PLAIN_TEXT" value="76" />
         </counts>
@@ -75,8 +77,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app-server/resolvers/summonerRes.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="25" column="86" lean-forward="true" selection-start-line="25" selection-start-column="86" selection-end-line="25" selection-end-column="86" />
+            <state relative-caret-position="-198">
+              <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
               <folding>
                 <element signature="e#0#42#0" expanded="true" />
               </folding>
@@ -94,10 +96,31 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app-server/typeDefs/matchDef.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="5" column="4" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="4" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app-server/typeDefs/root.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="12" column="37" selection-start-line="12" selection-start-column="37" selection-end-line="12" selection-end-column="37" />
+            <state relative-caret-position="252">
+              <caret line="14" column="34" lean-forward="true" selection-start-line="14" selection-start-column="34" selection-end-line="14" selection-end-column="34" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app-server/index.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="432">
+              <caret line="24" lean-forward="true" selection-start-line="24" selection-end-line="24" />
+              <folding>
+                <element signature="e#0#52#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -166,6 +189,7 @@
         <option value="$PROJECT_DIR$/app-server/typeDefs/summonerDef.js" />
         <option value="$PROJECT_DIR$/app-server/resolvers/summonerRes.js" />
         <option value="$PROJECT_DIR$/app-server/typeDefs/root.js" />
+        <option value="$PROJECT_DIR$/app-server/typeDefs/matchDef.js" />
       </list>
     </option>
   </component>
@@ -288,12 +312,12 @@
       <workItem from="1543429713782" duration="12027000" />
       <workItem from="1543485959362" duration="6099000" />
       <workItem from="1543494890325" duration="460000" />
-      <workItem from="1543515230210" duration="2862000" />
+      <workItem from="1543515230210" duration="5600000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="53268000" />
+    <option name="totallyTimeSpent" value="56006000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -385,13 +409,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="14" selection-start-column="14" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cheese.txt" />
     <entry file="file://$PROJECT_DIR$/cheese.log" />
     <entry file="file://$PROJECT_DIR$/app-server/requests/matchDetailV3API.js" />
@@ -458,13 +475,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app-server/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="522">
-          <caret line="29" column="2" selection-start-line="29" selection-start-column="2" selection-end-line="29" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app-server/typeDefs/leagueDef.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
@@ -472,19 +482,36 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app-server/typeDefs/matchDef.js">
+    <entry file="file://$PROJECT_DIR$/app-server/resolvers/summonerRes.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="8" column="1" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
+        <state relative-caret-position="-198">
+          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+          <folding>
+            <element signature="e#0#42#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app-server/resolvers/summonerRes.js">
+    <entry file="file://$PROJECT_DIR$/app-server/typeDefs/root.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="25" column="86" lean-forward="true" selection-start-line="25" selection-start-column="86" selection-end-line="25" selection-end-column="86" />
+        <state relative-caret-position="252">
+          <caret line="14" column="34" lean-forward="true" selection-start-line="14" selection-start-column="34" selection-end-line="14" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="14" selection-start-column="14" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app-server/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="24" lean-forward="true" selection-start-line="24" selection-end-line="24" />
           <folding>
-            <element signature="e#0#42#0" expanded="true" />
+            <element signature="e#0#52#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -496,10 +523,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app-server/typeDefs/root.js">
+    <entry file="file://$PROJECT_DIR$/app-server/typeDefs/matchDef.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="12" column="37" selection-start-line="12" selection-start-column="37" selection-end-line="12" selection-end-column="37" />
+        <state relative-caret-position="90">
+          <caret line="5" column="4" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="4" />
         </state>
       </provider>
     </entry>

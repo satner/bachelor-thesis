@@ -10,10 +10,9 @@ export default gql`
     type Subscription {
         _: String
     }
-#    TODO: ta match details na ftiaxw
     type SummonerData {
         summonerInfo: Summoner
         summonerLeagueInfo: League
-        summonerMatchDetails: Match
+        summonerMatchDetails: [Match]
     }
 `
