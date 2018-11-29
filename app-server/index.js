@@ -7,7 +7,13 @@ import resolvers from './resolvers'
 
 import { APP_PORT, DB_USER, DB_PASSWORD, DB_PORT, DB_NAME, DB_DS } from './server-config'
 
-mongoose.connect(`mongodb://${DB_USER}:${DB_PASSWORD}@${DB_DS}:${DB_PORT}/${DB_NAME}`);
+mongoose.connect(`mongodb://${DB_USER}:${DB_PASSWORD}@${DB_DS}:${DB_PORT}/${DB_NAME}`)
+    .then( () => {
+        console.log('🔥 Server connected to mlab.com')
+    })
+    .catch(e => {
+        console.error('Server does not connected to mlab.com ' + e.stack)
+    })
 
 const app = express();
 app.disable('x-powered-by');

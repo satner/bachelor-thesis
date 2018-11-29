@@ -3,7 +3,6 @@ import { API_KEY, QUEUE, SEASON } from '../lol-config'
 import LeagueJs from 'leaguejs';
 const api = new LeagueJs(API_KEY);
 
-
 export default {
     Query: {
         getSummonerInfo: async (_source, _args) => {
@@ -30,7 +29,7 @@ export default {
                         return api.League.gettingPositionsForSummonerId(data.id, _args.server)
                     })
                     .catch(err => {
-                        console.log(">>> setSummonerInfo resolver: League Endpoint Error: " + err);
+                        console.error(">>> setSummonerInfo resolver: League Endpoint Error: " + err);
                     })
                     // Match endpoint returns: list of matches
                     .then(data => {
@@ -38,14 +37,14 @@ export default {
                         return api.Match.gettingListByAccount(finalData.summonerInfo.accountId , _args.server, {queue: [QUEUE], season: [SEASON]})
                     })
                     .catch(err => {
-                        console.log(">>> setSummonerInfo resolver: Summoner Endpoint Error: " + err);
+                        console.error(">>> setSummonerInfo resolver: Summoner Endpoint Error: " + err);
                     })
                     // Match endpoints: returns matches[... gameId, champion, role, season, queue ...], totalGames, startIndex, endIndex
                     .then(matchList => {
                         return matchList.matches
                     })
                     .catch(err => {
-                        console.log(">>> setSummonerInfo resolver: Match Endpoint Error: " + err);
+                        console.error(">>> setSummonerInfo resolver: Match Endpoint Error: " + err);
                     })
 
                 promisesUntilMatchesList.then(matchList => {
@@ -63,7 +62,7 @@ export default {
                                     matchDetails.push(temp[0])
                                 })
                                 .catch(err => {
-                                    console.log('>>> setSummonerInfo resolver: Match Endpoint Error (details)' + err)
+                                    console.error('>>> setSummonerInfo resolver: Match Endpoint Error (details)' + err)
                                 })
                         })).then(() => {
                         finalData.summonerMatchDetails = matchDetails;
