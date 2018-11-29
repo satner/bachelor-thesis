@@ -1,16 +1,14 @@
 import { SummonerSchema } from '../models'
-import LeagueJs from 'leaguejs';
 import { API_KEY, QUEUE, SEASON } from '../lol-config'
+import LeagueJs from 'leaguejs';
 const api = new LeagueJs(API_KEY);
 
 
 export default {
     Query: {
         getSummonerInfo: async (_source, _args) => {
-            return SummonerSchema.findOne({name: _args.summonerName}, (err, data) => {
-                console.log(data)
-                return data
-            })
+            let retValue =  await SummonerSchema.findOne({'summonerInfo.name': _args.summonerName})
+            return retValue.summonerInfo
         },
     },
     Mutation: {
@@ -50,10 +48,8 @@ export default {
                         console.log(">>> setSummonerInfo resolver: Match Endpoint Error: " + err);
                     })
 
-
                 promisesUntilMatchesList.then(matchList => {
-                    Promise
-                        .all(matchList.map(async function (match) {
+                    Promise.all(matchList.map(async function (match) {
                             await api.Match.gettingById(match.gameId, _args.server)
                                 .then( data => {
                                     // Pernw to participantid tou summoner
