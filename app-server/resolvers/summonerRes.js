@@ -1,20 +1,21 @@
 import { SummonerSchema } from '../models'
 import LeagueJs from 'leaguejs';
-import { API_KEY } from '../lol-config'
+import { API_KEY, QUEUE, SEASON } from '../lol-config'
 const api = new LeagueJs(API_KEY);
 
 
 export default {
     Query: {
+        // TODO: refactor magic numbers
         getSummonerInfo: async (_source, _args) => {
             let matchDetails = [];
             let semiData = {};
             let promisesUntilMatchesList = api.Summoner
-                .gettingByName(_args.summonerName, 'eun1')
+                .gettingByName(_args.summonerName, _args.server)
                 // Summoner endpoint
                 .then(data => {
                     semiData.summonerInfo = data;
-                    return api.Match.gettingListByAccount(data.accountId , 'eun1', {queue: [420], season: [11]})
+                    return api.Match.gettingListByAccount(data.accountId , _args.server, {queue: [QUEUE], season: [SEASON]})
                 })
                 .catch(err => {
                     console.log(">>> Summoner Endpoint Error: " + err);
@@ -30,13 +31,13 @@ export default {
             promisesUntilMatchesList.then(matchList => {
                 Promise
                     .all(matchList.map(async function (match) {
-                    await api.Match.gettingById(match.gameId, 'eun1')
+                    await api.Match.gettingById(match.gameId, _args.server)
                         .then( data => {
                             // Pernw to participantid tou summoner
                             let summonerID =  data.participantIdentities.filter(function(summoner) {
                                 return summoner.player.summonerName === _args.summonerName
                             });
-                            console.log(summonerID[0].participantId)
+
                             let temp = data.participants.filter(function(summoner) {
                                 return summoner.participantId === summonerID[0].participantId
                             });
