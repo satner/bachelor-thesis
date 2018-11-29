@@ -10,6 +10,9 @@ export default gql`
         spell2Id: Int
         stats: Stats
         timeline: Timeline
+        startIndex: Int
+        endIndex: Int
+        totalGames: Int
     }
     
     type Stats {

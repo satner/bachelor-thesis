@@ -47,6 +47,9 @@ export default {
                     })
                     // Match endpoints: returns matches[... gameId, champion, role, season, queue ...], totalGames, startIndex, endIndex
                     .then(matchList => {
+                        finalData.startIndex = matchList.startIndex;
+                        finalData.endIndex = matchList.endIndex;
+                        finalData.totalGames = matchList.totalGames;
                         return matchList.matches
                     })
                     .catch(err => {
@@ -73,7 +76,7 @@ export default {
                         })).then(() => {
                         finalData.summonerMatchDetails = matchDetails;
                         SummonerSchema.create(finalData)
-                        console.log('>>> setSummonerInfo resolver: Summoner saved')
+                        console.log('💪 Summoner saved')
                     })
                 })
 

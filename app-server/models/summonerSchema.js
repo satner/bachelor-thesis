@@ -23,6 +23,9 @@ const summonerSchema = new mongoose.Schema({
         gameId: Number,
         champion: Number
     }],
+    totalGames: Number,
+    startIndex: Number,
+    endIndex: Number,
     summonerMatchDetails: { type : Array , "default" : [] }
 }, {
     timestamp: true
