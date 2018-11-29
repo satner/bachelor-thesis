@@ -2,6 +2,7 @@ import { SummonerSchema } from '../models'
 import { API_KEY, QUEUE, SEASON } from '../lol-config'
 import LeagueJs from 'leaguejs';
 const api = new LeagueJs(API_KEY,{
+    // TODO: test burst mode
     caching: {
         isEnabled: true,
         defaults: {stdTTL: 120} // add a TTL to all Endpoints
@@ -12,7 +13,7 @@ export default {
     Query: {
         getSummonerInfo: async (_source, _args) => {
             let retValue =  await SummonerSchema.findOne({'summonerInfo.name': _args.summonerName})
-            return retValue.summonerInfo
+            return retValue
         },
     },
     Mutation: {

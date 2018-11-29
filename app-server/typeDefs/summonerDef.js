@@ -2,7 +2,7 @@ import { gql } from 'apollo-server-express'
 
 export default gql`
     extend type Query {
-        getSummonerInfo(summonerName: String!): Summoner!
+        getSummonerInfo(summonerName: String!): SummonerData!
     }
 
     extend type Mutation {
