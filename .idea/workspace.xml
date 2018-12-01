@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f41da0cd-806b-4252-92f5-9f1da7979db5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/app-server/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/app-server/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app-server/models/summonerSchema.js" beforeDir="false" afterPath="$PROJECT_DIR$/app-server/models/summonerSchema.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app-server/resolvers/summonerRes.js" beforeDir="false" afterPath="$PROJECT_DIR$/app-server/resolvers/summonerRes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app-server/typeDefs/matchDef.js" beforeDir="false" afterPath="$PROJECT_DIR$/app-server/typeDefs/matchDef.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app-server/typeDefs/summonerDef.js" beforeDir="false" afterPath="$PROJECT_DIR$/app-server/typeDefs/summonerDef.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -20,21 +20,21 @@
     <session id="1373179720">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="16" />
+          <entry key="project.closed" value="17" />
           <entry key="project.open.time.3" value="1" />
           <entry key="project.open.time.4" value="1" />
           <entry key="project.open.time.5" value="5" />
           <entry key="project.open.time.6" value="5" />
           <entry key="project.open.time.7" value="2" />
-          <entry key="project.open.time.8" value="3" />
-          <entry key="project.opened" value="17" />
+          <entry key="project.open.time.8" value="4" />
+          <entry key="project.opened" value="18" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="gitignore" value="8" />
           <entry key="graphqls" value="1" />
-          <entry key="js" value="130" />
+          <entry key="js" value="137" />
           <entry key="json" value="10" />
           <entry key="log" value="4" />
           <entry key="md" value="1" />
@@ -45,7 +45,7 @@
         <counts>
           <entry key="GraphQL Schema" value="1" />
           <entry key="JSON" value="10" />
-          <entry key="JavaScript" value="130" />
+          <entry key="JavaScript" value="137" />
           <entry key="Log" value="1" />
           <entry key="Markdown" value="1" />
           <entry key="PLAIN_TEXT" value="12" />
@@ -54,16 +54,16 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="gitignore" value="76" />
-          <entry key="js" value="6513" />
+          <entry key="js" value="7428" />
           <entry key="json" value="119" />
           <entry key="md" value="62" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="GraphQL" value="70" />
+          <entry key="GraphQL" value="71" />
           <entry key="JSON" value="119" />
-          <entry key="JavaScript" value="6443" />
+          <entry key="JavaScript" value="7357" />
           <entry key="Markdown" value="62" />
           <entry key="PLAIN_TEXT" value="76" />
         </counts>
@@ -77,11 +77,20 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app-server/resolvers/summonerRes.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
-              <caret line="21" column="16" selection-start-line="21" selection-start-column="16" selection-end-line="24" selection-end-column="17" />
+            <state relative-caret-position="214">
+              <caret line="25" column="44" selection-start-line="25" selection-start-column="44" selection-end-line="25" selection-end-column="44" />
               <folding>
                 <element signature="e#0#42#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app-server/typeDefs/summonerDef.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="162">
+              <caret line="9" column="65" selection-start-line="9" selection-start-column="65" selection-end-line="9" selection-end-column="65" />
             </state>
           </provider>
         </entry>
@@ -144,12 +153,12 @@
         <option value="$PROJECT_DIR$/package-lock.json" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/app-server/typeDefs/summonerDef.js" />
         <option value="$PROJECT_DIR$/app-server/typeDefs/root.js" />
-        <option value="$PROJECT_DIR$/app-server/lol-config.js" />
         <option value="$PROJECT_DIR$/app-server/typeDefs/matchDef.js" />
         <option value="$PROJECT_DIR$/app-server/models/summonerSchema.js" />
         <option value="$PROJECT_DIR$/app-server/index.js" />
+        <option value="$PROJECT_DIR$/app-server/typeDefs/summonerDef.js" />
+        <option value="$PROJECT_DIR$/app-server/lol-config.js" />
         <option value="$PROJECT_DIR$/app-server/resolvers/summonerRes.js" />
       </list>
     </option>
@@ -169,7 +178,7 @@
     </packageJsonPaths>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="13" />
+    <option name="x" value="2082" />
     <option name="y" value="-8" />
     <option name="width" value="1936" />
     <option name="height" value="1056" />
@@ -180,6 +189,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -196,19 +206,18 @@
               <item name="new" type="b2602c69:ProjectViewProjectNode" />
               <item name="new" type="462c0819:PsiDirectoryNode" />
               <item name="app-server" type="462c0819:PsiDirectoryNode" />
-              <item name="models" type="462c0819:PsiDirectoryNode" />
+              <item name="resolvers" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="new" type="b2602c69:ProjectViewProjectNode" />
               <item name="new" type="462c0819:PsiDirectoryNode" />
               <item name="app-server" type="462c0819:PsiDirectoryNode" />
-              <item name="resolvers" type="462c0819:PsiDirectoryNode" />
+              <item name="typeDefs" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -267,12 +276,13 @@
       <workItem from="1543429713782" duration="12027000" />
       <workItem from="1543485959362" duration="6099000" />
       <workItem from="1543494890325" duration="460000" />
-      <workItem from="1543515230210" duration="6791000" />
+      <workItem from="1543515230210" duration="7632000" />
+      <workItem from="1543661968558" duration="9001000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="57197000" />
+    <option name="totallyTimeSpent" value="67039000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -284,10 +294,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="1912" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15279241" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.15279241" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -300,7 +310,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="GraphQL" order="8" weight="0.32929516" />
       <window_info anchor="bottom" id="Version Control" order="9" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Terminal" order="10" weight="0.38325992" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.34030837" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -402,13 +412,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/leaguejs/lib/endpoints/MatchEndpoint.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="27" column="42" selection-start-line="27" selection-start-column="24" selection-end-line="27" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="54">
@@ -430,13 +433,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app-server/lol-config.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="66" selection-start-column="66" selection-end-column="66" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app-server/typeDefs/root.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="252">
@@ -444,30 +440,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app-server/typeDefs/matchDef.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="249">
-          <caret line="14" column="23" selection-start-line="14" selection-start-column="23" selection-end-line="14" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app-server/typeDefs/summonerDef.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="60" selection-start-line="4" selection-start-column="60" selection-end-line="4" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app-server/models/summonerSchema.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="486">
-          <caret line="27" column="21" selection-start-line="27" selection-start-column="21" selection-end-line="27" selection-end-column="21" />
+        <state relative-caret-position="288">
+          <caret line="16" column="25" lean-forward="true" selection-start-line="16" selection-start-column="25" selection-end-line="16" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app-server/typeDefs/matchDef.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-39">
+          <caret line="19" column="16" selection-start-line="19" selection-start-column="16" selection-end-line="19" selection-end-column="16" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app-server/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="63">
+        <state relative-caret-position="198">
           <caret line="11" column="22" selection-start-line="11" selection-start-column="22" selection-end-line="11" selection-end-column="22" />
           <folding>
             <element signature="e#0#52#0" expanded="true" />
@@ -475,10 +464,31 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app-server/typeDefs/summonerDef.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="9" column="65" selection-start-line="9" selection-start-column="65" selection-end-line="9" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app-server/lol-config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="66" selection-start-column="66" selection-end-column="66" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/leaguejs/lib/endpoints/MatchEndpoint.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="122" column="71" lean-forward="true" selection-start-line="122" selection-start-column="71" selection-end-line="122" selection-end-column="71" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app-server/resolvers/summonerRes.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="21" column="16" selection-start-line="21" selection-start-column="16" selection-end-line="24" selection-end-column="17" />
+        <state relative-caret-position="214">
+          <caret line="25" column="44" selection-start-line="25" selection-start-column="44" selection-end-line="25" selection-end-column="44" />
           <folding>
             <element signature="e#0#42#0" expanded="true" />
           </folding>
