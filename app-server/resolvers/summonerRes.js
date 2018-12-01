@@ -18,8 +18,8 @@ export default {
     },
     Mutation: {
         setSummonerInfo: async (_source, _args) => {
-            let summonerExists = false;
-            SummonerSchema.findOne({name: _args.summonerName}, async (err, user) => {
+            // TODO: check if summoner exist API-side
+            SummonerSchema.findOne({'summonerInfo.name': _args.summonerName}, async (err, user) => {
                 if (user) {
                     console.log('🤷 Summoner exist!');
                     return
@@ -34,7 +34,6 @@ export default {
                     })
                     // League endpoint returns: {... tier, rank, leaguePoints, wins, losses, veteran, inactive, hotStreak ...}
                     .then(data => {
-                        summonerExists = true;
                         finalData.summonerInfo = data;
                         return api.League.gettingPositionsForSummonerId(data.id, _args.server)
                     })
@@ -60,7 +59,6 @@ export default {
                         console.error(">>> setSummonerInfo resolver: Match Endpoint Error: " + err);
                     })
 
-                if (summonerExists) {
                     promisesUntilMatchesList.then(matchList => {
                         Promise.all(matchList.map(async function (match) {
                             await api.Match.gettingById(match.gameId, _args.server)
@@ -81,13 +79,10 @@ export default {
                         })).then(() => {
                             finalData.summonerMatchDetails = matchDetails;
                             SummonerSchema.create(finalData)
-                            console.log('💪 Summoner saved')
+                            console.log('💪 Summoner saved!')
                         })
                     })
-                }
             });
-            if (summonerExists) return summonerExists
-            return summonerExists
         },
 
         updateSummonerInfo: (_source, _args) => {
@@ -123,6 +118,15 @@ export default {
                         })
                     })
             })
+        },
+
+        deleteSummonerInfo: async (_source, _args) => {
+            let doc = await SummonerSchema.findOneAndDelete({'summonerInfo.name': _args.summonerName})
+            if (doc) {
+                console.log('🗑️ Summoner deleted!')
+                return true
+            }
+            return false
         },
     }
 }

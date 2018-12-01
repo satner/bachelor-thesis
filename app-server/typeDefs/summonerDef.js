@@ -8,6 +8,7 @@ export default gql`
     extend type Mutation {
         setSummonerInfo(summonerName: String!, server: String!): Boolean
         updateSummonerInfo(summonerName: String!, server: String!): Boolean
+        deleteSummonerInfo(summonerName: String!): Boolean
     }
     
     type Summoner {
