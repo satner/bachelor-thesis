@@ -77,7 +77,7 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app-server/resolvers/summonerRes.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="214">
+            <state relative-caret-position="-920">
               <caret line="25" column="44" selection-start-line="25" selection-start-column="44" selection-end-line="25" selection-end-column="44" />
               <folding>
                 <element signature="e#0#42#0" expanded="true" />
@@ -178,7 +178,7 @@
     </packageJsonPaths>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="2082" />
+    <option name="x" value="20" />
     <option name="y" value="-8" />
     <option name="width" value="1936" />
     <option name="height" value="1056" />
@@ -277,12 +277,12 @@
       <workItem from="1543485959362" duration="6099000" />
       <workItem from="1543494890325" duration="460000" />
       <workItem from="1543515230210" duration="7632000" />
-      <workItem from="1543661968558" duration="9001000" />
+      <workItem from="1543661968558" duration="9302000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="67039000" />
+    <option name="totallyTimeSpent" value="67340000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -295,7 +295,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1912" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.15279241" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -487,7 +486,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app-server/resolvers/summonerRes.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="214">
+        <state relative-caret-position="-920">
           <caret line="25" column="44" selection-start-line="25" selection-start-column="44" selection-end-line="25" selection-end-column="44" />
           <folding>
             <element signature="e#0#42#0" expanded="true" />
