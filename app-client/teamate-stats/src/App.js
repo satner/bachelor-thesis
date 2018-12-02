@@ -17,7 +17,7 @@ class App extends Component {
                     </div>
                 </div>
                 <hr/>
-                <img src={require('./images/bg.svg')} alt='Background' style={{position: 'absolute', top: '0', zIndex: '-1', left: '0'}}/>
+                <img src={require('./images/Layer 1.svg')} alt='Background' style={{position: 'absolute', top: '0', zIndex: '-1', left: '0'}}/>
 
                 <div id="main-pitch" style={pitch}>
                     <h1 style={{fontFamily: 'Muli', color: 'White'}}>Search the ideal teammate</h1>
