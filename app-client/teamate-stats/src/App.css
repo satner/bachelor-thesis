@@ -1,14 +1,86 @@
 @import '~antd/dist/antd.css';
 
-.App {
-  text-align: center;
-}
+
 
 hr {
   margin-top: 0;
   border: 0;
   height: 1px;
   background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(255, 255, 255, 0.75), rgba(0, 0, 0, 0));
+}
+
+.site-header {
+  z-index: 9;
+  padding-top: .618em;
+}
+
+.container {
+  box-sizing: content-box;
+  position: relative;
+  max-width: 60rem;
+  padding: 0 1em;
+  margin: 0 auto;
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.nav--inline {
+  align-items: center;
+  justify-content: space-between;
+}
+
+.summoner {
+  margin-top: -4.236em;
+  position: relative;
+}
+
+.summoner--home .container {
+  z-index: 2;
+}
+
+.summoner--home {
+  padding: 5.483em 0;
+}
+
+.summoner h1, .summoner p {
+  margin-left: 0;
+}
+
+.summoner p {
+  max-width: 30em;
+}
+h1+p {
+  margin-top: .5em;
+}
+p {
+  max-width: 37.577em;
+}
+
+blockquote, ol, p, ul {
+  margin: 1em auto 0;
+  padding: 0;
+}
+
+.summoner--home .illo {
+  overflow: hidden;
+  background: #fff;
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: -1;
+}
+
+.summoner--home .illo img {
+  flex: 0 0 auto;
+  height: 56em;
+  width: auto;
 }
 
 @media (max-width: 1029px) {
