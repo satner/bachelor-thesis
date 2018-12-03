@@ -186,7 +186,6 @@ blockquote, ol, p, ul {
   }
 }
 
-
 @media (max-width: 1029px) {
   .container {
     padding: 0 2em;
@@ -208,8 +207,6 @@ blockquote, ol, p, ul {
   opacity: .08;
 }
 
-
-
 .site-footer {
   font-size: .85rem;
   text-align: center;
@@ -219,4 +216,16 @@ blockquote, ol, p, ul {
 
 .site-footer p {
   padding-top: 1.218em;
+}
+
+/* Back to top btn */
+.ant-back-top {
+  height: 40px;
+  width: 40px;
+  line-height: 40px;
+  border-radius: 25px;
+  background-color: #0a253e;
+  color: #fff;
+  text-align: center;
+  font-size: 20px;
 }
