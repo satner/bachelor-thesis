@@ -13,7 +13,7 @@ hr {
 
 .site-header {
   z-index: 9;
-  padding-top: .618em;
+  /*padding-top: .618em;*/
 }
 
 .container {

@@ -11,7 +11,8 @@ class App extends Component {
                 <header className='site-header'>
                     <div className='container'>
                         <nav className='nav nav--inline'>
-                            <a style={{fontFamily: 'Muli', color: 'White', fontSize: '30px'}} href='/'>Team Mate Stats</a>
+                            <a style={{fontFamily: 'Muli', color: 'White', fontSize: '30px'}} href='/'>
+                                <img src={require('./images/league-of-legends.svg')} alt=""/>Team Mate Stats</a>
                             <div>
                                 <Button ghost style={btnContainer}>Log in</Button>
                                 <Button ghost style={btnContainer}>Sign up</Button>
@@ -80,7 +81,7 @@ class App extends Component {
                             <div className="hr hr--top">
 
                             </div>
-                            <p>Made with ❤️ <a href="https://github.com/satner">Satner</a> </p>
+                            <p>Made with <span role='img'>❤</span>️ <a href="https://github.com/satner">Satner</a> </p>
                         </div>
                     </footer>
 
