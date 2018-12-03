@@ -26,19 +26,17 @@ class App extends Component {
                     <section className='summoner summoner--home'>
                         <div className="container">
                             <h1>
-                                <span>Build, </span>
-                                <span>deploy, </span>
-                                <span>and manage </span>
-                                <span className="smaller">modern web projects</span>
+                                <span style={{fontSize: '50px'}}>lorem ipsum </span>
+                                <span style={{fontSize: '50px'}}>lorem ipsum</span>
+                                <span style={{fontSize: '50px'}}>lorem ipsum</span>
+                                <span className="smaller">lorem ipsum</span>
                             </h1>
-                            <p>
-                                An all-in-one workflow that combines global deployment,
-                                continuous integration, and automatic HTTPS. And that’s just the beginning.
+                            <p style={{fontSize: '25px'}}>
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolores, est, quam! Accusamus, alias consequatur distinctio earum harum laboriosam nobis officia pariatur praesentium quaerat repellendus reprehenderit, velit voluptates. Maxime, quisquam ratione.
                             </p>
                             <footer>
                                 <p>
-                                    <a className="button" href="https://app.netlify.com/signup"
-                                       id="cta-summoner-getstartedforfree">Get started for free</a>
+                                    <a className="button" href="/">Get started for free</a>
                                 </p>
                             </footer>
                         </div>
@@ -47,17 +45,46 @@ class App extends Component {
                             <img src={require('./images/final-bg.svg')} alt='Background'/>
                         </div>
                     </section>
-                    <section></section>
-                    <section></section>
+                    <section className='section section--home-core'>
+                        <div className="container">
+                            <h1>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut cupiditate debitis dolorum, error impedit, ipsum mollitia placeat provident quas quia quos rem sint tempore! Consequatur fugit non quam vitae voluptates!</h1>
+                            <ol className="grid">
+                                <li>
+                                    <h3>lorem ipsum</h3>
+                                    <img src={require('./images/one.svg')} alt='one'/>
+
+                                </li>
+                                <li>
+                                    <h3>lorem ipsum</h3>
+                                    <img src={require('./images/one.svg')} alt='one'/>
+                                </li>
+                                <li>
+                                    <h3>lorem ipsum</h3>
+                                    <img src={require('./images/one.svg')} alt='one'/>
+                                </li>
+                            </ol>
+                            <footer>
+                                <p id="footnote-core">
+                                    *Nope, no gotcha here. <br/>
+                                    It just takes a few clicks.
+                                </p>
+                                <p>
+                                    <a className="button" href="/">Get started for free</a>
+                                </p>
+                            </footer>
+                        </div>
+                    </section>
+
+                    <footer className='site-footer'>
+                        <div className="container">
+                            <div className="hr hr--top">
+
+                            </div>
+                            <p>Made with ❤️ <a href="https://github.com/satner">Satner</a> </p>
+                        </div>
+                    </footer>
 
                 </main>
-
-
-               {/* <section id="main-pitch" style={pitch}>
-                    <h1 style={{fontFamily: 'Muli', color: 'White'}}>Search the ideal teammate</h1>
-                    <p style={{fontFamily: 'Muli', color: 'White'}}>Became a member of healthy league of legends community</p>
-                    <Button size={'large'}>Get started for free</Button>
-                </section>*/}
             </div>
         );
     }
@@ -67,12 +94,4 @@ const btnContainer = {
     marginLeft: '1em'
 };
 
-const pitch = {
-    padding: '5.483em 0',
-    position: 'relative',
-    boxSizing: 'content-box',
-    maxWidth: '60rem',
-    margin: '0 auto',
-    textAlign: 'left',
-}
 export default App;
