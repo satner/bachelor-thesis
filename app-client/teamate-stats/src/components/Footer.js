@@ -7,7 +7,7 @@ class Footer extends Component{
                 <div className="container">
                     <div className="hr hr--top">
                     </div>
-                    <p>Made with <span role='img'>❤</span>️ <a href="https://github.com/satner">Satner</a> </p>
+                    <p>Made with <span role='img'>❤</span>️ by <a href="https://github.com/satner">Satner</a> </p>
                 </div>
             </footer>
         );
