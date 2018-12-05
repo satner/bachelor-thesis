@@ -229,3 +229,30 @@ blockquote, ol, p, ul {
   text-align: center;
   font-size: 20px;
 }
+
+/* Filters */
+#filters {
+  padding: 35px;
+  width: 370px;
+}
+
+
+/* Display cards */
+#display--summoners-cards {
+  display: flex;
+}
+
+
+.summoners--container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.card--grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.summoner-card {
+  margin: 20px;
+}
