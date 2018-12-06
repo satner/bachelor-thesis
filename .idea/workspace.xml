@@ -2,16 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f41da0cd-806b-4252-92f5-9f1da7979db5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app-server/models/userSchema.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app-server/resolvers/userRes.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app-server/typeDefs/userDefs.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/new.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/new.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app-client/teamate-stats/src/components/SignUp.js" beforeDir="false" afterPath="$PROJECT_DIR$/app-client/teamate-stats/src/components/SignUp.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app-server/models/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/app-server/models/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app-server/resolvers/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/app-server/resolvers/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app-server/typeDefs/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/app-server/typeDefs/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app-server/models/userSchema.js" beforeDir="false" afterPath="$PROJECT_DIR$/app-server/models/userSchema.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app-server/resolvers/userRes.js" beforeDir="false" afterPath="$PROJECT_DIR$/app-server/resolvers/userRes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app-server/typeDefs/userDefs.js" beforeDir="false" afterPath="$PROJECT_DIR$/app-server/typeDefs/userDefs.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -27,32 +23,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app-server/models/userSchema.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="126">
-              <caret line="7" column="13" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app-client/teamate-stats/src/components/LogIn.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="552">
-              <caret line="47" column="43" selection-start-line="47" selection-start-column="43" selection-end-line="47" selection-end-column="43" />
-              <folding>
-                <element signature="e#0#41#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app-client/teamate-stats/src/components/SignUp.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="211">
-              <caret line="109" column="89" lean-forward="true" selection-start-line="109" selection-start-column="89" selection-end-line="109" selection-end-column="89" />
-              <folding>
-                <element signature="e#0#39#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="180">
+              <caret line="10" column="17" lean-forward="true" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -60,8 +32,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app-server/typeDefs/userDefs.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="5" column="19" selection-start-line="5" selection-start-column="8" selection-end-line="5" selection-end-column="19" />
+            <state relative-caret-position="306">
+              <caret line="17" column="30" lean-forward="true" selection-start-line="17" selection-start-column="30" selection-end-line="17" selection-end-column="30" />
             </state>
           </provider>
         </entry>
@@ -70,7 +42,22 @@
         <entry file="file://$PROJECT_DIR$/app-server/resolvers/userRes.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="198">
-              <caret line="11" column="12" lean-forward="true" selection-start-line="11" selection-start-column="12" selection-end-line="11" selection-end-column="12" />
+              <caret line="11" column="33" selection-start-line="11" selection-start-column="33" selection-end-line="11" selection-end-column="33" />
+              <folding>
+                <element signature="e#0#39#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app-server/resolvers/summonerRes.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="144">
+              <caret line="14" column="47" selection-start-line="14" selection-start-column="31" selection-end-line="14" selection-end-column="47" />
+              <folding>
+                <element signature="e#0#42#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -103,6 +90,7 @@
       <find>listRoles</find>
       <find>&quot;nativeNAme&quot;:..</find>
       <find>.</find>
+      <find>Languages</find>
     </findStrings>
     <replaceStrings>
       <replace>summonerData</replace>
@@ -138,7 +126,6 @@
         <option value="$PROJECT_DIR$/app-server/requests/matchDetailV3API.js" />
         <option value="$PROJECT_DIR$/package-lock.json" />
         <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/app-server/typeDefs/root.js" />
         <option value="$PROJECT_DIR$/app-server/typeDefs/matchDef.js" />
         <option value="$PROJECT_DIR$/app-server/models/summonerSchema.js" />
         <option value="$PROJECT_DIR$/app-server/index.js" />
@@ -168,13 +155,14 @@
         <option value="$PROJECT_DIR$/app-client/teamate-stats/src/App.js" />
         <option value="$PROJECT_DIR$/app-client/teamate-stats/src/components/Navigation.js" />
         <option value="$PROJECT_DIR$/app-client/teamate-stats/src/components/LogIn.js" />
-        <option value="$PROJECT_DIR$/app-server/models/userSchema.js" />
         <option value="$PROJECT_DIR$/app-client/teamate-stats/src/components/SignUp.js" />
         <option value="$PROJECT_DIR$/app-server/models/index.js" />
         <option value="$PROJECT_DIR$/app-server/typeDefs/summonerDef.js" />
         <option value="$PROJECT_DIR$/app-server/typeDefs/index.js" />
         <option value="$PROJECT_DIR$/app-server/resolvers/index.js" />
+        <option value="$PROJECT_DIR$/app-server/typeDefs/root.js" />
         <option value="$PROJECT_DIR$/app-server/typeDefs/userDefs.js" />
+        <option value="$PROJECT_DIR$/app-server/models/userSchema.js" />
         <option value="$PROJECT_DIR$/app-server/resolvers/userRes.js" />
       </list>
     </option>
@@ -334,12 +322,13 @@
       <workItem from="1544039431098" duration="166000" />
       <workItem from="1544039618456" duration="42000" />
       <workItem from="1544039682205" duration="1627000" />
-      <workItem from="1544050113401" duration="7278000" />
+      <workItem from="1544050113401" duration="7347000" />
+      <workItem from="1544094656236" duration="3840000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="153598000" />
+    <option name="totallyTimeSpent" value="157507000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -365,10 +354,10 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32929516" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="GraphQL" order="8" weight="0.32924107" />
+      <window_info anchor="bottom" id="GraphQL" order="8" sideWeight="0.49947312" weight="0.32924107" />
       <window_info anchor="bottom" id="Version Control" order="9" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Terminal" order="10" weight="0.34486607" />
-      <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
+      <window_info anchor="bottom" id="Terminal" order="10" visible="true" weight="0.34486607" />
+      <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.50052685" side_tool="true" weight="0.32924107" />
       <window_info anchor="bottom" id="TypeScript" order="12" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -399,7 +388,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app-client/teamate-stats/src/images/ee.svg" />
     <entry file="file://$PROJECT_DIR$/app-client/teamate-stats/src/images/Asset 3.svg" />
     <entry file="file://$PROJECT_DIR$/app-client/teamate-stats/src/images/bg.svg" />
     <entry file="file://$PROJECT_DIR$/app-client/teamate-stats/src/images/icons8-league-of-legends.svg" />
@@ -550,20 +538,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app-client/teamate-stats/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="8" column="27" selection-start-line="8" selection-start-column="27" selection-end-line="8" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="576">
-          <caret line="32" column="3" selection-start-line="32" selection-start-column="3" selection-end-line="32" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app-server/lol-config.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -601,16 +575,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app-server/typeDefs/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="11" column="11" selection-start-line="11" selection-start-column="11" selection-end-line="11" selection-end-column="11" />
-          <folding>
-            <element signature="e#0#25#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app-server/resolvers/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
@@ -621,9 +585,36 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app-server/typeDefs/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="8" column="16" lean-forward="true" selection-start-line="8" selection-start-column="16" selection-end-line="8" selection-end-column="16" />
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app-server/typeDefs/root.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="16" column="5" lean-forward="true" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app-client/teamate-stats/src/components/SignUp.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="211">
+          <caret line="109" column="89" selection-start-line="109" selection-start-column="89" selection-end-line="109" selection-end-column="89" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app-client/teamate-stats/src/components/LogIn.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="552">
+        <state relative-caret-position="491">
           <caret line="47" column="43" selection-start-line="47" selection-start-column="43" selection-end-line="47" selection-end-column="43" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
@@ -631,44 +622,51 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app-client/teamate-stats/src/components/SignUp.js">
+    <entry file="file://$PROJECT_DIR$/app-client/teamate-stats/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="211">
-          <caret line="109" column="89" lean-forward="true" selection-start-line="109" selection-start-column="89" selection-end-line="109" selection-end-column="89" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="144">
+          <caret line="8" column="27" selection-start-line="8" selection-start-column="27" selection-end-line="8" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="25" column="23" lean-forward="true" selection-start-line="25" selection-start-column="23" selection-end-line="25" selection-end-column="23" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app-server/models/userSchema.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="7" column="13" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="13" />
+        <state relative-caret-position="180">
+          <caret line="10" column="17" lean-forward="true" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app-server/typeDefs/userDefs.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="17" column="30" lean-forward="true" selection-start-line="17" selection-start-column="30" selection-end-line="17" selection-end-column="30" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app-server/resolvers/summonerRes.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="14" column="47" lean-forward="true" selection-start-line="14" selection-start-column="31" selection-end-line="14" selection-end-column="47" />
+        <state relative-caret-position="144">
+          <caret line="14" column="47" selection-start-line="14" selection-start-column="31" selection-end-line="14" selection-end-column="47" />
           <folding>
             <element signature="e#0#42#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app-server/typeDefs/userDefs.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="5" column="19" selection-start-line="5" selection-start-column="8" selection-end-line="5" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app-server/resolvers/userRes.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
-          <caret line="11" column="12" lean-forward="true" selection-start-line="11" selection-start-column="12" selection-end-line="11" selection-end-column="12" />
+          <caret line="11" column="33" selection-start-line="11" selection-start-column="33" selection-end-line="11" selection-end-column="33" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

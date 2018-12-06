@@ -7,9 +7,9 @@ export default gql`
     }
 
     extend type Mutation {
-        setUserInfo(email: String, password: String, server: String , summoner: String, languages: [Languages]): Boolean
+        signup(email: String, password: String, server: String , summoner: String, languages: [Lang]): Boolean
         updateUserInfo(userName: String!): Boolean
-        deleteUserInfo(userName: String!): Boolean
+        deleteUserInfo(email: String!): Boolean
     }
 
     type User {
@@ -20,6 +20,10 @@ export default gql`
     }
     
     type Languages {
+        lang: String
+    }
+    
+    input Lang {
         lang: String
     }
 `
