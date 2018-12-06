@@ -16,8 +16,8 @@ class Navigation extends Component{
                                 <NavLink style={{fontFamily: 'Muli', color: 'White', fontSize: '20px', marginLeft: '20px'}} to='/summoners'>Summoners</NavLink>
                             </div>
                             <div>
-                                <Button ghost style={btnContainer}>Log in</Button>
-                                <Button ghost style={btnContainer}>Sign up</Button>
+                                <Button ghost href='/login' style={btnContainer}>Log in</Button>
+                                <Button ghost href='/signup' style={btnContainer}>Sign up</Button>
                             </div>
                         </nav>
                     </div>

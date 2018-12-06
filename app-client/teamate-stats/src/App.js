@@ -6,6 +6,8 @@ import Navigation from './components/Navigation';
 import Home from './components/Home';
 import Summoners from './components/Summoners';
 import Footer from './components/Footer';
+import LogIn from './components/LogIn';
+import SignUp from './components/SignUp';
 import Error from './components/Error';
 
 // TODO: override ant-design font-family
@@ -18,6 +20,8 @@ class App extends Component {
                     <Switch>
                         <Route path="/" component={Home} exact />
                         <Route path="/summoners" component={Summoners} />
+                        <Route path="/login" component={LogIn}/>
+                        <Route path="/signup" component={SignUp}/>
                         <Route component={Error} />
                     </Switch>
                     <Footer />
