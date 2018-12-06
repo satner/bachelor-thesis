@@ -4,7 +4,9 @@
   "description": "Analyze league of legends players and create a community",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon -r esm index.js"
+    "server": "nodemon -r esm index.js",
+    "client": "npm start --prefix app-client\\teamate-stats",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "keywords": [
     "league of legends",
@@ -24,6 +26,7 @@
     "apollo-datasource-rest": "^0.2.0",
     "apollo-server-express": "^2.2.2",
     "bcrypt": "^3.0.2",
+    "concurrently": "^4.1.0",
     "esm": "^3.0.84",
     "event-stream": "^3.3.4",
     "express": "^4.16.4",
@@ -31,6 +34,7 @@
     "graphql-type-json": "^0.2.1",
     "jsonwebtoken": "^8.4.0",
     "leaguejs": "^1.10.1",
-    "mongoose": "^5.3.12"
+    "mongoose": "^5.3.12",
+    "morgan": "^1.9.1"
   }
 }

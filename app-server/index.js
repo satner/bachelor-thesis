@@ -1,4 +1,5 @@
 import { ApolloServer } from 'apollo-server-express'
+import morgan from 'morgan'
 import express from 'express'
 import mongoose from 'mongoose'
 import typeDefs from './typeDefs'
@@ -16,6 +17,7 @@ mongoose.connect(`mongodb://${DB_USER}:${DB_PASSWORD}@${DB_DS}:${DB_PORT}/${DB_N
     })
 
 const app = express();
+app.use(morgan('dev'))
 app.disable('x-powered-by');
 const server = new ApolloServer({
     typeDefs,

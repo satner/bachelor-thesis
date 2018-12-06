@@ -30,7 +30,6 @@ export default {
                 }
 
             })
-
             return token
         },
         getUserInfo: (_source, _args) => {
