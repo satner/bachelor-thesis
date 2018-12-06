@@ -1,8 +1,38 @@
 import { UserSchema } from "../models";
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+
+const JWT_KEY = 'kappa';
 
 export default {
     Query: {
+        login: async (_source, _args) => {
+            let token;
+            await UserSchema.findOne({email: _args.email}, (err, user) => {
+                if (err) console.error('Log in error')
+                else {
+                    bcrypt.compare(_args.password, user.password, (err, res) => {
+                        if (err) console.error('Password wrong')
+                        if (res) {
+                            const t = jwt.sign({
+                                email: user.email,
+                                server: user.server,
+                                languages: user.server,
+                                summoner: user.summoner
+                            },
+                                JWT_KEY,{
+                                expiresIn: "1h"
+                            })
+                            console.log('Log in success')
+                            token = t
+                        }
+                    })
+                }
+
+            })
+
+            return token
+        },
         getUserInfo: (_source, _args) => {
 
         },
