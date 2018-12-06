@@ -72,7 +72,7 @@ class SignUp extends Component {
         })
         return (
             <div className="container" style={{marginTop: '150px', marginBottom: '150px'}}>
-                <Form onSubmit={this.handleSubmit} style={registerForm}>
+                <Form layout={'vertical'} onSubmit={this.handleSubmit} style={registerForm}>
                     <FormItem
                         {...formItemLayout}
                         label="E-mail"
