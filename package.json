@@ -27,6 +27,7 @@
     "apollo-server-express": "^2.2.2",
     "bcrypt": "^3.0.2",
     "concurrently": "^4.1.0",
+    "cors": "^2.8.5",
     "esm": "^3.0.84",
     "event-stream": "^3.3.4",
     "express": "^4.16.4",
@@ -35,6 +36,7 @@
     "jsonwebtoken": "^8.4.0",
     "leaguejs": "^1.10.1",
     "mongoose": "^5.3.12",
-    "morgan": "^1.9.1"
+    "morgan": "^1.9.1",
+    "qs-middleware": "^1.0.3"
   }
 }

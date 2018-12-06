@@ -4,7 +4,7 @@ import express from 'express'
 import mongoose from 'mongoose'
 import typeDefs from './typeDefs'
 import resolvers from './resolvers'
-
+import cors from 'cors'
 
 import { APP_PORT, DB_USER, DB_PASSWORD, DB_PORT, DB_NAME, DB_DS } from './server-config'
 
@@ -17,6 +17,7 @@ mongoose.connect(`mongodb://${DB_USER}:${DB_PASSWORD}@${DB_DS}:${DB_PORT}/${DB_N
     })
 
 const app = express();
+app.use(cors())
 app.use(morgan('dev'))
 app.disable('x-powered-by');
 const server = new ApolloServer({

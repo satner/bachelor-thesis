@@ -1,10 +1,51 @@
 import React, {Component} from 'react';
-import { Select, Checkbox, Card, Icon, Avatar, Badge  } from 'antd';
+import { Select, Checkbox, Card, Icon, Avatar, Badge, Skeleton } from 'antd';
+import gql from 'graphql-tag'
+import { Query } from "react-apollo";
+import leaguejs from 'leaguejs'
 import lang from '../languages-v2'
-const { Meta } = Card;
 
+const { Meta } = Card;
 const Option = Select.Option;
 const CheckboxGroup = Checkbox.Group;
+
+const ExchangeRates = () => (
+    <Query
+        query={gql`
+      query {
+  getAllUsers {
+    summoner
+    server
+    languages {
+      lang
+    }
+  }
+}
+    `}
+        errorPolicy="all"
+    >
+        {({ loading, error, data }) => {
+            if (loading) return <Skeleton avatar active paragraph={{ rows: 4 , width: '200px'}} />;
+
+            return (
+
+                    <Card
+                        hoverable={true}
+                        className={'summoner-card'}
+                        style={{ width: 300 }}
+                        cover={<img alt="example" src=`` />}
+                        actions={[<Icon type="setting" />, <Icon type="edit" />, <Icon type="ellipsis" />]}
+                    >
+                        <Meta
+                            avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+                            title={data.getAllUsers[0].summoner}
+                            description="This is the description"
+                        />
+                    </Card>
+            );
+        }}
+    </Query>
+);
 
 class Summoners extends Component{
     constructor(props) {
@@ -139,44 +180,10 @@ class Summoners extends Component{
                             {langHTML}
                         </Select>
                     </div>
+                    {/* Grid card layout of summoners*/}
                     <div className="summoners--grid" style={{ marginTop: '200px', marginLeft: '50px' }}>
                         <div className="card--grid">
-                            <Card
-                                className={'summoner-card'}
-                                style={{ width: 300 }}
-                                cover={<img alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />}
-                                actions={[<Icon type="setting" />, <Icon type="edit" />, <Icon type="ellipsis" />]}
-                            >
-                                <Meta
-                                    avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-                                    title="Card title"
-                                    description="This is the description"
-                                />
-                            </Card>
-                            <Card
-                                className={'summoner-card'}
-                                style={{ width: 300 }}
-                                cover={<img alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />}
-                                actions={[<Icon type="setting" />, <Icon type="edit" />, <Icon type="ellipsis" />]}
-                            >
-                                <Meta
-                                    avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-                                    title="Card title"
-                                    description="This is the description"
-                                />
-                            </Card>
-                            <Card
-                                className={'summoner-card'}
-                                style={{ width: 300 }}
-                                cover={<img alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />}
-                                actions={[<Icon type="setting" />, <Icon type="edit" />, <Icon type="ellipsis" />]}
-                            >
-                                <Meta
-                                    avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-                                    title="Card title"
-                                    description="This is the description"
-                                />
-                            </Card>
+                            <ExchangeRates />
                         </div>
                     </div>
                 </div>
