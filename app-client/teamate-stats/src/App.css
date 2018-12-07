@@ -230,27 +230,31 @@ blockquote, ol, p, ul {
   font-size: 20px;
 }
 
+
+.summoners--container {
+  display: flex;
+  flex-flow: row wrap;
+}
+
 /* Filters */
 #filters {
   padding: 35px;
-  width: 370px;
+  width: 20%;
 }
 
+.summoners--grid {
+  width: 60%;
+}
 
 /* Display cards */
 #display--summoners-cards {
   display: flex;
 }
 
-
-.summoners--container {
-  display: flex;
-  flex-wrap: wrap;
-}
-
 .card--grid {
   display: flex;
   flex-wrap: wrap;
+  flex-direction: row;
 }
 
 .summoner-card {

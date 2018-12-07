@@ -45,6 +45,12 @@ export default {
                     console.error('Get all users error!' + err)
                 })
         },
+        getTotalNumberUsers: async (_source, _args) => {
+            return await UserSchema.count({}, (err, result) =>{
+                if (err) console.error('Getting total number of users error', err)
+                return result
+            })
+        }
     },
     Mutation: {
         signup: (_source, _args) => {

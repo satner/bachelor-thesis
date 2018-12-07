@@ -5,6 +5,7 @@ export default gql`
         login(email: String!, password: String!): String
         getUserInfo(userName: String!): User!
         getAllUsers(limit: Int, skip: Int): [User]
+        getTotalNumberUsers: Int
     }
 
     extend type Mutation {

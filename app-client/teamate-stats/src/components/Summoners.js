@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import { Select, Checkbox, Badge } from 'antd';
+import {Select, Checkbox, Badge, Pagination} from 'antd';
 import lang from '../languages-v2'
 import SummonerGridDetail from './SummonerGridDetail'
+import TotalPages from "./TotalPages";
 
 const Option = Select.Option;
 const CheckboxGroup = Checkbox.Group;
@@ -46,7 +47,9 @@ class Summoners extends Component{
       listLanguages: [],
       server: '',
       badgeTier: 0,
-      badgeLanguage: 0
+      badgeLanguage: 0,
+      selida: 1,  // pagination stuff
+      totalPages: 10
     }
   }
 
@@ -56,31 +59,40 @@ class Summoners extends Component{
       listTier,
       badgeTier
     });
-    console.log(this.state.listTier)
   };
 
   handleChangeRoles = (listRoles) => {
     this.setState({
       listRoles
     });
-    console.log(this.state.listRoles)
   };
 
   handleChangeServer = server => {
     this.setState({
       server
     });
-    console.log(this.state.server)
   };
 
   handleChangeLanguage = listLanguages => {
-    let badgeLanguage = listLanguages.length
+    let badgeLanguage = listLanguages.length;
     this.setState({
       listLanguages,
       badgeLanguage
     });
-    console.log(this.state.listLanguages)
   };
+
+  handlePagination = (page, pageSize) => {
+    console.log('Eimia reee', page)
+    this.setState({
+      selida: page
+    })
+  };
+
+  handleTotalPages = (totalPages) => {
+    this.setState({
+      totalPages
+    })
+  }
 
   render() {
     return (
@@ -161,8 +173,10 @@ class Summoners extends Component{
             {/* Grid card layout of summoners*/}
             <div className="summoners--grid" style={{ marginTop: '200px', marginLeft: '50px' }}>
               <div className="card--grid">
-                <SummonerGridDetail />
+                <SummonerGridDetail page={this.state.selida}/>
               </div>
+              {/*<Pagination defaultPageSize={6} total={this.state.totalPages} onChange={this.handlePagination} />*/}
+              <TotalPages onChange={this.handlePagination}/>
             </div>
 
           </div>
