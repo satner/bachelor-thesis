@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Select, Checkbox, Badge } from 'antd';
 import lang from '../languages-v2'
-import SummonerCard from './SummonerCard'
+import SummonerGridDetail from './SummonerGridDetail'
 
 const Option = Select.Option;
 const CheckboxGroup = Checkbox.Group;
@@ -161,7 +161,7 @@ class Summoners extends Component{
             {/* Grid card layout of summoners*/}
             <div className="summoners--grid" style={{ marginTop: '200px', marginLeft: '50px' }}>
               <div className="card--grid">
-                <SummonerCard />
+                <SummonerGridDetail />
               </div>
             </div>
 

@@ -84,7 +84,7 @@ export default {
                     })
             });
         },
-
+        // TODO: check start, end and totalgames index
         updateSummonerInfo: (_source, _args) => {
             SummonerSchema.findOne({'summonerInfo.name': _args.summonerName}, (err, result) => {
                 let matchDetails = [];

@@ -14,7 +14,7 @@ import Error from './components/Error';
 
 const client = new ApolloClient({
   uri: "http://localhost:4000/graphql"
-})
+});
 
 // TODO: override ant-design font-family
 class App extends Component {

@@ -22,8 +22,8 @@ export default {
                             },
                                 JWT_KEY,{
                                 expiresIn: "1h"
-                            })
-                            console.log('Log in success')
+                            });
+                            console.log('Log in success');
                             token = t
                         }
                     })
@@ -36,10 +36,14 @@ export default {
 
         },
         getAllUsers: async (_source, _args) => {
-            return await UserSchema.find({}, (err, users) => {
-                if (err) console.error('Return all users error')
-                else return users
-            })
+            return await UserSchema.find({})
+                .skip(_args.skip)
+                .limit(_args.limit)
+                .exec()
+                .then()
+                .catch(err => {
+                    console.error('Get all users error!' + err)
+                })
         },
     },
     Mutation: {
@@ -58,7 +62,7 @@ export default {
                                 server: _args.server,
                                 summoner: _args.summoner,
                                 languages: _args.languages
-                            })
+                            });
                             user.save()
                                 .then(result => {
                                     console.log('User created!')
@@ -77,7 +81,7 @@ export default {
         },
         deleteUserInfo: (_source, _args) => {
             UserSchema.findOneAndDelete({email: _args.email}, (err, user) => {
-                if (err) console.error('User has not deleted!')
+                if (err) console.error('User has not deleted!');
                 console.log('User deleted!')
             })
         }
