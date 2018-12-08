@@ -36,6 +36,7 @@ export default {
             if (err) console.error('Password wrong');
             if (res) {
               const t = jwt.sign({
+                    id: user._id,
                     email: user.email,
                     server: user.server,
                     languages: user.languages,
@@ -91,26 +92,36 @@ export default {
     },
     updateUserInfo: async (_source, _args) => {
       let oldData = jwt.decode(_args.token);
+      let done = false;
 
       bcrypt.hash(_args.password, 10 , (err, hash) => {
         if (err) {
           console.error('Auth error')
         } else {
-          UserSchema.findOneAndUpdate({email: oldData.email}, {email: _args.email, password: hash, languages: _args.languages}, (err, user) => {
+           UserSchema.findOneAndUpdate({email: oldData.email}, {email: _args.email, password: hash, languages: _args.languages}, (err, user) => {
             if (err) console.error('Updating user error')
-            if (user) console.log('Updating user complete')
+            if (user) {
+              console.log('Updating user complete')
+              done = true;
+            }
           })
-
         }
         if (err) console.error("User update error")
       })
-
+      return done
     },
-    deleteUserInfo: (_source, _args) => {
-      UserSchema.findOneAndDelete({email: _args.email}, (err, user) => {
+    deleteUserInfo: async (_source, _args) => {
+      let oldData = jwt.decode(_args.token);
+      let done = false;
+
+      await UserSchema.findOneAndDelete({_id: oldData.id}, (err, user) => {
         if (err) console.error('User has not deleted!');
-        console.log('User deleted!')
+        if (user) {
+          console.log('User deleted!')
+          done = true;
+        }
       })
+      return done
     }
   }
 }

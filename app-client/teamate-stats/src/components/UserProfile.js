@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { Layout, Tabs } from 'antd';
 import jwt from 'jsonwebtoken';
 import AccountSettings from './UserSettings/AccountSettings';
+import DeleteAccount from "./UserSettings/DeleteAccount";
 
 const {Footer, Sider, Content} = Layout;
 const TabPane = Tabs.TabPane;
@@ -30,7 +31,7 @@ class UserProfile extends Component {
                     style={{ height: 220 }}
                 >
                   <TabPane tab="Account Settings" key="1"> <AccountSettings data={this.state}/></TabPane>
-                  <TabPane tab="Delete Account" key="2">Content of tab 3</TabPane>
+                  <TabPane tab="Delete Account" key="2"><DeleteAccount /></TabPane>
                 </Tabs>
               </Content>
               <Sider style={{backgroundColor: '#fff'}}>

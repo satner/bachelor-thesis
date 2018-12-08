@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Form, Input, Button, Tooltip, Icon, Select} from 'antd';
+import {Form, Input, Button, Tooltip, Icon, Select, notification} from 'antd';
 import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
 import lang from "../../languages-v2";
@@ -11,6 +11,12 @@ const UPDATE_USER = gql`
     updateUserInfo(email: $email, password: $password, languages: $languages, token: $token)
   }
 `;
+const openNotificationWithIcon = (type, title, msg) => {
+  notification[type]({
+    message: title,
+    description: msg,
+  });
+};
 
 class AccountSettings extends Component {
   state = {
@@ -59,7 +65,16 @@ class AccountSettings extends Component {
                 this.props.form.validateFieldsAndScroll((err, values) => {
                   if (!err) {
                     updateUserInfo({variables: {email: values.email, password: values.password, languages: values.languages, token: localStorage.getItem('AUTH_TOKEN')}})
-                    console.log(values)
+                        .then(d => {
+                          if (d) {
+                            openNotificationWithIcon('success', 'Success', 'Your account updated successful')
+                          } else {
+                            openNotificationWithIcon('warning', 'Error', 'Your account has not updated')
+                          }
+                        })
+                        .catch(e => {
+                          openNotificationWithIcon('error', 'Error', 'Please try again later')
+                        })
                   }
                 })
               }} style={updateForm}>
@@ -141,11 +156,10 @@ class AccountSettings extends Component {
     );
   }
 }
-
 const updateForm = {
   maxWidth: '500px',
   display: 'block',
   marginRight: 'auto',
-}
+};
 const WrappedUpdateForm = Form.create()(AccountSettings);
 export default WrappedUpdateForm;

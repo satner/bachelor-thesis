@@ -235,6 +235,6 @@ const registerForm = {
     display: 'block',
     marginLeft: 'auto',
     marginRight: 'auto',
-}
+};
 const WrappedRegistrationForm = Form.create()(SignUp);
 export default WrappedRegistrationForm;
