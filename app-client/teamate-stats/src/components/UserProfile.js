@@ -8,7 +8,7 @@ const BasicSettings = () => {
 
 }
 
-class AccountDetails extends Component {
+class UserProfile extends Component {
   render() {
     return (
         <div>
@@ -39,4 +39,4 @@ class AccountDetails extends Component {
   }
 }
 
-export default AccountDetails;
+export default UserProfile;

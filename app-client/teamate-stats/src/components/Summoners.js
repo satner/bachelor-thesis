@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Select, Checkbox, Badge} from 'antd';
 import lang from '../languages-v2'
 import SummonerGridDetail from './SummonerGridDetail'
-import TotalPages from "./TotalPages";
+import Pagi from "./Pagi";
 
 const Option = Select.Option;
 const CheckboxGroup = Checkbox.Group;
@@ -49,7 +49,6 @@ class Summoners extends Component{
       badgeTier: 0,
       badgeLanguage: 0,
       selida: 1,  // pagination stuff
-      totalPages: 10
     }
   }
 
@@ -82,17 +81,10 @@ class Summoners extends Component{
   };
 
   handlePagination = (page, pageSize) => {
-    console.log('Eimia reee', page)
     this.setState({
       selida: page
     })
   };
-
-  handleTotalPages = (totalPages) => {
-    this.setState({
-      totalPages
-    })
-  }
 
   render() {
     return (
@@ -176,7 +168,7 @@ class Summoners extends Component{
                 <SummonerGridDetail page={this.state.selida}/>
               </div>
               {/*<Pagination defaultPageSize={6} total={this.state.totalPages} onChange={this.handlePagination} />*/}
-              <TotalPages onChange={this.handlePagination}/>
+              <Pagi onChange={this.handlePagination}/>
             </div>
 
           </div>

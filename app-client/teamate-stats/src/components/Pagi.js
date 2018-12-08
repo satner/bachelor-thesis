@@ -4,7 +4,7 @@ import {Query} from "react-apollo";
 import gql from "graphql-tag";
 
 
-const TotalPages = (props) => (
+const Pagi = (props) => (
     <Query
         query={gql`
           query {
@@ -20,4 +20,4 @@ const TotalPages = (props) => (
     </Query>
 );
 
-export default TotalPages
+export default Pagi

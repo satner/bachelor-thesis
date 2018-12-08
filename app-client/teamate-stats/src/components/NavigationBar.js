@@ -3,7 +3,7 @@ import {Button} from "antd";
 import { NavLink } from 'react-router-dom';
 
 // TODO: NavLink inside ol
-class Navigation extends Component{
+class NavigationBar extends Component{
     render() {
         return (
             <div>
@@ -33,4 +33,4 @@ const btnContainer = {
     marginLeft: '1em'
 };
 
-export default Navigation;
+export default NavigationBar;

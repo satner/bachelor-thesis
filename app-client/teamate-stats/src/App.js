@@ -4,13 +4,13 @@ import ApolloClient from 'apollo-boost';
 import {ApolloProvider} from "react-apollo";
 
 import './App.css';
-import Navigation from './components/Navigation';
+import NavigationBar from './components/NavigationBar';
 import Home from './components/Home';
 import Summoners from './components/Summoners';
 import Footer from './components/Footer';
 import LogIn from './components/LogIn';
 import SignUp from './components/SignUp';
-import AccountDetails from './components/AccountDetails';
+import UserProfile from './components/UserProfile';
 import Error from './components/Error';
 
 const client = new ApolloClient({
@@ -24,13 +24,13 @@ class App extends Component {
       <BrowserRouter>
         <ApolloProvider client={client}>
           <div>
-            <Navigation />
+            <NavigationBar />
             <Switch>
               <Route path="/" component={Home} exact />
               <Route path="/summoners" component={Summoners} />
               <Route path="/login" component={LogIn}/>
               <Route path="/signup" component={SignUp}/>
-              <Route path="/account-details" component={AccountDetails}/>
+              <Route path="/:user" component={UserProfile}/>
               <Route component={Error} />
             </Switch>
             <Footer />

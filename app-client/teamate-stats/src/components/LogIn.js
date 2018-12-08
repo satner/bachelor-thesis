@@ -5,6 +5,8 @@ const {Content} = Layout;
 const FormItem = Form.Item;
 // TODO: refactor styles
 // TODO: forgot password
+// TODO: check ama einai idi log in o user
+
 class LogIn extends Component {
   handleSubmit = (e) => {
     e.preventDefault();

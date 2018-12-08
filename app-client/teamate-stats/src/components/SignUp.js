@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Form, Input, Tooltip, Icon, Select, Button } from 'antd';
+import { Form, Input, Tooltip, Icon, Select, Button, notification  } from 'antd';
 import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
 import lang from '../languages-v2'
@@ -11,7 +11,13 @@ const ADD_USER = gql`
   signup(email: $email, languages: $languages, password: $password, server: $server ,summoner: $summoner) 
 }
 `;
-// TODO: Checking if summoner already exists!
+const openNotificationWithIcon = (type, title, msg) => {
+    notification[type]({
+        message: title,
+        description: msg,
+    });
+};
+
 class SignUp extends Component {
     state = {
         confirmDirty: false
@@ -82,6 +88,16 @@ class SignUp extends Component {
                           this.props.form.validateFieldsAndScroll((err, values) => {
                             if (!err) {
                               signup({variables: {email: values.email, password: values.password, server: values.server, summoner: values.summoner, languages: values.languages}})
+                                  .then(res => {
+                                      if (res.data.signup){ // user created!
+                                          openNotificationWithIcon('success', 'Success', 'You are ready!')
+                                      } else {
+                                          openNotificationWithIcon('warning', 'Error', 'Email or Summoner already exists!')
+                                      }
+                                  })
+                                  .catch(rej => {
+                                      openNotificationWithIcon('error', 'Error', '')
+                                  })
                             }
                           });
                         }} style={registerForm}>

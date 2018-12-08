@@ -52,11 +52,18 @@ export default {
     }
   },
   Mutation: {
-    signup: (_source, _args) => {
-      UserSchema.findOne({email: _args.email}, (err, user) => {
-        if (user) { // User already exists!
+    signup: async (_source, _args) => {
+      let done = false;
+      await UserSchema.find({
+        $or: [
+            {email: _args.email},
+            {$and: [{summoner: _args.summoner}, {server: _args.server}]}
+            ]
+        }, (err, user) => {
+        if (user) {
           console.log('User already exists!')
-        } else {
+        }
+        else {
           bcrypt.hash(_args.password, 10 , (err, hash) => {
             if (err) {
               console.error('Auth error')
@@ -70,16 +77,18 @@ export default {
               });
               user.save()
                   .then(result => {
+                    done = true;
                     console.log('User created!')
                   })
                   .catch(err => {
                     console.error('User has not created!')
                   })
             }
+            if (err) console.error("User creation error")
           })
         }
-      })
-
+      });
+      return done
     },
     updateUserInfo: (_source, _args) => {
 
