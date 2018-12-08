@@ -1,14 +1,18 @@
 import React, {Component} from 'react';
 import { Layout, Tabs } from 'antd';
+import jwt from 'jsonwebtoken';
+import AccountSettings from './UserSettings/AccountSettings';
 
 const {Footer, Sider, Content} = Layout;
 const TabPane = Tabs.TabPane;
 
-const BasicSettings = () => {
-
-}
-
 class UserProfile extends Component {
+  constructor(props) {
+    super(props);
+    let token = localStorage.getItem('AUTH_TOKEN');
+    let userData = jwt.decode(token);
+    this.state =  {...userData}
+  }
   render() {
     return (
         <div>
@@ -25,11 +29,12 @@ class UserProfile extends Component {
                     tabPosition={'left'}
                     style={{ height: 220 }}
                 >
-                  <TabPane tab="Basic Settings" key="1">Content of tab 1</TabPane>
-                  <TabPane tab="Account Settings" key="2">Content of tab 2</TabPane>
-                  <TabPane tab="Delete Account" key="3">Content of tab 3</TabPane>
+                  <TabPane tab="Account Settings" key="1"> <AccountSettings data={this.state}/></TabPane>
+                  <TabPane tab="Delete Account" key="2">Content of tab 3</TabPane>
                 </Tabs>
               </Content>
+              <Sider style={{backgroundColor: '#fff'}}>
+              </Sider>
             </Layout>
             <Footer style={{backgroundColor: '#fff'}}>
             </Footer>

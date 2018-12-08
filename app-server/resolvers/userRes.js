@@ -21,7 +21,7 @@ export default {
     },
     getTotalNumberUsers: async (_source, _args) => {
       return await UserSchema.count({}, (err, result) =>{
-        if (err) console.error('Getting total number of users error', err)
+        if (err) console.error('Getting total number of users error', err);
         return result
       })
     }
@@ -38,7 +38,7 @@ export default {
               const t = jwt.sign({
                     email: user.email,
                     server: user.server,
-                    languages: user.server,
+                    languages: user.languages,
                     summoner: user.summoner
                   },
                   JWT_KEY,{
@@ -89,7 +89,21 @@ export default {
       });
       return done
     },
-    updateUserInfo: (_source, _args) => {
+    updateUserInfo: async (_source, _args) => {
+      let oldData = jwt.decode(_args.token);
+
+      bcrypt.hash(_args.password, 10 , (err, hash) => {
+        if (err) {
+          console.error('Auth error')
+        } else {
+          UserSchema.findOneAndUpdate({email: oldData.email}, {email: _args.email, password: hash, languages: _args.languages}, (err, user) => {
+            if (err) console.error('Updating user error')
+            if (user) console.log('Updating user complete')
+          })
+
+        }
+        if (err) console.error("User update error")
+      })
 
     },
     deleteUserInfo: (_source, _args) => {
