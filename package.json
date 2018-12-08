@@ -17,7 +17,7 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "https://github.com/satner/diplomatiki.git"
+    "url": "https://github.com/satner/bachelor-thesis.git"
   },
   "devDependencies": {
     "nodemon": "^1.18.6"

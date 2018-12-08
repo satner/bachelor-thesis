@@ -6,6 +6,27 @@ const JWT_KEY = 'kappa';
 
 export default {
   Query: {
+    getUserInfo: (_source, _args) => {
+
+    },
+    getAllUsers: async (_source, _args) => {
+      return await UserSchema.find({})
+          .skip(_args.skip)
+          .limit(_args.limit)
+          .exec()
+          .then()
+          .catch(err => {
+            console.error('Get all users error!' + err)
+          })
+    },
+    getTotalNumberUsers: async (_source, _args) => {
+      return await UserSchema.count({}, (err, result) =>{
+        if (err) console.error('Getting total number of users error', err)
+        return result
+      })
+    }
+  },
+  Mutation: {
     login: async (_source, _args) => {
       let token;
       await UserSchema.findOne({email: _args.email}, (err, user) => {
@@ -28,30 +49,8 @@ export default {
           })
         }
       });
-      console.log(token)
       return token
     },
-    getUserInfo: (_source, _args) => {
-
-    },
-    getAllUsers: async (_source, _args) => {
-      return await UserSchema.find({})
-          .skip(_args.skip)
-          .limit(_args.limit)
-          .exec()
-          .then()
-          .catch(err => {
-            console.error('Get all users error!' + err)
-          })
-    },
-    getTotalNumberUsers: async (_source, _args) => {
-      return await UserSchema.count({}, (err, result) =>{
-        if (err) console.error('Getting total number of users error', err)
-        return result
-      })
-    }
-  },
-  Mutation: {
     signup: async (_source, _args) => {
       let done = false;
       await UserSchema.find({

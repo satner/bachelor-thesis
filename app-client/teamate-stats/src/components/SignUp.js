@@ -96,7 +96,7 @@ class SignUp extends Component {
                                       }
                                   })
                                   .catch(rej => {
-                                      openNotificationWithIcon('error', 'Error', '')
+                                      openNotificationWithIcon('error', 'Error', 'Please try again later!')
                                   })
                             }
                           });
