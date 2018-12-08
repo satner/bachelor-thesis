@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Select, Checkbox, Badge, Pagination} from 'antd';
+import {Select, Checkbox, Badge} from 'antd';
 import lang from '../languages-v2'
 import SummonerGridDetail from './SummonerGridDetail'
 import TotalPages from "./TotalPages";

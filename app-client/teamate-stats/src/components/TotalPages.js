@@ -1,7 +1,8 @@
 import React from "react";
+import {Pagination} from "antd";
 import {Query} from "react-apollo";
 import gql from "graphql-tag";
-import {Pagination} from "antd";
+
 
 const TotalPages = (props) => (
     <Query

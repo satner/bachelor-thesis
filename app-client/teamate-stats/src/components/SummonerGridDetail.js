@@ -1,6 +1,6 @@
 import React from "react";
 import { Query } from "react-apollo";
-import {Avatar, Card, Icon, Pagination, Spin} from "antd";
+import {Avatar, Card, Icon, Spin} from "antd";
 import gql from "graphql-tag";
 
 // TODO: Add skeleton instead of spinner
@@ -14,9 +14,7 @@ const SummonerGridDetail = (props) => (
               summoner
               email
               server
-              languages {
-                lang
-              }
+              languages
             }
             getTotalNumberUsers
           }

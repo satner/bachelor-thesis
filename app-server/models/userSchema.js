@@ -8,9 +8,7 @@ const userSchema = new mongoose.Schema({
     password: String,
     server: String,
     summoner: String,
-    languages: [{
-        lang: String
-    }]
+    languages: Array
 }, {
     timestamp: true
 });

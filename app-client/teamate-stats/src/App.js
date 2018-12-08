@@ -10,6 +10,7 @@ import Summoners from './components/Summoners';
 import Footer from './components/Footer';
 import LogIn from './components/LogIn';
 import SignUp from './components/SignUp';
+import AccountDetails from './components/AccountDetails';
 import Error from './components/Error';
 
 const client = new ApolloClient({
@@ -29,6 +30,7 @@ class App extends Component {
               <Route path="/summoners" component={Summoners} />
               <Route path="/login" component={LogIn}/>
               <Route path="/signup" component={SignUp}/>
+              <Route path="/account-details" component={AccountDetails}/>
               <Route component={Error} />
             </Switch>
             <Footer />
