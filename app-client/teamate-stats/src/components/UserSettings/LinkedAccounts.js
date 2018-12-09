@@ -1,13 +1,49 @@
 import React, {Component} from 'react';
 import {notification, List, Avatar, Button, Skeleton, BackTop, Icon, Modal, Form, Input, Tooltip, Select} from 'antd';
 import gql from "graphql-tag";
-import {Mutation} from "react-apollo";
+import {Mutation, Query } from "react-apollo";
 
 const ADD_SUMMONER = gql`
   mutation ($token: String!) {
     addSummoner(token: $token)
   }
 `;
+const GET_SUMMONERS = gql`
+  query ($id: String!){
+    getUserInfos(id: $id) {
+      summoner {
+        name
+        server
+      }
+    }
+  }
+`;
+
+const SummonerAccounts = (props) => (
+    <Query query={GET_SUMMONERS} variables={{id: props.data}}>
+      {({ loading, error, data }) => {
+        if (loading) return <Skeleton paragraph={{ rows: 4 }} active />
+        if (error) return `Error! ${error.message}`;
+        console.log(data.getUserInfos);
+        return (
+            <List
+                itemLayout="horizontal"
+                dataSource={data.getUserInfos.summoner}
+                renderItem={item => (
+                    <List.Item actions={[<Button shape="circle" icon="delete" value="summoner name" onClick={e => {
+                      console.log(e.target.value)
+                    }}/>]}>
+                      <List.Item.Meta
+                          title="Summoner name"
+                          description="server"
+                      />
+                    </List.Item>
+                )}
+            />
+        );
+      }}
+    </Query>
+);
 const openNotificationWithIcon = (type, title, msg) => {
   notification[type]({
     message: title,
@@ -67,27 +103,12 @@ class LinkedAccounts extends Component {
         },
       },
     };
-    console.log(this.state)
+    console.log(this.state.data.id)
     return (
         <Mutation mutation={ADD_SUMMONER}>
           {(addSummoner, {data}) => (
               <div>
-                <List
-                    itemLayout="horizontal"
-                    dataSource={this.state.data.languages}
-                    renderItem={item => (
-                        <List.Item actions={[<Button shape="circle" icon="delete" value="summoner name" onClick={e => {
-                          console.log(e.target.value)
-                        }}/>]}>
-                          {/*<Skeleton avatar title={false} active>*/}
-                          <List.Item.Meta
-                              title="Summoner name"
-                              description="server"
-                          />
-                          {/*</Skeleton>*/}
-                        </List.Item>
-                    )}
-                />
+                <SummonerAccounts data={this.state.data.id}/>
                 <Modal
                     title="Add League of Legends Account"
                     visible={this.state.visible}

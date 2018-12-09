@@ -4,6 +4,7 @@ export default gql`
     extend type Query {
         getAllUsers(limit: Int, skip: Int): [User]
         getTotalNumberUsers: Int
+        getUserInfos(id: String!): User
     }
 
     extend type Mutation {

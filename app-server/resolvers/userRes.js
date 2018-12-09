@@ -21,6 +21,12 @@ export default {
         if (err) console.error('Getting total number of users error', err);
         return result
       })
+    },
+    getUserInfos: async (_source, _args) => {
+      return await UserSchema.findOne({_id: _args.id}, (err, user) => {
+        if (err) console.error('Getting user info error!')
+        return user
+      })
     }
   },
   Mutation: {
