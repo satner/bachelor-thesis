@@ -31,7 +31,7 @@ class UserProfile extends Component {
                     style={{ height: 220 }}
                 >
                   <TabPane tab="Account Settings" key="1"> <AccountSettings data={this.state}/></TabPane>
-                  <TabPane tab="Delete Account" key="2"><DeleteAccount /></TabPane>
+                  <TabPane tab="Delete Account" key="2"><DeleteAccount {...this.props}/></TabPane>
                 </Tabs>
               </Content>
               <Sider style={{backgroundColor: '#fff'}}>

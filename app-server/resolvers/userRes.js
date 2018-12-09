@@ -1,6 +1,6 @@
-import { UserSchema } from "../models";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import {UserSchema} from "../models";
 
 const JWT_KEY = 'kappa';
 
@@ -17,7 +17,7 @@ export default {
           })
     },
     getTotalNumberUsers: async (_source, _args) => {
-      return await UserSchema.count({}, (err, result) =>{
+      return await UserSchema.count({}, (err, result) => {
         if (err) console.error('Getting total number of users error', err);
         return result
       })
@@ -26,25 +26,26 @@ export default {
   Mutation: {
     login: async (_source, _args) => {
       let token;
-      await UserSchema.findOne({email: _args.email}).exec()
+      await UserSchema.findOne({email: _args.email})
+          .exec()
           .then(async user => {
-              await bcrypt.compare(_args.password, user.password)
-                  .then(res => {
-                    if (res) {
-                      token = jwt.sign({
-                            id: user._id,
-                            email: user.email,
-                            server: user.server,
-                            languages: user.languages,
-                            summoner: user.summoner
-                          },
-                          JWT_KEY,{
-                            expiresIn: "1h"
-                          });
-                    } else {
-                      console.error('Password invalid');
-                    }
-                  })
+            await bcrypt.compare(_args.password, user.password)
+                .then(res => {
+                  if (res) {
+                    token = jwt.sign({
+                          id: user._id,
+                          email: user.email,
+                          server: user.server,
+                          languages: user.languages,
+                          summoner: user.summoner
+                        },
+                        JWT_KEY, {
+                          expiresIn: "1h"
+                        });
+                  } else {
+                    console.error('Password invalid');
+                  }
+                })
           })
           .catch(err => {
             console.error('Password invalid', err)
@@ -55,16 +56,15 @@ export default {
       let done = false;
       await UserSchema.find({
         $or: [
-            {email: _args.email},
-            {$and: [{summoner: _args.summoner}, {server: _args.server}]}
-            ]
-        }, (err, user) => {
+          {email: _args.email},
+          {$and: [{summoner: _args.summoner}, {server: _args.server}]}
+        ]
+      }, (err, user) => {
         if (user.length === 1) {
           console.log('User already exists!')
-        }
-        else {
+        } else {
           done = true;
-          bcrypt.hash(_args.password, 10 , (err, hash) => {
+          bcrypt.hash(_args.password, 10, (err, hash) => {
             if (err) {
               console.error('Auth error')
             } else {
@@ -95,33 +95,40 @@ export default {
       let oldData = jwt.decode(_args.token);
       let done = false;
 
-      await bcrypt.hash(_args.password, 10 , (err, hash) => {
-        if (err) {
-          console.error('Auth error')
-        } else {
-          done = true;
-           UserSchema.findOneAndUpdate({email: oldData.email}, {email: _args.email, password: hash, languages: _args.languages}, (err, user) => {
-            if (err) console.error('Updating user error');
-            if (user) {
-              console.log('Updating user complete');
-            }
+      await bcrypt.hash(_args.password, 10)
+          .then(hash => {
+            done = true;
+            UserSchema.findOneAndUpdate({email: oldData.email}, {
+              email: _args.email,
+              password: hash,
+              languages: _args.languages
+            }, (err, user) => {
+              if (err) console.error('Updating user error');
+              if (user) {
+                console.log('Updating user complete');
+              }
+            });
           })
-        }
-        if (err) console.error("User update error")
-      });
+          .catch(err => {
+            console.error('Update user info error', err)
+          });
       return done
     },
     deleteUserInfo: async (_source, _args) => {
       let oldData = jwt.decode(_args.token);
       let done = false;
 
-      await UserSchema.findOneAndDelete({_id: oldData.id}, (err, user) => {
-        if (err) console.error('User has not deleted!');
-        if (user) {
-          console.log('User deleted!');
-          done = true;
-        }
-      });
+      await UserSchema.findOneAndDelete({_id: oldData.id})
+          .exec()
+          .then(user => {
+            if (user) {
+              console.log('User deleted!');
+              done = true;
+            }
+          })
+          .catch(err => {
+            console.error('User has not deleted!', err);
+          });
       return done
     }
   }
