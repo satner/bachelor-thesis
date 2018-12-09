@@ -6,8 +6,10 @@ const userSchema = new mongoose.Schema({
         require: true
     },
     password: String,
-    server: String,
-    summoner: String,
+    summoner: [{
+        name: String,
+        server: String
+    }],
     languages: Array
 }, {
     timestamp: true

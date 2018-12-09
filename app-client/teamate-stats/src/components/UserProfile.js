@@ -3,6 +3,7 @@ import { Layout, Tabs } from 'antd';
 import jwt from 'jsonwebtoken';
 import AccountSettings from './UserSettings/AccountSettings';
 import DeleteAccount from "./UserSettings/DeleteAccount";
+import LinkedAccounts from "./UserSettings/LinkedAccounts";
 
 const {Footer, Sider, Content} = Layout;
 const TabPane = Tabs.TabPane;
@@ -31,7 +32,8 @@ class UserProfile extends Component {
                     style={{ height: 220 }}
                 >
                   <TabPane tab="Account Settings" key="1"> <AccountSettings data={this.state}/></TabPane>
-                  <TabPane tab="Delete Account" key="2"><DeleteAccount {...this.props}/></TabPane>
+                  <TabPane tab="Linked Accounts" key="2"> <LinkedAccounts data={this.state}/></TabPane>
+                  <TabPane tab="Delete Account" key="3"><DeleteAccount {...this.props}/></TabPane>
                 </Tabs>
               </Content>
               <Sider style={{backgroundColor: '#fff'}}>

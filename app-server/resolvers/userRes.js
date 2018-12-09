@@ -24,6 +24,23 @@ export default {
     }
   },
   Mutation: {
+    addSummoner: async (_source, _args) => {
+    //  TODO: check if another summoner-name exists already
+    //  TODO: check if summoner exist LOL-API side
+      const user = new UserSchema({
+        summoner: {
+          name: _args.summoner,
+          server: _args.server
+        }
+      });
+      user.save()
+          .then(result => {
+            console.log('Summoner added!')
+          })
+          .catch(err => {
+            console.error('Summoner has not added!')
+          })
+    },
     login: async (_source, _args) => {
       let token;
       await UserSchema.findOne({email: _args.email})
@@ -35,9 +52,7 @@ export default {
                     token = jwt.sign({
                           id: user._id,
                           email: user.email,
-                          server: user.server,
                           languages: user.languages,
-                          summoner: user.summoner
                         },
                         JWT_KEY, {
                           expiresIn: "1h"
@@ -54,12 +69,8 @@ export default {
     },
     signup: async (_source, _args) => {
       let done = false;
-      await UserSchema.find({
-        $or: [
-          {email: _args.email},
-          {$and: [{summoner: _args.summoner}, {server: _args.server}]}
-        ]
-      }).exec()
+      await UserSchema.find({email: _args.email})
+          .exec()
           .then(async user => {
             if (user.length === 1) {
               console.log('User already exists!')
@@ -70,8 +81,6 @@ export default {
                     const user = new UserSchema({
                       email: _args.email,
                       password: hash,
-                      server: _args.server,
-                      summoner: _args.summoner,
                       languages: _args.languages
                     });
                     user.save()

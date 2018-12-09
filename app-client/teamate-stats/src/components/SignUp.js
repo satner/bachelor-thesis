@@ -7,8 +7,8 @@ import lang from '../languages-v2'
 const FormItem = Form.Item;
 const Option = Select.Option;
 const ADD_USER = gql`
-  mutation ($email: String, $languages: [String], $password: String, $server: String , $summoner: String){
-  signup(email: $email, languages: $languages, password: $password, server: $server ,summoner: $summoner) 
+  mutation ($email: String, $languages: [String], $password: String){
+  signup(email: $email, languages: $languages, password: $password) 
 }
 `;
 const openNotificationWithIcon = (type, title, msg) => {
@@ -87,7 +87,7 @@ class SignUp extends Component {
                       e.preventDefault();
                       this.props.form.validateFieldsAndScroll((err, values) => {
                         if (!err) {
-                          signup({variables: {email: values.email, password: values.password, server: values.server, summoner: values.summoner, languages: values.languages}})
+                          signup({variables: {email: values.email, password: values.password, languages: values.languages}})
                               .then(res => {
                                 if (res.data.signup){ // user created!
                                   this.props.history.push("/");
@@ -144,7 +144,7 @@ class SignUp extends Component {
                             <Input type="password" onBlur={this.handleConfirmBlur} />
                         )}
                       </FormItem>
-                      <FormItem
+                     {/* <FormItem
                           {...formItemLayout}
                           label={(
                               <span>
@@ -160,8 +160,8 @@ class SignUp extends Component {
                         })(
                             <Input />
                         )}
-                      </FormItem>
-                      <FormItem
+                      </FormItem>*/}
+                     {/* <FormItem
                           {...formItemLayout}
                           label={(
                               <span>
@@ -191,7 +191,7 @@ class SignUp extends Component {
                               <Option value='tr1'>Turkey</Option>
                             </Select>
                         )}
-                      </FormItem>
+                      </FormItem>*/}
                       <FormItem
                           {...formItemLayout}
                           label={(
