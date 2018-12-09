@@ -37,6 +37,7 @@
     "leaguejs": "^1.10.1",
     "mongoose": "^5.3.12",
     "morgan": "^1.9.1",
+    "promise": "^8.0.2",
     "qs-middleware": "^1.0.3"
   }
 }

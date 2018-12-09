@@ -24,8 +24,9 @@ const DeleteAccount = () => {
                 <Popconfirm title="Are you sure delete your account?" onConfirm={e => {
                   deleteUserInfo({variables: {token: localStorage.getItem('AUTH_TOKEN')}})
                       .then(d => {
-                        if (d) {
-                          localStorage.removeItem('AUTH_TOKEN')
+                        if (d.data.deleteUserInfo) {
+                          localStorage.removeItem('AUTH_TOKEN');
+                          this.props.history.push("/")
                           openNotificationWithIcon('success', 'Success', 'Your account deleted successful')
                         } else {
                           openNotificationWithIcon('warning', 'Error', 'Your account has not deleted')

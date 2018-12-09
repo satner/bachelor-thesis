@@ -6,9 +6,6 @@ const JWT_KEY = 'kappa';
 
 export default {
   Query: {
-    getUserInfo: (_source, _args) => {
-
-    },
     getAllUsers: async (_source, _args) => {
       return await UserSchema.find({})
           .skip(_args.skip)
@@ -29,27 +26,29 @@ export default {
   Mutation: {
     login: async (_source, _args) => {
       let token;
-      await UserSchema.findOne({email: _args.email}, (err, user) => {
-        if (err) console.error('Log in error');
-        else {
-          bcrypt.compare(_args.password, user.password, (err, res) => {
-            if (err) console.error('Password wrong');
-            if (res) {
-              const t = jwt.sign({
-                    id: user._id,
-                    email: user.email,
-                    server: user.server,
-                    languages: user.languages,
-                    summoner: user.summoner
-                  },
-                  JWT_KEY,{
-                    expiresIn: "1h"
-                  });
-              token = t
-            }
+      await UserSchema.findOne({email: _args.email}).exec()
+          .then(async user => {
+              await bcrypt.compare(_args.password, user.password)
+                  .then(res => {
+                    if (res) {
+                      token = jwt.sign({
+                            id: user._id,
+                            email: user.email,
+                            server: user.server,
+                            languages: user.languages,
+                            summoner: user.summoner
+                          },
+                          JWT_KEY,{
+                            expiresIn: "1h"
+                          });
+                    } else {
+                      console.error('Password invalid');
+                    }
+                  })
           })
-        }
-      });
+          .catch(err => {
+            console.error('Password invalid', err)
+          });
       return token
     },
     signup: async (_source, _args) => {
@@ -60,10 +59,11 @@ export default {
             {$and: [{summoner: _args.summoner}, {server: _args.server}]}
             ]
         }, (err, user) => {
-        if (user) {
+        if (user.length === 1) {
           console.log('User already exists!')
         }
         else {
+          done = true;
           bcrypt.hash(_args.password, 10 , (err, hash) => {
             if (err) {
               console.error('Auth error')
@@ -77,7 +77,6 @@ export default {
               });
               user.save()
                   .then(result => {
-                    done = true;
                     console.log('User created!')
                   })
                   .catch(err => {
@@ -86,28 +85,30 @@ export default {
             }
             if (err) console.error("User creation error")
           })
+          console.log('USER', user)
         }
       });
+      console.log('DONE', done)
       return done
     },
     updateUserInfo: async (_source, _args) => {
       let oldData = jwt.decode(_args.token);
       let done = false;
 
-      bcrypt.hash(_args.password, 10 , (err, hash) => {
+      await bcrypt.hash(_args.password, 10 , (err, hash) => {
         if (err) {
           console.error('Auth error')
         } else {
+          done = true;
            UserSchema.findOneAndUpdate({email: oldData.email}, {email: _args.email, password: hash, languages: _args.languages}, (err, user) => {
-            if (err) console.error('Updating user error')
+            if (err) console.error('Updating user error');
             if (user) {
-              console.log('Updating user complete')
-              done = true;
+              console.log('Updating user complete');
             }
           })
         }
         if (err) console.error("User update error")
-      })
+      });
       return done
     },
     deleteUserInfo: async (_source, _args) => {
@@ -117,10 +118,10 @@ export default {
       await UserSchema.findOneAndDelete({_id: oldData.id}, (err, user) => {
         if (err) console.error('User has not deleted!');
         if (user) {
-          console.log('User deleted!')
+          console.log('User deleted!');
           done = true;
         }
-      })
+      });
       return done
     }
   }

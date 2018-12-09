@@ -66,7 +66,7 @@ class AccountSettings extends Component {
                   if (!err) {
                     updateUserInfo({variables: {email: values.email, password: values.password, languages: values.languages, token: localStorage.getItem('AUTH_TOKEN')}})
                         .then(d => {
-                          if (d) {
+                          if (d.data.updateUserInfo) {
                             openNotificationWithIcon('success', 'Success', 'Your account updated successful')
                           } else {
                             openNotificationWithIcon('warning', 'Error', 'Your account has not updated')

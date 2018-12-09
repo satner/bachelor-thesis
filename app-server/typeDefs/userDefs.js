@@ -2,7 +2,6 @@ import { gql } from 'apollo-server-express'
 
 export default gql`
     extend type Query {
-        getUserInfo(userName: String!): User!
         getAllUsers(limit: Int, skip: Int): [User]
         getTotalNumberUsers: Int
     }
