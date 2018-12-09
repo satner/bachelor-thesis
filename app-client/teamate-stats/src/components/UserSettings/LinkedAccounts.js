@@ -145,7 +145,7 @@ class LinkedAccounts extends Component {
                     e.preventDefault();
                     this.props.form.validateFieldsAndScroll((err, values) => {
                       if (!err) {
-                        addSummoner({variables: {id: this.state.data.id, name: values.summoner, server: values.server}})
+                        addSummoner({variables: {id: this.state.data.id, summoner: values.summoner, server: values.server}})
                             .then(d => {
                               if (d.data.addSummoner) {
                                 openNotificationWithIcon('success', 'Success', 'Account Added!')
