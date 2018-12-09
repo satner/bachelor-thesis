@@ -1,16 +1,22 @@
 import React, {Component} from 'react';
-import {notification, List, Avatar, Button, Skeleton, BackTop, Icon, Modal, Form, Input, Tooltip, Select} from 'antd';
+import {notification, List, Button, Skeleton, BackTop, Icon, Modal, Form, Input, Tooltip, Select} from 'antd';
 import gql from "graphql-tag";
-import {Mutation, Query } from "react-apollo";
+import {Mutation, Query} from "react-apollo";
 
 const ADD_SUMMONER = gql`
-  mutation ($token: String!) {
-    addSummoner(token: $token)
+  mutation ($id: String!, $summoner: String!, $server: String!) {
+    addSummoner(id: $id, summoner: $summoner, server: $server)
+  }
+`;
+const DELETE_SUMMONER = gql`
+  mutation ($id: String!, $summoner: String!, $server: String!){
+    deleteSummoner(id: $id, summoner: $summoner, server: $server)
   }
 `;
 const GET_SUMMONERS = gql`
   query ($id: String!){
     getUserInfos(id: $id) {
+      _id
       summoner {
         name
         server
@@ -19,23 +25,43 @@ const GET_SUMMONERS = gql`
   }
 `;
 
+const DeleteSummoner = (props) => (
+    <Mutation mutation={DELETE_SUMMONER}>
+      {(deleteSummoner, {data}) => (
+          <Button shape="circle" icon="delete" value={props.id + " " + props.item.name + " " + props.item.server}
+                  onClick={e => {
+                    let temp = e.target.value.split(' ')
+                    deleteSummoner({variables: {id: temp[0], summoner: temp[1], server: temp[2]}})
+                        .then(res => {
+                          if (res.data.deleteSummoner){
+                            openNotificationWithIcon('success', 'Success', 'Summoner Account Deleted!')
+                          } else {
+                            openNotificationWithIcon('warning', 'Error', 'Summoner Account has not Deleted!')
+                          }
+                        })
+                        .catch(rej => {
+                          openNotificationWithIcon('error', 'Error', 'Please try again later!')
+                        })
+                  }}/>
+      )}
+    </Mutation>
+)
+
+
 const SummonerAccounts = (props) => (
     <Query query={GET_SUMMONERS} variables={{id: props.data}}>
-      {({ loading, error, data }) => {
-        if (loading) return <Skeleton paragraph={{ rows: 4 }} active />
+      {({loading, error, data}) => {
+        if (loading) return <Skeleton paragraph={{rows: 2}} active/>
         if (error) return `Error! ${error.message}`;
-        console.log(data.getUserInfos);
         return (
             <List
                 itemLayout="horizontal"
                 dataSource={data.getUserInfos.summoner}
                 renderItem={item => (
-                    <List.Item actions={[<Button shape="circle" icon="delete" value="summoner name" onClick={e => {
-                      console.log(e.target.value)
-                    }}/>]}>
+                    <List.Item actions={[<DeleteSummoner item={item} id={data.getUserInfos._id}/>]}>
                       <List.Item.Meta
-                          title="Summoner name"
-                          description="server"
+                          title={item.name.toUpperCase()}
+                          description={item.server}
                       />
                     </List.Item>
                 )}
@@ -103,7 +129,6 @@ class LinkedAccounts extends Component {
         },
       },
     };
-    console.log(this.state.data.id)
     return (
         <Mutation mutation={ADD_SUMMONER}>
           {(addSummoner, {data}) => (
@@ -120,7 +145,17 @@ class LinkedAccounts extends Component {
                     e.preventDefault();
                     this.props.form.validateFieldsAndScroll((err, values) => {
                       if (!err) {
-                        console.log(values)
+                        addSummoner({variables: {id: this.state.data.id, name: values.summoner, server: values.server}})
+                            .then(d => {
+                              if (d.data.addSummoner) {
+                                openNotificationWithIcon('success', 'Success', 'Account Added!')
+                              } else {
+                                openNotificationWithIcon('warning', 'Error', 'Summoner already exists!')
+                              }
+                            })
+                            .catch(rej => {
+                              openNotificationWithIcon('error', 'Error', 'Please try again later!')
+                            })
                       }
                     });
                   }}>

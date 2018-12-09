@@ -13,8 +13,9 @@ class UserProfile extends Component {
     super(props);
     let token = localStorage.getItem('AUTH_TOKEN');
     let userData = jwt.decode(token);
-    this.state =  {...userData}
+    this.state =  {...userData, shouldUpdate: false}
   }
+
   render() {
     return (
         <div>

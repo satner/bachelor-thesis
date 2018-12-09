@@ -8,7 +8,8 @@ export default gql`
     }
 
     extend type Mutation {
-        addSummoner(summoner: String!, server: String!): Accounts
+        addSummoner(id: String!, summoner: String!, server: String!): Boolean
+        deleteSummoner(id: String!, summoner: String!, server: String!): Boolean
         login(email: String!, password: String!): String
         signup(email: String, password: String, languages: [String]): Boolean
         updateUserInfo(email: String, password: String, languages: [String], token: String): Boolean
@@ -16,6 +17,7 @@ export default gql`
     }
 
     type User {
+        _id: String
         email: String
         summoner: [Accounts]
         languages: [String]

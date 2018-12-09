@@ -2,6 +2,12 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import {UserSchema} from "../models";
 
+// oi tris katw lines gia na epistrefei to id pou einai tipou _bsontype
+const ObjectId = require('mongoose').Types.ObjectId;
+ObjectId.prototype.valueOf = function () {
+  return this.toString();
+};
+
 const JWT_KEY = 'kappa';
 
 export default {
@@ -33,19 +39,33 @@ export default {
     addSummoner: async (_source, _args) => {
     //  TODO: check if another summoner-name exists already
     //  TODO: check if summoner exist LOL-API side
-      const user = new UserSchema({
-        summoner: {
-          name: _args.summoner,
-          server: _args.server
-        }
-      });
-      user.save()
-          .then(result => {
-            console.log('Summoner added!')
+      let done = false;
+      let temp = {}
+      temp.name = _args.summoner;
+      temp.server = _args.server;
+      await UserSchema.findOneAndUpdate({_id: _args.id}, {$push: {summoner: temp}})
+          .exec()
+          .then(d => {
+            console.log('Summoner added!');
+            done = true
           })
-          .catch(err => {
-            console.error('Summoner has not added!')
+          .catch(e => {
+            console.error('Add summoner error!', e)
+          });
+      return done
+    },
+    deleteSummoner: async (_source, _args) => {
+      let done = false;
+      await UserSchema.findByIdAndUpdate(_args.id, {$pull: {summoner: {name: _args.summoner, server: _args.server}}})
+          .exec()
+          .then(d => {
+            console.log('Summoner Deleted!')
+            done = true
           })
+          .catch(e => {
+            console.error('Summoner has not deleted!', e)
+          })
+      return done
     },
     login: async (_source, _args) => {
       let token;
