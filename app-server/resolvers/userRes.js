@@ -59,36 +59,37 @@ export default {
           {email: _args.email},
           {$and: [{summoner: _args.summoner}, {server: _args.server}]}
         ]
-      }, (err, user) => {
-        if (user.length === 1) {
-          console.log('User already exists!')
-        } else {
-          done = true;
-          bcrypt.hash(_args.password, 10, (err, hash) => {
-            if (err) {
-              console.error('Auth error')
+      }).exec()
+          .then(async user => {
+            if (user.length === 1) {
+              console.log('User already exists!')
             } else {
-              const user = new UserSchema({
-                email: _args.email,
-                password: hash,
-                server: _args.server,
-                summoner: _args.summoner,
-                languages: _args.languages
-              });
-              user.save()
-                  .then(result => {
-                    console.log('User created!')
+              done = true;
+              await bcrypt.hash(_args.password, 10)
+                  .then(hash => {
+                    const user = new UserSchema({
+                      email: _args.email,
+                      password: hash,
+                      server: _args.server,
+                      summoner: _args.summoner,
+                      languages: _args.languages
+                    });
+                    user.save()
+                        .then(result => {
+                          console.log('User created!')
+                        })
+                        .catch(err => {
+                          console.error('User has not created!')
+                        })
                   })
                   .catch(err => {
-                    console.error('User has not created!')
+                    console.error('User create error', err)
                   })
             }
-            if (err) console.error("User creation error")
           })
-          console.log('USER', user)
-        }
-      });
-      console.log('DONE', done)
+          .catch(err => {
+            console.error('User create error', err)
+          });
       return done
     },
     updateUserInfo: async (_source, _args) => {
