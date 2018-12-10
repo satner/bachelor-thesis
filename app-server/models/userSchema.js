@@ -10,7 +10,8 @@ const userSchema = new mongoose.Schema({
         name: String,
         server: String
     }],
-    languages: Array
+    languages: Array,
+    roles: Array
 }, {
     timestamp: true
 });

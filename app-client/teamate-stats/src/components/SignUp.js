@@ -1,14 +1,15 @@
 import React, {Component} from 'react';
-import { Form, Input, Tooltip, Icon, Select, Button, notification  } from 'antd';
+import {Form, Input, Tooltip, Icon, Select, Button, notification, Checkbox} from 'antd';
 import gql from "graphql-tag";
-import { Mutation } from "react-apollo";
+import {Mutation} from "react-apollo";
 import lang from '../languages-v2'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
+const CheckboxGroup = Checkbox.Group;
 const ADD_USER = gql`
-  mutation ($email: String, $languages: [String], $password: String){
-  signup(email: $email, languages: $languages, password: $password) 
+  mutation ($email: String, $languages: [String], $password: String, $roles: [String]){
+  signup(email: $email, languages: $languages, password: $password, roles: $roles) 
 }
 `;
 const openNotificationWithIcon = (type, title, msg) => {
@@ -17,6 +18,14 @@ const openNotificationWithIcon = (type, title, msg) => {
     description: msg,
   });
 };
+const roles = [
+  {name: 'bottom', path: require('../images/role-icons/Bottom_icon.png')},
+  {name: 'support', path: require('../images/role-icons/Support_icon.png')},
+  {name: 'middle', path: require('../images/role-icons/Middle_icon.png')},
+  {name: 'jungle', path: require('../images/role-icons/Jungle_icon.png')},
+  {name: 'top', path: require('../images/role-icons/Top_icon.png')},
+  {name: 'specialist', path: require('../images/role-icons/Specialist_icon.png')},
+];
 
 class SignUp extends Component {
   state = {
@@ -25,7 +34,7 @@ class SignUp extends Component {
 
   handleConfirmBlur = (e) => {
     const value = e.target.value;
-    this.setState({ confirmDirty: this.state.confirmDirty || !!value });
+    this.setState({confirmDirty: this.state.confirmDirty || !!value});
   };
 
   compareToFirstPassword = (rule, value, callback) => {
@@ -40,21 +49,21 @@ class SignUp extends Component {
   validateToNextPassword = (rule, value, callback) => {
     const form = this.props.form;
     if (value && this.state.confirmDirty) {
-      form.validateFields(['confirm'], { force: true });
+      form.validateFields(['confirm'], {force: true});
     }
     callback();
   };
 
   render() {
-    const { getFieldDecorator } = this.props.form;
+    const {getFieldDecorator} = this.props.form;
     const formItemLayout = {
       labelCol: {
-        xs: { span: 24 },
-        sm: { span: 8 },
+        xs: {span: 24},
+        sm: {span: 8},
       },
       wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 16 },
+        xs: {span: 24},
+        sm: {span: 16},
       },
     };
     const tailFormItemLayout = {
@@ -70,13 +79,9 @@ class SignUp extends Component {
       },
     };
 
-    let langHTML = []
-    lang.forEach(l => {
-      langHTML.push(<Option key={l.code}>{l.name}</Option>)
-    })
     return (
         <Mutation mutation={ADD_USER}>
-          {(signup, { data }) => (
+          {(signup, {data}) => (
               <div>
                 <div>
                   <div className="illo" style={{position: 'absolute', top: '0', zIndex: '-1', width: '100%'}}>
@@ -86,10 +91,18 @@ class SignUp extends Component {
                     <Form layout={'vertical'} onSubmit={e => {
                       e.preventDefault();
                       this.props.form.validateFieldsAndScroll((err, values) => {
+                        console.log(values)
                         if (!err) {
-                          signup({variables: {email: values.email, password: values.password, languages: values.languages}})
+                          signup({
+                            variables: {
+                              email: values.email,
+                              password: values.password,
+                              languages: values.languages,
+                              roles: values.roles
+                            }
+                          })
                               .then(res => {
-                                if (res.data.signup){ // user created!
+                                if (res.data.signup) { // user created!
                                   this.props.history.push("/");
                                   openNotificationWithIcon('success', 'Success', 'You are ready!')
                                 } else {
@@ -113,7 +126,7 @@ class SignUp extends Component {
                             required: true, message: 'Please input your E-mail!',
                           }],
                         })(
-                            <Input />
+                            <Input/>
                         )}
                       </FormItem>
                       <FormItem
@@ -127,7 +140,7 @@ class SignUp extends Component {
                             validator: this.validateToNextPassword,
                           }],
                         })(
-                            <Input type="password" />
+                            <Input type="password"/>
                         )}
                       </FormItem>
                       <FormItem
@@ -141,10 +154,10 @@ class SignUp extends Component {
                             validator: this.compareToFirstPassword,
                           }],
                         })(
-                            <Input type="password" onBlur={this.handleConfirmBlur} />
+                            <Input type="password" onBlur={this.handleConfirmBlur}/>
                         )}
                       </FormItem>
-                     {/* <FormItem
+                      {/* <FormItem
                           {...formItemLayout}
                           label={(
                               <span>
@@ -161,7 +174,7 @@ class SignUp extends Component {
                             <Input />
                         )}
                       </FormItem>*/}
-                     {/* <FormItem
+                      {/* <FormItem
                           {...formItemLayout}
                           label={(
                               <span>
@@ -196,15 +209,43 @@ class SignUp extends Component {
                           {...formItemLayout}
                           label={(
                               <span>
+              Roles&nbsp;
+                                <Tooltip title="Which roles can you play?">
+                <Icon type="question-circle-o"/>
+              </Tooltip>
+            </span>
+                          )}
+                      >
+                        {getFieldDecorator('roles', {
+                          rules: [{required: true, message: 'Please select role!', type: 'array'}],
+                        })(
+                            <CheckboxGroup>
+                              {
+                                roles.map(r => {
+                                  return [
+                                    <Checkbox key={r.name} value={r.name}><img src={r.path}
+                                                                               style={{height: '30px', width: '30px'}}
+                                                                               alt={r.name}/>{r.name.charAt(0).toUpperCase() + r.name.slice(1)}
+                                    </Checkbox>, <br key={r.name + 1}/>
+                                  ]
+                                })
+                              }
+                            </CheckboxGroup>
+                        )}
+                      </FormItem>
+                      <FormItem
+                          {...formItemLayout}
+                          label={(
+                              <span>
               Languages&nbsp;
                                 <Tooltip title="Which languages you can communicate with?">
-                <Icon type="question-circle-o" />
+                <Icon type="question-circle-o"/>
               </Tooltip>
             </span>
                           )}
                       >
                         {getFieldDecorator('languages', {
-                          rules: [{ required: true, message: 'Please select language!', type: 'array'}],
+                          rules: [{required: true, message: 'Please select language!', type: 'array'}],
                         })(
                             <Select
                                 mode="multiple"
@@ -231,6 +272,7 @@ class SignUp extends Component {
     );
   }
 }
+
 const registerForm = {
   maxWidth: '500px',
   display: 'block',

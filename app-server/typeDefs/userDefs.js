@@ -11,7 +11,7 @@ export default gql`
         addSummoner(id: String!, summoner: String!, server: String!): Boolean
         deleteSummoner(id: String!, summoner: String!, server: String!): Boolean
         login(email: String!, password: String!): String
-        signup(email: String, password: String, languages: [String]): Boolean
+        signup(email: String, password: String, languages: [String], roles: [String]): Boolean
         updateUserInfo(email: String, password: String, languages: [String], token: String): Boolean
         deleteUserInfo(token: String): Boolean
     }
@@ -21,6 +21,7 @@ export default gql`
         email: String
         summoner: [Accounts]
         languages: [String]
+        roles: [String]
     }
     
     type Accounts {

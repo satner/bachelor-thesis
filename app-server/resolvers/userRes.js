@@ -107,7 +107,8 @@ export default {
                     const user = new UserSchema({
                       email: _args.email,
                       password: hash,
-                      languages: _args.languages
+                      languages: _args.languages,
+                      roles: _args.roles
                     });
                     user.save()
                         .then(result => {
