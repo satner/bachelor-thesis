@@ -320,14 +320,33 @@ export default {
 
       await UserSchema.findOneAndDelete({_id: oldData.id})
           .exec()
-          .then(user => {
-            if (user) {
-              console.log('User deleted!');
-              done = true;
+          .then(d => {
+            if (d) {
+              console.log('🗑 User Deleted!');
+              done = true
+            } else {
+              console.error('❌ User has not deleted!');
+              done = false
             }
           })
-          .catch(err => {
-            console.error('❌ User has not deleted!', err);
+          .catch(e => {
+            console.error('❌ User has not deleted!', e);
+            done = false
+          });
+      await SummonerSchema.deleteMany({userId: _args.id})
+          .exec()
+          .then(d => {
+            if (d) {
+              console.log('🗑 User Deleted!');
+              done = true
+            } else {
+              console.error('❌ User has not deleted!');
+              done = false
+            }
+          })
+          .catch(e => {
+            console.error('❌ User has not deleted!', e);
+            done = false
           });
       return done
     }
