@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import { Layout, Tabs } from 'antd';
 import jwt from 'jsonwebtoken';
-import AccountSettings from './UserSettings/AccountSettings';
-import DeleteAccount from "./UserSettings/DeleteAccount";
-import LinkedAccounts from "./UserSettings/LinkedAccounts";
+import AccountSettings from './UserProfile/AccountSettings';
+import DeleteAccount from "./UserProfile/DeleteAccount";
+import LinkedAccounts from "./UserProfile/LinkedAccounts";
 
 const {Footer, Sider, Content} = Layout;
 const TabPane = Tabs.TabPane;

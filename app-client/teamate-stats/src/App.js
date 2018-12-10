@@ -42,6 +42,16 @@ const AuthRoute = ({component: Component, ...r}) => (
     )}/>
 );
 
+const HideRoute = ({component: Component, ...r}) => (
+    <Route {...r} render={props => (
+        !checkAuth() ? (
+            <Component {...props}/>
+        ) : (
+            <Redirect to={{ pathname: '/'}}/>
+        )
+    )}/>
+);
+
 // TODO: override ant-design font-family
 class App extends Component {
   render() {
@@ -53,8 +63,8 @@ class App extends Component {
             <Switch>
               <Route path="/" component={Home} exact />
               <Route path="/summoners" component={Summoners} />
-              <Route path="/login" component={LogIn}/>
-              <Route path="/signup" component={SignUp}/>
+              <HideRoute path="/login" component={LogIn}/>
+              <HideRoute path="/signup" component={SignUp}/>
               <AuthRoute path="/account" component={UserProfile}/>
               <Route component={Error} />
             </Switch>
