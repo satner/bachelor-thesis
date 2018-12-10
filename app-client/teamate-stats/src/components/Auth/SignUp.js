@@ -103,7 +103,7 @@ class SignUp extends Component {
                           })
                               .then(res => {
                                 if (res.data.signup) { // user created!
-                                  this.props.history.push("/");
+                                  this.props.history.push("/login");
                                   openNotificationWithIcon('success', 'Success', 'You are ready!')
                                 } else {
                                   openNotificationWithIcon('warning', 'Error', 'Email or Summoner already exists!')
