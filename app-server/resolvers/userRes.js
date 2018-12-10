@@ -4,7 +4,6 @@ import {UserSchema} from "../models";
 import {SummonerSchema} from '../models'
 import {API_KEY, QUEUE, SEASON} from '../lol-config'
 
-const _ = require('lodash');
 import LeagueJs from 'leaguejs';
 
 const api = new LeagueJs(API_KEY, {
@@ -36,7 +35,7 @@ export default {
           })
     },
     getTotalNumberUsers: async (_source, _args) => {
-      return await UserSchema.count({}, (err, result) => {
+      return await SummonerSchema.count({}, (err, result) => {
         if (err) console.error('❌ Getting total number of users error', err);
         return result
       })
@@ -333,7 +332,7 @@ export default {
             console.error('❌ User has not deleted!', e);
             done = false
           });
-      await SummonerSchema.deleteMany({userId: _args.id})
+      await SummonerSchema.deleteMany({userId: oldData.id})
           .exec()
           .then(d => {
             if (d) {

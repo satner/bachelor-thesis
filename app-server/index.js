@@ -14,11 +14,11 @@ mongoose.connect(`mongodb://${DB_USER}:${DB_PASSWORD}@${DB_DS}:${DB_PORT}/${DB_N
     })
     .catch(e => {
         console.error('Server does not connected to mlab.com ' + e.stack)
-    })
+    });
 
 const app = express();
-app.use(cors())
-app.use(morgan('dev'))
+app.use(cors());
+app.use(morgan('dev'));
 app.disable('x-powered-by');
 const server = new ApolloServer({
     typeDefs,
