@@ -159,11 +159,32 @@ export default {
       await UserSchema.findByIdAndUpdate(_args.id, {$pull: {summoner: {name: _args.summoner, server: _args.server}}})
           .exec()
           .then(d => {
-            console.log('Summoner Deleted!')
-            done = true
+            if (d) {
+              console.log('🗑 Summoner Deleted!')
+              done = true
+            } else {
+              console.error('❌ Summoner has not deleted!')
+              done = false
+            }
           })
           .catch(e => {
             console.error('❌ Summoner has not deleted!', e)
+            done = false
+          })
+      await SummonerSchema.findOneAndDelete({userId: _args.id, 'summonerInfo.name': _args.summoner, 'summonerInfo.server': _args.server})
+          .exec()
+          .then(d => {
+            if (d) {
+              console.log('🗑 Summoner Deleted!')
+              done = true
+            } else {
+              console.error('❌ Summoner has not deleted!')
+              done = false
+            }
+          })
+          .catch(e => {
+            console.error('❌ Summoner has not deleted!', e)
+            done = false
           })
       return done
     },
