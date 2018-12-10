@@ -12,7 +12,7 @@ export default gql`
         deleteSummoner(id: String!, summoner: String!, server: String!): Boolean
         login(email: String!, password: String!): String
         signup(email: String, password: String, languages: [String], roles: [String]): Boolean
-        updateUserInfo(email: String, password: String, languages: [String], token: String): Boolean
+        updateUserInfo(id: String!, email: String, password: String, languages: [String], roles: [String]): Boolean
         deleteUserInfo(token: String): Boolean
     }
 

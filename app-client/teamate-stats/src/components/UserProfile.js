@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Layout, Tabs } from 'antd';
+import {Layout, Tabs} from 'antd';
 import jwt from 'jsonwebtoken';
 import AccountSettings from './UserProfile/AccountSettings';
 import DeleteAccount from "./UserProfile/DeleteAccount";
@@ -13,7 +13,7 @@ class UserProfile extends Component {
     super(props);
     let token = localStorage.getItem('AUTH_TOKEN');
     let userData = jwt.decode(token);
-    this.state =  {...userData, shouldUpdate: false}
+    this.state = {...userData, shouldUpdate: false}
   }
 
   render() {
@@ -30,7 +30,7 @@ class UserProfile extends Component {
                 <Tabs
                     defaultActiveKey="1"
                     tabPosition={'left'}
-                    style={{ height: 220 }}
+                    style={{height: 450}}
                 >
                   <TabPane tab="Account Settings" key="1"> <AccountSettings data={this.state}/></TabPane>
                   <TabPane tab="Linked Accounts" key="2"> <LinkedAccounts data={this.state}/></TabPane>

@@ -88,7 +88,7 @@ class SignUp extends Component {
                     <img src={require('../images/wave.svg')} alt='Background'/>
                   </div>
                   <div className="container" style={{marginTop: '150px', marginBottom: '150px'}}>
-                    <Form layout={'vertical'} onSubmit={e => {
+                    <Form layout='vertical' onSubmit={e => {
                       e.preventDefault();
                       this.props.form.validateFieldsAndScroll((err, values) => {
                         console.log(values)

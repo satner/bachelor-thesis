@@ -38,7 +38,7 @@ const servers = [
   {shortName: 'tr1', name: 'Turkey'},
 ];
 
-class Summoners extends Component{
+class Summoners extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -95,7 +95,7 @@ class Summoners extends Component{
 
           <div className="summoners--container">
             {/* All the filters div*/}
-            <div id='filters' style={{ marginTop: '200px', marginLeft: '50px' }}>
+            <div id='filters' style={{marginTop: '200px', marginLeft: '50px'}}>
 
               {/* Filter selection of tier */}
               <Badge count={this.state.badgeTier} offset={[10, 0]} title={'Number of selected tiers'}>
@@ -103,7 +103,7 @@ class Summoners extends Component{
               </Badge>
               <Select
                   mode="multiple"
-                  style={{ width: '320px' }}
+                  style={{width: '320px'}}
                   placeholder="Select tier"
                   size={'large'}
                   showArrow={true}
@@ -111,18 +111,22 @@ class Summoners extends Component{
               >
                 {
                   tiers.map(t => {
-                    return <Option key={t.name}><img src={t.path} style={{height: '25px', width: '30px'}} alt={t.name}/>{t.name.charAt(0).toUpperCase() + t.name.slice(1)}</Option>
+                    return <Option key={t.name}><img src={t.path} style={{height: '25px', width: '30px'}}
+                                                     alt={t.name}/>{t.name.charAt(0).toUpperCase() + t.name.slice(1)}
+                    </Option>
                   })
                 }
               </Select>
 
               {/* Filter selection of roles */}
               <h1>Select Roles</h1>
-              <CheckboxGroup onChange={this.handleChangeRoles} >
+              <CheckboxGroup onChange={this.handleChangeRoles}>
                 {
                   roles.map(r => {
                     return [
-                      <Checkbox key={r.name} value={r.name}><img src={r.path} style={{height: '30px', width: '30px'}} alt={r.name}/>{r.name.charAt(0).toUpperCase() + r.name.slice(1)}</Checkbox>, <br key={r.name + 1} />
+                      <Checkbox key={r.name} value={r.name}><img src={r.path} style={{height: '30px', width: '30px'}}
+                                                                 alt={r.name}/>{r.name.charAt(0).toUpperCase() + r.name.slice(1)}
+                      </Checkbox>, <br key={r.name + 1}/>
                     ]
                   })
                 }
@@ -131,7 +135,7 @@ class Summoners extends Component{
               {/* Filter selection of server */}
               <h1>Server Regions</h1>
               <Select
-                  style={{ width: '320px' }}
+                  style={{width: '320px'}}
                   size={'large'}
                   placeholder="Any"
                   allowClear={true}
@@ -149,7 +153,7 @@ class Summoners extends Component{
               </Badge>
               <Select
                   mode="multiple"
-                  style={{ width: '320px' }}
+                  style={{width: '320px'}}
                   placeholder="Any"
                   size={'large'}
                   onChange={this.handleChangeLanguage}
@@ -163,7 +167,7 @@ class Summoners extends Component{
             </div>
 
             {/* Grid card layout of summoners*/}
-            <div className="summoners--grid" style={{ marginTop: '200px', marginLeft: '50px' }}>
+            <div className="summoners--grid" style={{marginTop: '200px', marginLeft: '50px'}}>
               <div className="card--grid">
                 <SummonerGridDetail page={this.state.selida}/>
               </div>

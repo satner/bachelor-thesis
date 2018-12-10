@@ -13,9 +13,11 @@ const Pagi = (props) => (
         `}
         errorPolicy="all"
     >
-      {({ loading, error, data }) => {
+      {({loading, error, data}) => {
         if (error) return <p>{`Error: ${error}`}</p>;
-          return <Pagination defaultPageSize={6} total={data.getTotalNumberUsers} onChange={(page, pageSize) => {props.onChange(page, pageSize)} } />
+        return <Pagination defaultPageSize={6} total={data.getTotalNumberUsers} onChange={(page, pageSize) => {
+          props.onChange(page, pageSize)
+        }}/>
       }}
     </Query>
 );

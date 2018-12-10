@@ -24,16 +24,29 @@ const GET_SUMMONERS = gql`
     }
   }
 `;
+const servers = [
+  {shortName: 'na', name: 'North America'},
+  {shortName: 'kr', name: 'Republic of korea'},
+  {shortName: 'ru', name: 'Russia'},
+  {shortName: 'br1', name: 'Brazil'},
+  {shortName: 'eun1', name: 'Europe Nordic and East'},
+  {shortName: 'euw1', name: 'Europe West'},
+  {shortName: 'jp1', name: 'Japan'},
+  {shortName: 'la1', name: 'Latin America North'},
+  {shortName: 'la2', name: 'Latin America South'},
+  {shortName: 'oc1', name: 'Ocean'},
+  {shortName: 'tr1', name: 'Turkey'},
+];
 
 const DeleteSummoner = (props) => (
     <Mutation mutation={DELETE_SUMMONER}>
       {(deleteSummoner, {data}) => (
           <Button shape="circle" icon="delete" value={props.id + " " + props.item.name + " " + props.item.server}
                   onClick={e => {
-                    let temp = e.target.value.split(' ')
+                    let temp = e.target.value.split(' ');
                     deleteSummoner({variables: {id: temp[0], summoner: temp[1], server: temp[2]}})
                         .then(res => {
-                          if (res.data.deleteSummoner){
+                          if (res.data.deleteSummoner) {
                             openNotificationWithIcon('success', 'Success', 'Summoner Account Deleted!')
                           } else {
                             openNotificationWithIcon('warning', 'Error', 'Summoner Account has not Deleted!')
@@ -45,13 +58,13 @@ const DeleteSummoner = (props) => (
                   }}/>
       )}
     </Mutation>
-)
+);
 
 
 const SummonerAccounts = (props) => (
     <Query query={GET_SUMMONERS} variables={{id: props.data}}>
       {({loading, error, data}) => {
-        if (loading) return <Skeleton paragraph={{rows: 2}} active/>
+        if (loading) return <Skeleton paragraph={{rows: 2}} active/>;
         if (error) return `Error! ${error.message}`;
         return (
             <List
@@ -61,7 +74,7 @@ const SummonerAccounts = (props) => (
                     <List.Item actions={[<DeleteSummoner item={item} id={data.getUserInfos._id}/>]}>
                       <List.Item.Meta
                           title={item.name.toUpperCase()}
-                          description={item.server}
+                          description={props.serverNameFunc(item.server)}
                       />
                     </List.Item>
                 )}
@@ -89,20 +102,18 @@ class LinkedAccounts extends Component {
     this.setState({
       visible: true,
     });
-  }
-
-  handleOk = (e) => {
-    console.log(e);
-    this.setState({
-      visible: false,
-    });
-  }
+  };
 
   handleCancel = (e) => {
     console.log(e);
     this.setState({
       visible: false,
     });
+  };
+
+  unfoldServerName = (server) => {
+    let res =servers.filter(s => s.shortName === server)
+    return res[0].name
   }
 
   render() {
@@ -133,11 +144,10 @@ class LinkedAccounts extends Component {
         <Mutation mutation={ADD_SUMMONER}>
           {(addSummoner, {data}) => (
               <div>
-                <SummonerAccounts data={this.state.data.id}/>
+                <SummonerAccounts data={this.state.data.id} serverNameFunc={this.unfoldServerName}/>
                 <Modal
                     title="Add League of Legends Account"
                     visible={this.state.visible}
-                    onOk={this.handleOk}
                     onCancel={this.handleCancel}
                     footer={null}
                 >
@@ -145,10 +155,18 @@ class LinkedAccounts extends Component {
                     e.preventDefault();
                     this.props.form.validateFieldsAndScroll((err, values) => {
                       if (!err) {
-                        addSummoner({variables: {id: this.state.data.id, summoner: values.summoner, server: values.server}})
+                        addSummoner({
+                          variables: {
+                            id: this.state.data.id,
+                            summoner: values.summoner,
+                            server: values.server
+                          }
+                        })
                             .then(d => {
                               if (d.data.addSummoner) {
                                 openNotificationWithIcon('success', 'Success', 'Account Added!')
+                                this.handleCancel()
+
                               } else {
                                 openNotificationWithIcon('warning', 'Error', 'Summoner already exists!')
                               }
@@ -193,17 +211,11 @@ class LinkedAccounts extends Component {
                           <Select
                               placeholder="Please select server"
                           >
-                            <Option value='na'>North America</Option>
-                            <Option value='kr'>Republic of korea</Option>
-                            <Option value='ru'>Russia</Option>
-                            <Option value='br1'>Brazil</Option>
-                            <Option value='eun1'>Europe Nordic and East</Option>
-                            <Option value='euw1'>Europe West</Option>
-                            <Option value='jp1'>Japan</Option>
-                            <Option value='la1'>Latin America North</Option>
-                            <Option value='la2'>Latin America South</Option>
-                            <Option value='oc1'>Ocean</Option>
-                            <Option value='tr1'>Turkey</Option>
+                            {
+                              servers.map(s => {
+                                return <Option key={s.shortName} value={s.shortName}>{s.name}</Option>
+                              })
+                            }
                           </Select>
                       )}
                     </FormItem>

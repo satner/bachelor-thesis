@@ -37,8 +37,8 @@ export default {
   },
   Mutation: {
     addSummoner: async (_source, _args) => {
-    //  TODO: check if another summoner-name exists already
-    //  TODO: check if summoner exist LOL-API side
+      //  TODO: check if another summoner-name exists already
+      //  TODO: check if summoner exist LOL-API side
       let done = false;
       let temp = {}
       temp.name = _args.summoner;
@@ -79,6 +79,7 @@ export default {
                           id: user._id,
                           email: user.email,
                           languages: user.languages,
+                          roles: user.roles
                         },
                         JWT_KEY, {
                           expiresIn: "1h"
@@ -129,26 +130,67 @@ export default {
       return done
     },
     updateUserInfo: async (_source, _args) => {
-      let oldData = jwt.decode(_args.token);
       let done = false;
 
-      await bcrypt.hash(_args.password, 10)
-          .then(hash => {
-            done = true;
-            UserSchema.findOneAndUpdate({email: oldData.email}, {
-              email: _args.email,
-              password: hash,
-              languages: _args.languages
-            }, (err, user) => {
-              if (err) console.error('Updating user error');
-              if (user) {
-                console.log('Updating user complete');
-              }
+      if (_args.password === '' && _args.email !== '') {
+        await UserSchema.findOneAndUpdate({_id: _args.id}, {
+          email: _args.email,
+          languages: _args.languages,
+          roles: _args.roles
+        }).exec().then(d => {
+          done = true;
+          console.log('Updating user complete');
+        }).catch(err => {
+          console.error('Updating user error', err);
+        })
+      } else if (_args.password !== '' && _args.email === '') {
+        await bcrypt.hash(_args.password, 10)
+            .then(hash => {
+              done = true;
+              UserSchema.findOneAndUpdate({_id: _args.id}, {
+                password: hash,
+                languages: _args.languages,
+                roles: _args.roles
+              }, (err, user) => {
+                if (err) console.error('Updating user error', err);
+                if (user) {
+                  console.log('Updating user complete');
+                }
+              });
+            })
+            .catch(err => {
+              console.error('Update user info error', err)
             });
-          })
-          .catch(err => {
-            console.error('Update user info error', err)
-          });
+      } else if (_args.password === '' && _args.email === '') {
+        await UserSchema.findOneAndUpdate({_id: _args.id}, {
+          languages: _args.languages,
+          roles: _args.roles
+        }).exec().then(d => {
+          done = true;
+          console.log('Updating user complete');
+        }).catch(err => {
+          console.error('Updating user error', err);
+        })
+      } else {
+        await bcrypt.hash(_args.password, 10)
+            .then(hash => {
+              done = true;
+              UserSchema.findOneAndUpdate({_id: _args.id}, {
+                email: _args.email,
+                password: hash,
+                languages: _args.languages,
+                roles: _args.roles
+              }, (err, user) => {
+                if (err) console.error('Updating user error', err);
+                if (user) {
+                  console.log('Updating user complete');
+                }
+              });
+            })
+            .catch(err => {
+              console.error('Update user info error', err)
+            });
+      }
       return done
     },
     deleteUserInfo: async (_source, _args) => {

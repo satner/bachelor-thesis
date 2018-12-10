@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom';
 import ApolloClient from 'apollo-boost';
 import {ApolloProvider} from "react-apollo";
 import decode from 'jwt-decode';
@@ -24,8 +24,8 @@ const checkAuth = () => {
   // if (!token || !refreshToken) return false;
   if (!token) return false
   try {
-    const { exp } = decode(token);
-    if (exp < new Date().getTime() /1000) return false
+    const {exp} = decode(token);
+    if (exp < new Date().getTime() / 1000) return false
   } catch (e) {
     return false
   }
@@ -37,7 +37,7 @@ const AuthRoute = ({component: Component, ...r}) => (
         checkAuth() ? (
             <Component {...props}/>
         ) : (
-            <Redirect to={{ pathname: '/login'}}/>
+            <Redirect to={{pathname: '/login'}}/>
         )
     )}/>
 );
@@ -47,7 +47,7 @@ const HideRoute = ({component: Component, ...r}) => (
         !checkAuth() ? (
             <Component {...props}/>
         ) : (
-            <Redirect to={{ pathname: '/'}}/>
+            <Redirect to={{pathname: '/'}}/>
         )
     )}/>
 );
@@ -56,22 +56,22 @@ const HideRoute = ({component: Component, ...r}) => (
 class App extends Component {
   render() {
     return (
-      <BrowserRouter>
-        <ApolloProvider client={client}>
-          <div>
-            <NavigationBar />
-            <Switch>
-              <Route path="/" component={Home} exact />
-              <Route path="/summoners" component={Summoners} />
-              <HideRoute path="/login" component={LogIn}/>
-              <HideRoute path="/signup" component={SignUp}/>
-              <AuthRoute path="/account" component={UserProfile}/>
-              <Route component={Error} />
-            </Switch>
-            <Footer />
-          </div>
-        </ApolloProvider>
-      </BrowserRouter>
+        <BrowserRouter>
+          <ApolloProvider client={client}>
+            <div>
+              <NavigationBar/>
+              <Switch>
+                <Route path="/" component={Home} exact/>
+                <Route path="/summoners" component={Summoners}/>
+                <HideRoute path="/login" component={LogIn}/>
+                <HideRoute path="/signup" component={SignUp}/>
+                <AuthRoute path="/account" component={UserProfile}/>
+                <Route component={Error}/>
+              </Switch>
+              <Footer/>
+            </div>
+          </ApolloProvider>
+        </BrowserRouter>
     );
   }
 }
