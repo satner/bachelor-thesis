@@ -18,7 +18,6 @@ export default {
     },
     Mutation: {
         setSummonerInfo: async (_source, _args) => {
-            // TODO: check if summoner exist API-side
             SummonerSchema.findOne({'summonerInfo.name': _args.summonerName}, async (err, user) => {
                 if (user) {
                     console.log('🤷 Summoner exist!');
@@ -30,7 +29,7 @@ export default {
                     // Summoner endpoint returns: {... profileId, accountId, id ...}
                     .gettingByName(_args.summonerName, _args.server)
                     .catch(err =>{
-                        console.log('🤷 Summoner doesn\'t exist!' + err) // TODO: handle status code
+                        throw new Error('\'🤷 Summoner doesn\\\'t exist!\' + err')
                     })
                     // League endpoint returns: {... tier, rank, leaguePoints, wins, losses, veteran, inactive, hotStreak ...}
                     .then(data => {
@@ -82,6 +81,9 @@ export default {
                             console.log('💪 Summoner saved!')
                         })
                     })
+                        .catch(err => {
+                            throw new Error('\'🤷 Summoner doesn\\\'t exist!\' + err')
+                        })
             });
         },
         // TODO: check start, end and totalgames index

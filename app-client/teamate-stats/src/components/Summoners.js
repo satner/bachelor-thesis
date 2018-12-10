@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {Select, Checkbox, Badge} from 'antd';
 import lang from '../languages-v2'
-import SummonerGridDetail from './SummonerGridDetail'
-import Pagi from "./Pagi";
+import SummonerGridDetail from './Summoners/Grid'
+import Pagi from "./Summoners/Pagi";
 
 const Option = Select.Option;
 const CheckboxGroup = Checkbox.Group;

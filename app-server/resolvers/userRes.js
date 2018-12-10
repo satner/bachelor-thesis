@@ -1,6 +1,19 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import {UserSchema} from "../models";
+import {SummonerSchema} from '../models'
+import {API_KEY, QUEUE, SEASON} from '../lol-config'
+
+const _ = require('lodash');
+import LeagueJs from 'leaguejs';
+
+const api = new LeagueJs(API_KEY, {
+  // TODO: test burst mode
+  caching: {
+    isEnabled: true,
+    defaults: {stdTTL: 120} // add a TTL to all Endpoints
+  }
+});
 
 // oi tris katw lines gia na epistrefei to id pou einai tipou _bsontype
 const ObjectId = require('mongoose').Types.ObjectId;
@@ -19,27 +32,114 @@ export default {
           .exec()
           .then()
           .catch(err => {
-            console.error('Get all users error!' + err)
+            console.error('❌ Get all users error!' + err)
           })
     },
     getTotalNumberUsers: async (_source, _args) => {
       return await UserSchema.count({}, (err, result) => {
-        if (err) console.error('Getting total number of users error', err);
+        if (err) console.error('❌ Getting total number of users error', err);
         return result
       })
     },
     getUserInfos: async (_source, _args) => {
       return await UserSchema.findOne({_id: _args.id}, (err, user) => {
-        if (err) console.error('Getting user info error!')
+        if (err) console.error('❌ Getting user info error!');
         return user
       })
     }
   },
   Mutation: {
     addSummoner: async (_source, _args) => {
-      //  TODO: check if another summoner-name exists already
-      //  TODO: check if summoner exist LOL-API side
       let done = false;
+      let newSummoner = {};
+      newSummoner.name = _args.summoner;
+      newSummoner.server = _args.server;
+      let matchDetails = [];
+      let finalData = {};
+      // Cheak ama iparxei idi sto DB
+      await SummonerSchema.findOne({'summonerInfo.name': _args.summoner, 'summonerInfo.server': _args.server}).exec()
+          .then(async user => {
+            if (user) {
+              console.error('❌ Summoner name already exists in the database!');
+            } else {
+              console.log('🤷 Summoner name IS NOT already in the database!\n🏁 Start searching in the LOL-API');
+              await api.Summoner.gettingByName(_args.summoner, _args.server)
+                  .then(data => {
+                    done = true;
+                    finalData.summonerInfo = data;
+                  })
+                  .catch(err => {
+                    console.log('❌ Summoner name IS NOT lol-API', err)
+                  })
+            }
+          })
+          .catch(err => {
+            console.error('❌ Add user error: search error')
+          })
+
+      if (done) { // Ean o xristis den einai sto DB and IPARXEI sto lol-API MPES edw
+        let summonerNameApiPromise = api.League.gettingPositionsForSummonerId(finalData.summonerInfo.id, _args.server)
+            .then(data => {
+              finalData.summonerLeagueInfo = data[1]; // Ston index 1 einai ta flex
+              return api.Match.gettingListByAccount(finalData.summonerInfo.accountId, _args.server, {
+                queue: [QUEUE],
+                season: [SEASON]
+              })
+            })
+            .catch(err => {
+              console.error("❌ >>> setSummonerInfo resolver: League Endpoint Error: " + err);
+            })
+            .then(matchList => {
+              finalData.startIndex = matchList.startIndex;
+              finalData.endIndex = matchList.endIndex;
+              finalData.totalGames = matchList.totalGames;
+              return matchList.matches
+            })
+            .catch(err => {
+              console.error("❌ >>> setSummonerInfo resolver: Match Endpoint Error: " + err);
+            })
+
+        summonerNameApiPromise.then(matchList => {
+          Promise.all(matchList.map(async function (match) {
+            await api.Match.gettingById(match.gameId, _args.server)
+                .then(data => {
+                  // Pernw to participantid tou summoner
+                  let summonerID = data.participantIdentities.filter(function (summoner) {
+                    return summoner.player.summonerName === _args.summoner
+                  });
+
+                  let temp = data.participants.filter(function (summoner) {
+                    return summoner.participantId === summonerID[0].participantId
+                  });
+                  matchDetails.push(temp[0])
+                })
+                .catch(err => {
+                  console.error('>>> setSummonerInfo resolver: Match Endpoint Error (details)' + err)
+                })
+          })).then(async () => {
+            finalData.summonerMatchDetails = matchDetails;
+            finalData.userId = _args.id;
+            finalData.summonerInfo.server = _args.server;
+            SummonerSchema.create(finalData);
+            await UserSchema.findOneAndUpdate({_id: _args.id}, {$push: {summoner: newSummoner}})
+                .exec()
+                .then(d => {
+                  console.log('Summoner added!');
+                  done = true
+                })
+                .catch(e => {
+                  console.error('Add summoner error!', e)
+                });
+            console.log('💾 Summoner saved!')
+          })
+        })
+        return done
+      } else { // Den ipaxei EGIRO summoner-name H iparxei idi sto DB
+        console.error('❌ Summoner name does NOT exist TOTAL!')
+      }
+
+
+      /*let done = false;
       let temp = {}
       temp.name = _args.summoner;
       temp.server = _args.server;
@@ -52,7 +152,7 @@ export default {
           .catch(e => {
             console.error('Add summoner error!', e)
           });
-      return done
+      return done*/
     },
     deleteSummoner: async (_source, _args) => {
       let done = false;
@@ -63,7 +163,7 @@ export default {
             done = true
           })
           .catch(e => {
-            console.error('Summoner has not deleted!', e)
+            console.error('❌ Summoner has not deleted!', e)
           })
       return done
     },
@@ -85,12 +185,12 @@ export default {
                           expiresIn: "1h"
                         });
                   } else {
-                    console.error('Password invalid');
+                    console.error('❌ Password invalid');
                   }
                 })
           })
           .catch(err => {
-            console.error('Password invalid', err)
+            console.error('❌ Password invalid', err)
           });
       return token
     },
@@ -116,16 +216,16 @@ export default {
                           console.log('User created!')
                         })
                         .catch(err => {
-                          console.error('User has not created!')
+                          console.error('❌ User has not created!')
                         })
                   })
                   .catch(err => {
-                    console.error('User create error', err)
+                    console.error('❌ User create error', err)
                   })
             }
           })
           .catch(err => {
-            console.error('User create error', err)
+            console.error('❌ User create error', err)
           });
       return done
     },
@@ -141,7 +241,7 @@ export default {
           done = true;
           console.log('Updating user complete');
         }).catch(err => {
-          console.error('Updating user error', err);
+          console.error('❌ Updating user error', err);
         })
       } else if (_args.password !== '' && _args.email === '') {
         await bcrypt.hash(_args.password, 10)
@@ -152,14 +252,14 @@ export default {
                 languages: _args.languages,
                 roles: _args.roles
               }, (err, user) => {
-                if (err) console.error('Updating user error', err);
+                if (err) console.error('❌ Updating user error', err);
                 if (user) {
                   console.log('Updating user complete');
                 }
               });
             })
             .catch(err => {
-              console.error('Update user info error', err)
+              console.error('❌ Update user info error', err)
             });
       } else if (_args.password === '' && _args.email === '') {
         await UserSchema.findOneAndUpdate({_id: _args.id}, {
@@ -169,7 +269,7 @@ export default {
           done = true;
           console.log('Updating user complete');
         }).catch(err => {
-          console.error('Updating user error', err);
+          console.error('❌ Updating user error', err);
         })
       } else {
         await bcrypt.hash(_args.password, 10)
@@ -181,14 +281,14 @@ export default {
                 languages: _args.languages,
                 roles: _args.roles
               }, (err, user) => {
-                if (err) console.error('Updating user error', err);
+                if (err) console.error('❌ Updating user error', err);
                 if (user) {
                   console.log('Updating user complete');
                 }
               });
             })
             .catch(err => {
-              console.error('Update user info error', err)
+              console.error('❌ Update user info error', err)
             });
       }
       return done
@@ -206,7 +306,7 @@ export default {
             }
           })
           .catch(err => {
-            console.error('User has not deleted!', err);
+            console.error('❌ User has not deleted!', err);
           });
       return done
     }

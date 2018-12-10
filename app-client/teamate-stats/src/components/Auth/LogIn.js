@@ -27,7 +27,7 @@ class LogIn extends Component {
           {(login, {data}) => (
               <div>
                 <div className="illo" style={{position: 'absolute', top: '0', zIndex: '-1', width: '100%'}}>
-                  <img src={require('../images/wave.svg')} alt='Background'/>
+                  <img src={require('../../images/wave.svg')} alt='Background'/>
                 </div>
                 <Layout style={{marginTop: '150px'}}>
                   <Content style={{backgroundColor: 'white'}}>

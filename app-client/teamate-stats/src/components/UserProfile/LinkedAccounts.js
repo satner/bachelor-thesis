@@ -164,11 +164,11 @@ class LinkedAccounts extends Component {
                         })
                             .then(d => {
                               if (d.data.addSummoner) {
-                                openNotificationWithIcon('success', 'Success', 'Account Added!')
+                                openNotificationWithIcon('success', 'Success', 'Maybe take a few minutes');
                                 this.handleCancel()
 
                               } else {
-                                openNotificationWithIcon('warning', 'Error', 'Summoner already exists!')
+                                openNotificationWithIcon('warning', 'Error', 'Summoner doe not exists!')
                               }
                             })
                             .catch(rej => {

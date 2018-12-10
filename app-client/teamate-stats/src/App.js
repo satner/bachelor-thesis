@@ -4,14 +4,14 @@ import ApolloClient from 'apollo-boost';
 import {ApolloProvider} from "react-apollo";
 import decode from 'jwt-decode';
 
-import NavigationBar from './components/NavigationBar';
-import Home from './components/Home';
+import NavigationBar from './components/Layout/NavigationBar';
+import Home from './components/Layout/Home';
 import Summoners from './components/Summoners';
-import Footer from './components/Footer';
-import LogIn from './components/LogIn';
-import SignUp from './components/SignUp';
+import Footer from './components/Layout/Footer';
+import LogIn from './components/Auth/LogIn';
+import SignUp from './components/Auth/SignUp';
 import UserProfile from './components/UserProfile';
-import Error from './components/Error';
+import Error from './components/Auth/Error';
 import './App.css';
 
 const client = new ApolloClient({

@@ -25,7 +25,7 @@ class Home extends Component {
               </footer>
             </div>
             <div className="illo">
-              <img src={require('../images/final-bg.svg')} alt='Background'/>
+              <img src={require('../../images/final-bg.svg')} alt='Background'/>
             </div>
           </section>
           <section className='section section--home-core'>
@@ -36,16 +36,16 @@ class Home extends Component {
               <ol className="grid">
                 <li>
                   <h3>lorem ipsum</h3>
-                  <img src={require('../images/one.svg')} alt='one'/>
+                  <img src={require('../../images/one.svg')} alt='one'/>
 
                 </li>
                 <li>
                   <h3>lorem ipsum</h3>
-                  <img src={require('../images/one.svg')} alt='one'/>
+                  <img src={require('../../images/one.svg')} alt='one'/>
                 </li>
                 <li>
                   <h3>lorem ipsum</h3>
-                  <img src={require('../images/one.svg')} alt='one'/>
+                  <img src={require('../../images/one.svg')} alt='one'/>
                 </li>
               </ol>
               <footer>

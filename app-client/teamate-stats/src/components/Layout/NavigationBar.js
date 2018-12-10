@@ -26,7 +26,7 @@ class NavigationBar extends Component {
             <div className='container'>
               <nav className='nav nav--inline'>
                 <div>
-                  <img src={require('../images/league-of-legends.svg')} alt=""/>
+                  <img src={require('../../images/league-of-legends.svg')} alt=""/>
                   <NavLink style={{fontFamily: 'Muli', color: 'White', fontSize: '20px'}} to='/'>Team Mate
                     Stats</NavLink>
                   <NavLink style={{fontFamily: 'Muli', color: 'White', fontSize: '20px', marginLeft: '20px'}}

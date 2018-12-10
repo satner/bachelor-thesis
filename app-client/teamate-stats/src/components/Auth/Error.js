@@ -1,5 +1,5 @@
 import React from 'react';
-import errorImage from '../images/404.jpg'
+import errorImage from '../../images/404.jpg'
 
 // TODO: Refactor styles
 const Error = () => {

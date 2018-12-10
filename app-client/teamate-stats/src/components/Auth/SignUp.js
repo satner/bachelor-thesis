@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Form, Input, Tooltip, Icon, Select, Button, notification, Checkbox} from 'antd';
 import gql from "graphql-tag";
 import {Mutation} from "react-apollo";
-import lang from '../languages-v2'
+import lang from '../../languages-v2'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -19,12 +19,12 @@ const openNotificationWithIcon = (type, title, msg) => {
   });
 };
 const roles = [
-  {name: 'bottom', path: require('../images/role-icons/Bottom_icon.png')},
-  {name: 'support', path: require('../images/role-icons/Support_icon.png')},
-  {name: 'middle', path: require('../images/role-icons/Middle_icon.png')},
-  {name: 'jungle', path: require('../images/role-icons/Jungle_icon.png')},
-  {name: 'top', path: require('../images/role-icons/Top_icon.png')},
-  {name: 'specialist', path: require('../images/role-icons/Specialist_icon.png')},
+  {name: 'bottom', path: require('../../images/role-icons/Bottom_icon.png')},
+  {name: 'support', path: require('../../images/role-icons/Support_icon.png')},
+  {name: 'middle', path: require('../../images/role-icons/Middle_icon.png')},
+  {name: 'jungle', path: require('../../images/role-icons/Jungle_icon.png')},
+  {name: 'top', path: require('../../images/role-icons/Top_icon.png')},
+  {name: 'specialist', path: require('../../images/role-icons/Specialist_icon.png')},
 ];
 
 class SignUp extends Component {
@@ -85,7 +85,7 @@ class SignUp extends Component {
               <div>
                 <div>
                   <div className="illo" style={{position: 'absolute', top: '0', zIndex: '-1', width: '100%'}}>
-                    <img src={require('../images/wave.svg')} alt='Background'/>
+                    <img src={require('../../images/wave.svg')} alt='Background'/>
                   </div>
                   <div className="container" style={{marginTop: '150px', marginBottom: '150px'}}>
                     <Form layout='vertical' onSubmit={e => {

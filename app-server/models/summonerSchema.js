@@ -1,12 +1,14 @@
 const mongoose = require('mongoose');
 
 const summonerSchema = new mongoose.Schema({
+    userId: mongoose.Schema.Types.ObjectId,
     summonerInfo: {
         accountId: Number,
         id: Number,
         profileIconId: Number,
         summonerLevel: Number,
         name: String,
+        server: String
     },
     summonerLeagueInfo: {
         tier: String,
