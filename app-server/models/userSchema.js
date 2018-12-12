@@ -11,8 +11,8 @@ const userSchema = new mongoose.Schema({
         server: String,
         tier: String
     }],
-    languages: Array,
-    roles: Array
+    languages: [String],
+    roles: [String]
 }, {
     timestamp: true
 });

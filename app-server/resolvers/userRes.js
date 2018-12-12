@@ -1,7 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import {UserSchema} from "../models";
-import {SummonerSchema} from '../models'
+import {SummonerSchema, UserSchema} from "../models";
 import {API_KEY, QUEUE, SEASON} from '../lol-config'
 
 import LeagueJs from 'leaguejs';
@@ -47,20 +46,72 @@ export default {
       })
     },
     getPaginationUsers: async (_source, _args) => {
-      // TODO: check if languages param is empty
-      return await UserSchema.find({
-        summoner: {$elemMatch: {server: _args.server, tier: _args.tier}},
-        roles: _args.roles,
-        languages: _args.languages
-      }).skip(_args.skip)
+      let query = {};
+      let summonerValues = {};
+      console.log('===>ARGS', _args)
+      if (_args.server) {
+        summonerValues.server = _args.server;
+        query.summoner = summonerValues;
+      }
+
+      if (_args.tier) {
+        summonerValues.tier = _args.tier;
+        query.summoner = summonerValues;
+      }
+
+      if (_args.roles) {
+        query.roles = {$in: _args.roles}
+      }
+
+      if (_args.languages) {
+        query.languages = {$in: _args.languages}
+      }
+
+      if (Object.keys(summonerValues).length !== 0) {
+        query.summoner = {$elemMatch: summonerValues}
+      }
+      console.log('QUERY',query)
+      return await UserSchema.find({}).skip(_args.skip)
           .limit(_args.limit)
           .exec()
           .then()
           .catch(err => {
-            console.error('❌ Get all users error!' + err)
+            console.error('❌ Get pagination users!' + err)
           })
-
     },
+    getPaginationNumber: async (_source, _args) => {
+      let query = {};
+      let summonerValues = {};
+
+      if (_args.server) {
+        summonerValues.server = _args.server;
+        query.summoner = summonerValues;
+      }
+
+      if (_args.tier) {
+        summonerValues.tier = _args.tier;
+        query.summoner = summonerValues;
+      }
+
+      if (_args.roles) {
+        query.roles = {$in: _args.roles}
+      }
+
+      if (_args.languages) {
+        query.languages = {$in: _args.languages}
+      }
+
+      if (Object.keys(summonerValues).length !== 0) {
+        query.summoner = {$elemMatch: summonerValues}
+      }
+
+      return await UserSchema.count(query)
+          .exec()
+          .then()
+          .catch(err => {
+            console.error('❌ Get pagination number!' + err)
+          })
+    }
   },
   Mutation: {
     addSummoner: async (_source, _args) => {

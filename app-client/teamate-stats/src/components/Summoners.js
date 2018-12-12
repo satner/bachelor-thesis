@@ -1,20 +1,22 @@
 import React, {Component} from 'react';
-import {Select, Checkbox, Badge} from 'antd';
+import {Select, Checkbox, Form, Button} from 'antd';
 import lang from '../languages-v2'
-import SummonerGridDetail from './Summoners/Grid'
+import Grid from './Summoners/Grid'
 import Pagi from "./Summoners/Pagi";
 
 const Option = Select.Option;
 const CheckboxGroup = Checkbox.Group;
+const FormItem = Form.Item;
+
 const tiers = [
-  {name: 'provisional', path: require('../images/tier-icons/provisional.png')},
-  {name: 'bronze', path: require('../images/tier-icons/bronze.png')},
-  {name: 'silver', path: require('../images/tier-icons/silver.png')},
-  {name: 'gold', path: require('../images/tier-icons/gold.png')},
-  {name: 'platinum', path: require('../images/tier-icons/platinum.png')},
-  {name: 'diamond', path: require('../images/tier-icons/diamond.png')},
-  {name: 'master', path: require('../images/tier-icons/master.png')},
-  {name: 'challenger', path: require('../images/tier-icons/challenger.png')},
+  {name: 'PROVISIONAL', path: require('../images/tier-icons/provisional.png')},
+  {name: 'BRONZE', path: require('../images/tier-icons/bronze.png')},
+  {name: 'SILVER', path: require('../images/tier-icons/silver.png')},
+  {name: 'GOLD', path: require('../images/tier-icons/gold.png')},
+  {name: 'PLATINUM', path: require('../images/tier-icons/platinum.png')},
+  {name: 'DIAMOND', path: require('../images/tier-icons/diamond.png')},
+  {name: 'MASTER', path: require('../images/tier-icons/master.png')},
+  {name: 'CHALLENGER', path: require('../images/tier-icons/challenger.png')},
 ];
 const roles = [
   {name: 'bottom', path: require('../images/role-icons/Bottom_icon.png')},
@@ -42,42 +44,15 @@ class Summoners extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      listTier: [],
-      listRoles: [],
-      listLanguages: [],
-      server: '',
-      badgeTier: 0,
-      badgeLanguage: 0,
       selida: 1,  // pagination stuff
+      values: {}
     }
   }
 
-  handleChangeTier = listTier => {
-    let badgeTier = listTier.length;
+  handleFilterForm = values => {
     this.setState({
-      listTier,
-      badgeTier
-    });
-  };
-
-  handleChangeRoles = (listRoles) => {
-    this.setState({
-      listRoles
-    });
-  };
-
-  handleChangeServer = server => {
-    this.setState({
-      server
-    });
-  };
-
-  handleChangeLanguage = listLanguages => {
-    let badgeLanguage = listLanguages.length;
-    this.setState({
-      listLanguages,
-      badgeLanguage
-    });
+      values
+    })
   };
 
   handlePagination = (page, pageSize) => {
@@ -87,6 +62,11 @@ class Summoners extends Component {
   };
 
   render() {
+    const {getFieldDecorator} = this.props.form;
+
+    const buttonItemLayout = null;
+
+    const formItemLayout = null;
     return (
         <main id="main" className={'test'}>
           <div className="illo" style={{position: 'absolute', top: '0', zIndex: '-1', width: '100%'}}>
@@ -95,81 +75,86 @@ class Summoners extends Component {
 
           <div className="summoners--container">
             {/* All the filters div*/}
-            <div id='filters' style={{marginTop: '200px', marginLeft: '50px'}}>
+            <div style={{marginLeft: '50px', width: '320px'}}>
+              <Form onSubmit={e => {
+                e.preventDefault();
+                this.props.form.validateFields((err, values) => {
+                    this.handleFilterForm(values)
+                });
+              }} style={{marginTop: '200px', marginLeft: '50px'}}>
+                <FormItem
+                    {...formItemLayout}
+                >
+                  {getFieldDecorator('server')(
+                      <Select size='large' placeholder='Server' allowClear>
+                        {
+                          servers.map(s => {
+                            return <Option key={s.shortName} value={s.shortName}>{s.name}</Option>
+                          })
+                        }
+                      </Select>
+                  )}
+                </FormItem>
 
-              {/* Filter selection of tier */}
-              <Badge count={this.state.badgeTier} offset={[10, 0]} title={'Number of selected tiers'}>
-                <h1>Select tier</h1>
-              </Badge>
-              <Select
-                  mode="multiple"
-                  style={{width: '320px'}}
-                  placeholder="Select tier"
-                  size={'large'}
-                  showArrow={true}
-                  onChange={this.handleChangeTier}
-              >
-                {
-                  tiers.map(t => {
-                    return <Option key={t.name}><img src={t.path} style={{height: '25px', width: '30px'}}
-                                                     alt={t.name}/>{t.name.charAt(0).toUpperCase() + t.name.slice(1)}
-                    </Option>
-                  })
-                }
-              </Select>
+                <FormItem
+                    {...formItemLayout}
+                >
+                  {getFieldDecorator('roles')(
+                      <CheckboxGroup size='large'>
+                        {
+                          roles.map(r => {
+                            return [
+                              <Checkbox key={r.name} value={r.name}><img src={r.path}
+                                                                         style={{height: '30px', width: '30px'}}
+                                                                         alt={r.name}/>{r.name.charAt(0).toUpperCase() + r.name.slice(1)}
+                              </Checkbox>, <br key={r.name + 1}/>
+                            ]
+                          })
+                        }
+                      </CheckboxGroup>
+                  )}
+                </FormItem>
 
-              {/* Filter selection of roles */}
-              <h1>Select Roles</h1>
-              <CheckboxGroup onChange={this.handleChangeRoles}>
-                {
-                  roles.map(r => {
-                    return [
-                      <Checkbox key={r.name} value={r.name}><img src={r.path} style={{height: '30px', width: '30px'}}
-                                                                 alt={r.name}/>{r.name.charAt(0).toUpperCase() + r.name.slice(1)}
-                      </Checkbox>, <br key={r.name + 1}/>
-                    ]
-                  })
-                }
-              </CheckboxGroup>
+                <FormItem
+                    {...formItemLayout}
+                >
+                  {getFieldDecorator('languages')(
+                      <Select mode="multiple" placeholder='Language' size='large'>
+                        {
+                          lang.map(l => {
+                            return <Option key={l.code} value={l.code}>{l.name}</Option>
+                          })
+                        }
+                      </Select>
+                  )}
+                </FormItem>
 
-              {/* Filter selection of server */}
-              <h1>Server Regions</h1>
-              <Select
-                  style={{width: '320px'}}
-                  size={'large'}
-                  placeholder="Any"
-                  allowClear={true}
-                  onChange={this.handleChangeServer}>
-                {
-                  servers.map(s => {
-                    return <Option key={s.shortName} value={s.shortName}>{s.name}</Option>
-                  })
-                }
-              </Select>
+                <FormItem
+                    {...formItemLayout}
+                >
+                  {getFieldDecorator('tier')(
+                      <Select placeholder='Tier' size='large' allowClear>
+                        {
+                          tiers.map(t => {
+                            return <Option key={t.name}><img src={t.path} style={{height: '25px', width: '30px'}}
+                                                             alt={t.name}/>{t.name.charAt(0).toUpperCase() + t.name.slice(1)}
+                            </Option>
+                          })
+                        }
+                      </Select>
+                  )}
+                </FormItem>
 
-              {/* Filter selection of languages */}
-              <Badge count={this.state.badgeLanguage} offset={[10, 0]} title={'Number of selected languages'}>
-                <h1>Languages</h1>
-              </Badge>
-              <Select
-                  mode="multiple"
-                  style={{width: '320px'}}
-                  placeholder="Any"
-                  size={'large'}
-                  onChange={this.handleChangeLanguage}
-              >
-                {
-                  lang.map(l => {
-                    return <Option key={l.code} value={l.code}>{l.name}</Option>
-                  })
-                }
-              </Select>
+                <FormItem {...buttonItemLayout}>
+                  <Button type="primary" htmlType="submit" size='large'>Apply Filters</Button>
+                </FormItem>
+              </Form>
             </div>
 
             {/* Grid card layout of summoners*/}
             <div className="summoners--grid" style={{marginTop: '200px', marginLeft: '50px'}}>
               <div className="card--grid">
-                <SummonerGridDetail page={this.state.selida}/>
+                <Grid page={this.state.selida} data={this.state.values}/>
               </div>
               {/*<Pagination defaultPageSize={6} total={this.state.totalPages} onChange={this.handlePagination} />*/}
               <Pagi onChange={this.handlePagination}/>
@@ -181,4 +166,6 @@ class Summoners extends Component {
   }
 }
 
-export default Summoners;
+const WrappedFilterForm = Form.create()(Summoners);
+
+export default WrappedFilterForm;

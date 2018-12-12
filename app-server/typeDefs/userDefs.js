@@ -5,7 +5,8 @@ export default gql`
         getAllUsers(limit: Int, skip: Int): [User]
         getTotalNumberUsers: Int
         getUserInfos(id: String!): User
-        getPaginationUsers(limit: Int, skip: Int, tier: String, roles: String, server: String, languages: [String]): [User]
+        getPaginationUsers(limit: Int, skip: Int, tier: String, roles: [String], server: String, languages: [String]): [User]
+        getPaginationNumber(tier: String, roles: [String], server: String, languages: [String]): Int
     }
 
     extend type Mutation {

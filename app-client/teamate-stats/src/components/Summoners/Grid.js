@@ -7,29 +7,37 @@ import gql from "graphql-tag";
 // TODO: Check if users has linked lol account
 const LIMIT = 6;
 const {Meta} = Card;
-const SummonerGridDetail = (props) => (
-    <Query
-        query={gql`
-          query {
-            getAllUsers(skip: ${(props.page - 1) * LIMIT}, limit: ${LIMIT}) {
-              summoner {
-                name
-                server
-              }
-              email
-              languages
+const PAGINATION_USERS = gql`
+          query ($limit: Int, $skip: Int, $tier: String, $roles: [String], $server: String, $languages: [String]){
+            getPaginationUsers(limit: $limit, skip: $skip, tier: $tier, roles: $roles, server: $server, languages: $languages) {
+                _id
+                summoner{
+                  name
+                  server
+                }
+                languages
+                roles
             }
-            getTotalNumberUsers
           }
-        `}
+        `
+const Grid = (props) => (
+    <Query
+        query={PAGINATION_USERS}
+        variables={{limit: LIMIT,
+          skip: (props.page - 1) * LIMIT,
+          tier: props.data.tier,
+          roles: props.data.roles,
+          server: props.data.server,
+          languages: props.data.languages}}
         errorPolicy="all"
     >
       {({loading, error, data}) => {
         if (loading) return <Spin size="large"/>;
         if (error) return <p>{`Error: ${error}`}</p>;
-        console.log(data.getAllUsers)
+        console.log('PROPS', props.data)
+        console.log('DATA', data)
         return (
-            data.getAllUsers.map((u, i) => {
+            data.getPaginationUsers.map((u, i) => {
               return (
                   <Card
                       key={'test' + i}
@@ -41,15 +49,14 @@ const SummonerGridDetail = (props) => (
                   >
                     <Meta
                         avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"/>}
-                        title={'test'}
+                        title={u.summoner.length > 0 ? u.summoner[0].name : " "}
                         description={'test'}
                     />
                   </Card>
-
               )
             })
         )
       }}
     </Query>
 );
-export default SummonerGridDetail
+export default Grid
