@@ -45,7 +45,22 @@ export default {
         if (err) console.error('❌ Getting user info error!');
         return user
       })
-    }
+    },
+    getPaginationUsers: async (_source, _args) => {
+      // TODO: check if languages param is empty
+      return await UserSchema.find({
+        summoner: {$elemMatch: {server: _args.server, tier: _args.tier}},
+        roles: _args.roles,
+        languages: _args.languages
+      }).skip(_args.skip)
+          .limit(_args.limit)
+          .exec()
+          .then()
+          .catch(err => {
+            console.error('❌ Get all users error!' + err)
+          })
+
+    },
   },
   Mutation: {
     addSummoner: async (_source, _args) => {
@@ -171,7 +186,11 @@ export default {
             console.error('❌ Summoner has not deleted!', e)
             done = false
           })
-      await SummonerSchema.findOneAndDelete({userId: _args.id, 'summonerInfo.name': _args.summoner, 'summonerInfo.server': _args.server})
+      await SummonerSchema.findOneAndDelete({
+        userId: _args.id,
+        'summonerInfo.name': _args.summoner,
+        'summonerInfo.server': _args.server
+      })
           .exec()
           .then(d => {
             if (d) {
