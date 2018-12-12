@@ -120,6 +120,7 @@ export default {
             finalData.userId = _args.id;
             finalData.summonerInfo.server = _args.server;
             SummonerSchema.create(finalData);
+            newSummoner.tier = finalData.summonerLeagueInfo.tier;
             await UserSchema.findOneAndUpdate({_id: _args.id}, {$push: {summoner: newSummoner}})
                 .exec()
                 .then(d => {

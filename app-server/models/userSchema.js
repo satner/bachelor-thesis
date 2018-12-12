@@ -8,7 +8,8 @@ const userSchema = new mongoose.Schema({
     password: String,
     summoner: [{
         name: String,
-        server: String
+        server: String,
+        tier: String
     }],
     languages: Array,
     roles: Array
