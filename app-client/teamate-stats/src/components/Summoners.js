@@ -63,9 +63,7 @@ class Summoners extends Component {
 
   render() {
     const {getFieldDecorator} = this.props.form;
-
     const buttonItemLayout = null;
-
     const formItemLayout = null;
     return (
         <main id="main" className={'test'}>
@@ -79,7 +77,7 @@ class Summoners extends Component {
               <Form onSubmit={e => {
                 e.preventDefault();
                 this.props.form.validateFields((err, values) => {
-                    this.handleFilterForm(values)
+                  this.handleFilterForm(values)
                 });
               }} style={{marginTop: '200px', marginLeft: '50px'}}>
                 <FormItem
@@ -156,8 +154,7 @@ class Summoners extends Component {
               <div className="card--grid">
                 <Grid page={this.state.selida} data={this.state.values}/>
               </div>
-              {/*<Pagination defaultPageSize={6} total={this.state.totalPages} onChange={this.handlePagination} />*/}
-              <Pagi onChange={this.handlePagination}/>
+              <Pagi onChange={this.handlePagination} data={this.state.values}/>
             </div>
 
           </div>

@@ -23,22 +23,6 @@ const JWT_KEY = 'kappa';
 
 export default {
   Query: {
-    getAllUsers: async (_source, _args) => {
-      return await UserSchema.find({})
-          .skip(_args.skip)
-          .limit(_args.limit)
-          .exec()
-          .then()
-          .catch(err => {
-            console.error('❌ Get all users error!' + err)
-          })
-    },
-    getTotalNumberUsers: async (_source, _args) => {
-      return await SummonerSchema.count({}, (err, result) => {
-        if (err) console.error('❌ Getting total number of users error', err);
-        return result
-      })
-    },
     getUserInfos: async (_source, _args) => {
       return await UserSchema.findOne({_id: _args.id}, (err, user) => {
         if (err) console.error('❌ Getting user info error!');
@@ -48,7 +32,7 @@ export default {
     getPaginationUsers: async (_source, _args) => {
       let query = {};
       let summonerValues = {};
-      console.log('===>ARGS', _args)
+
       if (_args.server) {
         summonerValues.server = _args.server;
         query.summoner = summonerValues;
@@ -60,18 +44,23 @@ export default {
       }
 
       if (_args.roles) {
-        query.roles = {$in: _args.roles}
+        if (_args.roles.length > 0) {
+          query.roles = {$in: _args.roles}
+        }
       }
 
       if (_args.languages) {
-        query.languages = {$in: _args.languages}
+        if (_args.languages.length > 0) {
+          query.languages = {$in: _args.languages}
+        }
       }
 
       if (Object.keys(summonerValues).length !== 0) {
         query.summoner = {$elemMatch: summonerValues}
       }
-      console.log('QUERY',query)
-      return await UserSchema.find({}).skip(_args.skip)
+
+      query.summoner = {$exists: true, $ne: []} // Gia na apokliso  tous user pou den expun dilwsei akoma accounts
+      return await UserSchema.find(query).skip(_args.skip)
           .limit(_args.limit)
           .exec()
           .then()
@@ -83,6 +72,7 @@ export default {
       let query = {};
       let summonerValues = {};
 
+      console.log('===>ARGS', _args);
       if (_args.server) {
         summonerValues.server = _args.server;
         query.summoner = summonerValues;
@@ -94,18 +84,19 @@ export default {
       }
 
       if (_args.roles) {
-        query.roles = {$in: _args.roles}
+        if (_args.roles.length > 0) {
+          query.roles = {$in: _args.roles}
+        }
       }
 
       if (_args.languages) {
-        query.languages = {$in: _args.languages}
+        if (_args.languages.length > 0) {
+          query.languages = {$in: _args.languages}
+        }
       }
-
-      if (Object.keys(summonerValues).length !== 0) {
-        query.summoner = {$elemMatch: summonerValues}
-      }
-
-      return await UserSchema.count(query)
+      query.summoner = {$exists: true, $ne: []} // Gia na apokliso  tous user pou den expun dilwsei akoma accounts
+      console.log('QUERY', query)
+      return await UserSchema.countDocuments(query)
           .exec()
           .then()
           .catch(err => {
