@@ -1,7 +1,8 @@
 import React, {Component} from "react";
 import {Query} from "react-apollo";
-import {Avatar, Card, Icon, Spin, Divider} from "antd";
+import {Avatar, Card, Icon, Spin, Divider, Button, Tooltip} from "antd";
 import gql from "graphql-tag";
+import lang from '../../languages-v2';
 
 // TODO: Add skeleton instead of spinner
 const LIMIT = 6;
@@ -78,6 +79,14 @@ class Grid extends Component {
     return res[0].path
   };
 
+  unfoldLanguages = codesList => {
+    let langNames = [];
+    codesList.forEach(l => {
+      langNames.push(lang.filter(fl => fl.code === l)[0].name)
+    });
+    return langNames
+  };
+
   render() {
     return <Query
         query={PAGINATION_USERS}
@@ -94,7 +103,7 @@ class Grid extends Component {
       {({loading, error, data}) => {
         if (loading) return <Spin size="large"/>;
         if (error) return <p>{`Error: ${error}`}</p>;
-        console.log(data.getPaginationUsers)
+          console.log(data)
         return (
             data.getPaginationUsers.map((u, i) => {
               return (
@@ -105,14 +114,25 @@ class Grid extends Component {
                       style={{width: 400}}
                       cover={<Divider><Avatar size='large'
                                               src={`http://ddragon.leagueoflegends.com/cdn/8.24.1/img/profileicon/${u.summoner[0].profileIconId}.png`}/></Divider>}
-                      actions={[<Icon type="setting"/>, <Icon type="edit"/>, <Icon type="ellipsis"/>]}
+                      actions={[<Tooltip title="Total accounts of that user">
+                        <span><Icon type="team"/> {u.summoner.length}</span>
+                      </Tooltip>,
+                        <Tooltip title="User account level">
+                          <span><Icon type="rise"/> {u.summoner[0].summonerLevel}</span>
+                        </Tooltip>,
+                        <Tooltip title="See stats">
+                          <Button shape='circle-outline' icon="ellipsis" value={u._id} onClick={e => {
+                            alert(e.target.value)
+                          }}/>
+                        </Tooltip>]}
                   >
+
                     <Meta
                         title={u.summoner[0].name}
                         description={this.unfoldServerName(u.summoner[0].server)}
                         style={{textAlign: 'center', paddingBottom: '20px'}}
                     />
-                    <Card.Grid bordered='false' style={gridStyle}>
+                    <Card.Grid style={gridStyle}>
                       <Meta
                           title="Roles"
                           description={this.unfoldRoles(u.roles).map(i => {
@@ -120,13 +140,15 @@ class Grid extends Component {
                                            size='large'
                                            src={i}/>
                           })}
-                          style={{textAlign: 'left', paddingBottom: '20px'}}
+                          style={{textAlign: 'center', paddingBottom: '20px'}}
                       />
                     </Card.Grid>
                     <Card.Grid style={gridStyle}>
                       <Meta
                           title='Languages'
-                          description={this.unfoldServerName(u.summoner[0].server)}
+                          description={this.unfoldLanguages(u.languages).map(i => {
+                            return <span key={i}><Icon type="caret-right"/>{i} <br/></span>
+                          })}
                           style={{textAlign: 'center', paddingBottom: '20px'}}
                       />
                     </Card.Grid>
