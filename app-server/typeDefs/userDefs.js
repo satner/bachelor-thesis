@@ -27,5 +27,8 @@ export default gql`
     type Accounts {
       name: String
       server: String
+      tier: String
+      profileIconId: Int
+      summonerLevel: Int
     }
 `

@@ -1,6 +1,6 @@
-import React from "react";
+import React, {Component} from "react";
 import {Query} from "react-apollo";
-import {Avatar, Card, Icon, Spin} from "antd";
+import {Avatar, Card, Icon, Spin, Divider} from "antd";
 import gql from "graphql-tag";
 
 // TODO: Add skeleton instead of spinner
@@ -13,29 +13,88 @@ const PAGINATION_USERS = gql`
                 summoner{
                   name
                   server
+                  tier
+                  profileIconId
+                  summonerLevel
                 }
                 languages
                 roles
             }
           }
         `;
-const Grid = (props) => (
-    <Query
+const tiers = [
+  {name: 'PROVISIONAL', path: require('../../images/tier-icons/provisional.png')},
+  {name: 'BRONZE', path: require('../../images/tier-icons/bronze.png')},
+  {name: 'SILVER', path: require('../../images/tier-icons/silver.png')},
+  {name: 'GOLD', path: require('../../images/tier-icons/gold.png')},
+  {name: 'PLATINUM', path: require('../../images/tier-icons/platinum.png')},
+  {name: 'DIAMOND', path: require('../../images/tier-icons/diamond.png')},
+  {name: 'MASTER', path: require('../../images/tier-icons/master.png')},
+  {name: 'CHALLENGER', path: require('../../images/tier-icons/challenger.png')},
+];
+const roles = [
+  {name: 'bottom', path: require('../../images/role-icons/Bottom_icon.png')},
+  {name: 'support', path: require('../../images/role-icons/Support_icon.png')},
+  {name: 'middle', path: require('../../images/role-icons/Middle_icon.png')},
+  {name: 'jungle', path: require('../../images/role-icons/Jungle_icon.png')},
+  {name: 'top', path: require('../../images/role-icons/Top_icon.png')},
+  {name: 'specialist', path: require('../../images/role-icons/Specialist_icon.png')},
+];
+const servers = [
+  {shortName: 'na', name: 'North America'},
+  {shortName: 'kr', name: 'Republic of korea'},
+  {shortName: 'ru', name: 'Russia'},
+  {shortName: 'br1', name: 'Brazil'},
+  {shortName: 'eun1', name: 'Europe Nordic and East'},
+  {shortName: 'euw1', name: 'Europe West'},
+  {shortName: 'jp1', name: 'Japan'},
+  {shortName: 'la1', name: 'Latin America North'},
+  {shortName: 'la2', name: 'Latin America South'},
+  {shortName: 'oc1', name: 'Ocean'},
+  {shortName: 'tr1', name: 'Turkey'},
+];
+const gridStyle = {
+  width: '33.3%',
+  textAlign: 'center'
+};
+
+
+class Grid extends Component {
+  unfoldServerName = (server) => {
+    let res = servers.filter(s => s.shortName === server);
+    return res[0].name
+  };
+
+  unfoldRoles = (roleList) => {
+    let iconPathRoles = [];
+    roleList.forEach(r => {
+      iconPathRoles.push(roles.filter(fr => fr.name === r)[0].path)
+    });
+    return iconPathRoles
+  };
+
+  unfoldTier = tier => {
+    let res = tiers.filter(t => t.name === tier);
+    return res[0].path
+  };
+
+  render() {
+    return <Query
         query={PAGINATION_USERS}
         variables={{
           limit: LIMIT,
-          skip: (props.page - 1) * LIMIT,
-          tier: props.data.tier,
-          roles: props.data.roles,
-          server: props.data.server,
-          languages: props.data.languages
+          skip: (this.props.page - 1) * LIMIT,
+          tier: this.props.data.tier,
+          roles: this.props.data.roles,
+          server: this.props.data.server,
+          languages: this.props.data.languages
         }}
         errorPolicy="all"
     >
       {({loading, error, data}) => {
         if (loading) return <Spin size="large"/>;
         if (error) return <p>{`Error: ${error}`}</p>;
-
+        console.log(data.getPaginationUsers)
         return (
             data.getPaginationUsers.map((u, i) => {
               return (
@@ -43,20 +102,51 @@ const Grid = (props) => (
                       key={'test' + i}
                       hoverable={true}
                       className={'summoner-card'}
-                      style={{width: 300}}
-                      cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"/>}
+                      style={{width: 400}}
+                      cover={<Divider><Avatar size='large'
+                                              src={`http://ddragon.leagueoflegends.com/cdn/8.24.1/img/profileicon/${u.summoner[0].profileIconId}.png`}/></Divider>}
                       actions={[<Icon type="setting"/>, <Icon type="edit"/>, <Icon type="ellipsis"/>]}
                   >
                     <Meta
-                        avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"/>}
-                        title={u.summoner.length > 0 ? u.summoner[0].name : " "}
-                        description={u.summoner.length > 0 ? u.summoner[0].server : " "}
+                        title={u.summoner[0].name}
+                        description={this.unfoldServerName(u.summoner[0].server)}
+                        style={{textAlign: 'center', paddingBottom: '20px'}}
                     />
+                    <Card.Grid bordered='false' style={gridStyle}>
+                      <Meta
+                          title="Roles"
+                          description={this.unfoldRoles(u.roles).map(i => {
+                            return <Avatar key={i}
+                                           size='large'
+                                           src={i}/>
+                          })}
+                          style={{textAlign: 'left', paddingBottom: '20px'}}
+                      />
+                    </Card.Grid>
+                    <Card.Grid style={gridStyle}>
+                      <Meta
+                          title='Languages'
+                          description={this.unfoldServerName(u.summoner[0].server)}
+                          style={{textAlign: 'center', paddingBottom: '20px'}}
+                      />
+                    </Card.Grid>
+                    <Card.Grid style={gridStyle}>
+                      <Meta
+                          title='Tier'
+                          description={<Avatar size='large'
+                                               src={this.unfoldTier(u.summoner[0].tier)}/>}
+                          style={{textAlign: 'center', paddingBottom: '20px'}}
+                      />
+                    </Card.Grid>
+
+
                   </Card>
               )
             })
         )
       }}
     </Query>
-);
+  }
+}
+
 export default Grid

@@ -114,7 +114,7 @@ class LinkedAccounts extends Component {
   unfoldServerName = (server) => {
     let res =servers.filter(s => s.shortName === server)
     return res[0].name
-  }
+  };
 
   render() {
     const {getFieldDecorator} = this.props.form;
