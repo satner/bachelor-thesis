@@ -91,7 +91,6 @@ class SignUp extends Component {
                     <Form layout='vertical' onSubmit={e => {
                       e.preventDefault();
                       this.props.form.validateFieldsAndScroll((err, values) => {
-                        console.log(values)
                         if (!err) {
                           signup({
                             variables: {
