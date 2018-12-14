@@ -1,8 +1,9 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import nodemailer from 'nodemailer';
 import {SummonerSchema, UserSchema} from "../models";
-import {API_KEY, QUEUE, SEASON} from '../lol-config'
-
+import {API_KEY, QUEUE, SEASON} from '../lol-config';
+import {EMAIL, PASSWORD} from '../mail-settings';
 import LeagueJs from 'leaguejs';
 
 const api = new LeagueJs(API_KEY, {
@@ -196,22 +197,6 @@ export default {
       } else { // Den ipaxei EGIRO summoner-name H iparxei idi sto DB
         console.error('❌ Summoner name does NOT exist TOTAL!')
       }
-
-
-      /*let done = false;
-      let temp = {}
-      temp.name = _args.summoner;
-      temp.server = _args.server;
-      await UserSchema.findOneAndUpdate({_id: _args.id}, {$push: {summoner: temp}})
-          .exec()
-          .then(d => {
-            console.log('Summoner added!');
-            done = true
-          })
-          .catch(e => {
-            console.error('Add summoner error!', e)
-          });
-      return done*/
     },
     deleteSummoner: async (_source, _args) => {
       let done = false;
@@ -313,7 +298,68 @@ export default {
           });
       return done
     },
-    updateUserInfo: async (_source, _args) => {
+    forgotPassword: async (_source, _args) => {
+      let done = false;
+      let token = ''
+      await UserSchema.findOneAndUpdate({email: _args.email})
+          .exec()
+          .then(user => {
+            if (user) {
+              console.log("User exists!")
+              done = true
+            }
+          })
+          .catch(err => {
+            console.error('❌ Forgot Password', err);
+          })
+          .then(() => {
+            token = jwt.sign({
+                  email: _args.email
+                },
+                JWT_KEY, {
+                  expiresIn: "5m"
+                });
+          })
+          .then(async () => {
+            await UserSchema.findOneAndUpdate({email: _args.email}, {resetPasswordToken: token})
+                .exec()
+                .then(user => {
+                  if (user) {
+                    let transporter = nodemailer.createTransport({
+                      service: 'gmail',
+                      auth: {
+                        user: EMAIL,
+                        pass: PASSWORD
+                      },
+                      tls: {
+                        rejectUnauthorized: false
+                      }
+                    });
+
+                    let mailOptions = {
+                      from: `"TeamMate Stats 👻" ${EMAIL}`,
+                      to: _args.email,
+                      subject: 'Reset Password',
+                      text: 'Hello world?',
+                      html: `<a href=http://localhost:3000/reset-password?token=${token}>Click here to reset your password!</a>`
+                    };
+
+                    transporter.sendMail(mailOptions, (error, info) => {
+                      if (error) {
+                        return console.log(error);
+                      }
+                      console.log('Message sent: %s', info.messageId);
+                    });
+                    done = true
+                  }
+                })
+          })
+      return done
+    },
+    resetPassword: async (_source, _args) => {
+
+    },
+        updateUserInfo: async (_source, _args) => {
       let done = false;
 
       if (_args.password === '' && _args.email !== '') {

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Form, Icon, Input, Button, Checkbox, Layout, notification} from 'antd';
+import {Form, Icon, Input, Button, Layout, notification} from 'antd';
 import gql from "graphql-tag";
 import {Mutation} from "react-apollo";
 
@@ -17,7 +17,6 @@ const openNotificationWithIcon = (type, title, msg) => {
   });
 };
 // TODO: refactor styles
-// TODO: forgot password: email back ktl
 class LogIn extends Component {
   render() {
     const {getFieldDecorator} = this.props.form;
@@ -69,7 +68,8 @@ class LogIn extends Component {
                         <Button type="primary" htmlType="submit" style={loginFormButton}>
                           Log in
                         </Button>
-                        <a style={loginFormForgot} href="/forgot-password">Forgot password?</a> Or <a href="/signup">register now!</a>
+                        <a style={loginFormForgot} href="/forgot-password">Forgot password?</a> Or <a href="/signup">register
+                        now!</a>
                       </FormItem>
                     </Form>
                   </Content>

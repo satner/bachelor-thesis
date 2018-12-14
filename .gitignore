@@ -2,3 +2,4 @@ node_modules/
 app-server/lol-config.js
 app-server/server-config.js
 .idea/
+/app-server/mail-settings.js

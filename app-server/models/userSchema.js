@@ -14,7 +14,8 @@ const userSchema = new mongoose.Schema({
     summonerLevel: Number
   }],
   languages: [String],
-  roles: [String]
+  roles: [String],
+  resetPasswordToken: String
 }, {
   timestamp: true
 });
