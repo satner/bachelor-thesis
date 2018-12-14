@@ -12,6 +12,8 @@ import LogIn from './components/Auth/LogIn';
 import SignUp from './components/Auth/SignUp';
 import UserProfile from './components/UserProfile';
 import Error from './components/Auth/Error';
+import ForgotPassword from './components/Auth/ForgotPassword';
+import ResetPassword from './components/Auth/ResetPassword';
 import './App.css';
 
 const client = new ApolloClient({
@@ -22,7 +24,7 @@ const checkAuth = () => {
   const token = localStorage.getItem('AUTH_TOKEN');
   // const refreshToken = localStorage.getItem('refreshToken');
   // if (!token || !refreshToken) return false;
-  if (!token) return false
+  if (!token) return false;
   try {
     const {exp} = decode(token);
     if (exp < new Date().getTime() / 1000) return false
@@ -63,6 +65,8 @@ class App extends Component {
               <Switch>
                 <Route path="/" component={Home} exact/>
                 <Route path="/summoners" component={Summoners}/>
+                <Route path="/forgot-password" component={ForgotPassword}/>
+                <Route path="/reset-password" component={ResetPassword}/>
                 <HideRoute path="/login" component={LogIn}/>
                 <HideRoute path="/signup" component={SignUp}/>
                 <AuthRoute path="/account" component={UserProfile}/>
