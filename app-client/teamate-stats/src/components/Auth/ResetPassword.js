@@ -18,19 +18,23 @@ const openNotificationWithIcon = (type, title, msg) => {
     description: msg,
   });
 };
-class ResetPassword extends Component{
+
+class ResetPassword extends Component {
   state = {
     confirmDirty: false,
+    token: ''
   };
 
   componentDidMount() {
-    const values = queryString.parse(this.props.location.search)
-    console.log(values.token)
+    const value = queryString.parse(this.props.location.search)
+    this.setState({
+      token: value.token
+    })
   };
 
   handleConfirmBlur = (e) => {
     const value = e.target.value;
-    this.setState({ confirmDirty: this.state.confirmDirty || !!value });
+    this.setState({confirmDirty: this.state.confirmDirty || !!value});
   };
 
   compareToFirstPassword = (rule, value, callback) => {
@@ -45,10 +49,11 @@ class ResetPassword extends Component{
   validateToNextPassword = (rule, value, callback) => {
     const form = this.props.form;
     if (value && this.state.confirmDirty) {
-      form.validateFields(['confirm'], { force: true });
+      form.validateFields(['confirm'], {force: true});
     }
     callback();
   };
+
   render() {
     const {getFieldDecorator} = this.props.form;
     const formItemLayout = null;
@@ -67,7 +72,18 @@ class ResetPassword extends Component{
                       e.preventDefault();
                       this.props.form.validateFields((err, values) => {
                         if (!err) {
-                          console.log(values)
+                          resetPassword({variables: {password: values.password, token: this.state.token}})
+                              .then(res => {
+                                if (res.data.resetPassword) {
+                                  this.props.history.push("/login");
+                                  openNotificationWithIcon('success', 'Success', 'Password Updated!')
+                                } else {
+                                  openNotificationWithIcon('warning', 'Error', 'Link has expire. Try again')
+                                }
+                              })
+                              .catch(err => {
+                                openNotificationWithIcon('error', 'Error', 'Please try again later!')
+                              })
                         }
                       });
                     }} style={resetForm}>
@@ -82,7 +98,7 @@ class ResetPassword extends Component{
                             validator: this.validateToNextPassword,
                           }],
                         })(
-                            <Input type="password" />
+                            <Input type="password"/>
                         )}
                       </FormItem>
                       <FormItem
@@ -96,7 +112,7 @@ class ResetPassword extends Component{
                             validator: this.compareToFirstPassword,
                           }],
                         })(
-                            <Input type="password" onBlur={this.handleConfirmBlur} />
+                            <Input type="password" onBlur={this.handleConfirmBlur}/>
                         )}
                       </FormItem>
                       <FormItem {...buttonItemLayout}>

@@ -357,9 +357,40 @@ export default {
       return done
     },
     resetPassword: async (_source, _args) => {
-
+      let done = false;
+      await UserSchema.findOne({resetPasswordToken: _args.token})
+          .exec()
+          .then(async user => {
+            if (user) {
+              let {exp} = jwt.decode(_args.token);
+              done = exp >= new Date().getTime() / 1000;
+              if (done) {
+                await bcrypt.hash(_args.password, 10)
+                    .then(async hash => {
+                      await UserSchema.findOneAndUpdate({resetPasswordToken: _args.token}, {password: hash})
+                          .exec()
+                          .then(user => {
+                            if (user) {
+                              console.log('Reset user password complete');
+                              done = true
+                            }
+                          }).catch(err => {
+                            console.error('❌ Reset user error', err)
+                          })
+                    })
+                    .catch(err => {
+                      console.error('❌ Reset user error', err)
+                    })
+              }
+            }
+          })
+          .catch(err => {
+            console.error('❌ Updating user password', err);
+          });
+      console.log('ddddddd', done);
+      return done
     },
-        updateUserInfo: async (_source, _args) => {
+    updateUserInfo: async (_source, _args) => {
       let done = false;
 
       if (_args.password === '' && _args.email !== '') {
