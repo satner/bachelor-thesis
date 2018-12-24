@@ -14,6 +14,23 @@ export default {
   Query: {
     getSummonerInfo: async (_source, _args) => {
       return await SummonerSchema.findOne({ userId: _args.userId });
+    },
+    getVisionScore: async (_source, _args) => {
+      let finalData = [];
+      await SummonerSchema.findOne({ userId: _args.userId })
+        .exec()
+        .then(data => {
+          data.summonerMatchDetails.forEach((data, index) => {
+            let tempObject = {};
+            tempObject.visionScore = Number(data.stats.visionScore); // kane to string number
+            tempObject.gameCounter = index;
+            finalData.push(tempObject);
+          });
+        })
+        .catch(err => {
+          console.error("❌ Searching summoner data error", err);
+        });
+      return finalData;
     }
   },
   Mutation: {

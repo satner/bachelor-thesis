@@ -1,21 +1,20 @@
 import React, { Component } from "react";
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
+import { Chart, Axis, Geom, Tooltip } from "bizcharts";
 
 const GET_USER_SUMMONER_INFO = gql`
   query($userId: String!) {
-    getSummonerInfo(userId: $userId) {
-      summonerLeagueInfo {
-        tier
-        rank
-        leaguePoints
-        wins
-        losses
-      }
+    getVisionScore(userId: $userId) {
+      visionScore
+      gameCounter
     }
   }
 `;
-
+const scale = {
+  value: { min: 0 },
+  year: { range: [0, 1] }
+};
 class Stats extends Component {
   render() {
     console.log(this.props);
@@ -28,8 +27,26 @@ class Stats extends Component {
           {({ loading, error, data }) => {
             if (loading) return "Loading...";
             if (error) return `Error! ${error.message}`;
-            console.log("haHA", data.getSummonerInfo);
-            return <p>kappa reality</p>;
+            return (
+              <Chart
+                height={400}
+                data={data.getVisionScore}
+                scale={scale}
+                forceFit
+              >
+                <Axis name="gameCounter" />
+                <Axis name="visionScore" />
+                <Tooltip crosshairs={{ type: "y" }} />
+                <Geom type="area" position="gameCounter*visionScore" size={2} />
+                <Geom
+                  type="point"
+                  position="gameCounter*visionScore"
+                  size={4}
+                  shape={"circle"}
+                  style={{ stroke: "#fff", lineWidth: 1 }}
+                />
+              </Chart>
+            );
           }}
         </Query>
       </div>
