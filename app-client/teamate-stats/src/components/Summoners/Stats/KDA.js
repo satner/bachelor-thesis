@@ -1,7 +1,7 @@
 import React from "react";
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
-import { Chart, Geom, Axis, Tooltip, Legend } from "bizcharts";
+import { Chart, Geom, Axis, Tooltip } from "bizcharts";
 
 const GET_KDA = gql`
   query($userId: String!) {

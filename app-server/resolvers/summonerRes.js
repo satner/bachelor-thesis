@@ -197,6 +197,72 @@ export default {
           console.error("❌ Searching summoner data error", err);
         });
       return finalData;
+    },
+    getXpPerMinDeltas: async (_source, _args) => {
+      let finalData = [];
+      await SummonerSchema.findOne({ userId: _args.userId })
+        .exec()
+        .then(user => {
+          user.summonerMatchDetails.forEach((data, index) => {
+            if (data.timeline.xpPerMinDeltas) {
+              Object.entries(data.timeline.xpPerMinDeltas)
+                .sort()
+                .forEach((d, i) => {
+                  let xpPerMinDeltas = {};
+                  if (d[0].startsWith("0")) {
+                    xpPerMinDeltas.type = "0-10";
+                  } else if (d[0].startsWith("10")) {
+                    xpPerMinDeltas.type = "10-20";
+                  } else if (d[0].startsWith("20")) {
+                    xpPerMinDeltas.type = "20-30";
+                  } else if (d[0].startsWith("30")) {
+                    xpPerMinDeltas.type = "30-40";
+                  }
+
+                  xpPerMinDeltas.value = Number(d[1]);
+                  xpPerMinDeltas.gameCounter = index;
+                  finalData.push(xpPerMinDeltas);
+                });
+            }
+          });
+        })
+        .catch(err => {
+          console.error("❌ Searching summoner data error", err);
+        });
+      return finalData;
+    },
+    getGoldPerMinDeltas: async (_source, _args) => {
+      let finalData = [];
+      await SummonerSchema.findOne({ userId: _args.userId })
+        .exec()
+        .then(user => {
+          user.summonerMatchDetails.forEach((data, index) => {
+            if (data.timeline.goldPerMinDeltas) {
+              Object.entries(data.timeline.goldPerMinDeltas)
+                .sort()
+                .forEach((d, i) => {
+                  let goldPerMinDeltas = {};
+                  if (d[0].startsWith("0")) {
+                    goldPerMinDeltas.type = "0-10";
+                  } else if (d[0].startsWith("10")) {
+                    goldPerMinDeltas.type = "10-20";
+                  } else if (d[0].startsWith("20")) {
+                    goldPerMinDeltas.type = "20-30";
+                  } else if (d[0].startsWith("30")) {
+                    goldPerMinDeltas.type = "30-40";
+                  }
+
+                  goldPerMinDeltas.value = Number(d[1]);
+                  goldPerMinDeltas.gameCounter = index;
+                  finalData.push(goldPerMinDeltas);
+                });
+            }
+          });
+        })
+        .catch(err => {
+          console.error("❌ Searching summoner data error", err);
+        });
+      return finalData;
     }
   },
   Mutation: {

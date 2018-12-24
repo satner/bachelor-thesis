@@ -9,6 +9,8 @@ export default gql`
     getKillsStats(userId: String!): [killsStats]
     getDamageDealtToChampions(userId: String!): [AreaMultiGraph]
     getCreepsPerMinDeltas(userId: String!): [AreaMultiGraphFloat]
+    getXpPerMinDeltas(userId: String!): [AreaMultiGraphFloat]
+    getGoldPerMinDeltas(userId: String!): [AreaMultiGraphFloat]
   }
 
   extend type Mutation {
