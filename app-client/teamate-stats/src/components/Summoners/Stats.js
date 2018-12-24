@@ -4,6 +4,7 @@ import VisionScore from "./Stats/VisionScore";
 import KDA from "./Stats/KDA";
 import WinRatio from "./Stats/WinRatio";
 import Kills from "./Stats/Kills";
+import DamageDealtToChampions from "./Stats/DamageDealtToChampions";
 
 const { Footer, Sider, Content } = Layout;
 
@@ -29,6 +30,7 @@ class Stats extends Component {
             <KDA userId={this.props.location.state.userId} />
             <WinRatio userId={this.props.location.state.userId} />
             <Kills userId={this.props.location.state.userId} />
+            <DamageDealtToChampions userId={this.props.location.state.userId} />
           </Content>
         </Layout>
       </div>

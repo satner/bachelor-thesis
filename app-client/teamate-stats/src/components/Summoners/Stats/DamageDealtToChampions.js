@@ -1,11 +1,11 @@
 import React from "react";
 import gql from "graphql-tag";
-import { Axis, Chart, Geom, Tooltip, Legend } from "bizcharts";
+import { Axis, Chart, Geom, Legend, Tooltip } from "bizcharts";
 import { Query } from "react-apollo";
 
-const GET_VISION_SCORE = gql`
+const GET_DAMAGE_DEALT = gql`
   query($userId: String!) {
-    getVisionScore(userId: $userId) {
+    getDamageDealtToChampions(userId: $userId) {
       type
       value
       gameCounter
@@ -15,14 +15,20 @@ const GET_VISION_SCORE = gql`
 const scale = {
   value: { min: 0 }
 };
-const VisionScore = props => {
+
+const DamageDealtToChampions = props => {
   return (
-    <Query query={GET_VISION_SCORE} variables={{ userId: props.userId }}>
+    <Query query={GET_DAMAGE_DEALT} variables={{ userId: props.userId }}>
       {({ loading, error, data }) => {
         if (loading) return "Loading...";
         if (error) return `Error! ${error.message}`;
         return (
-          <Chart height={400} data={data.getVisionScore} scale={scale} forceFit>
+          <Chart
+            height={400}
+            data={data.getDamageDealtToChampions}
+            scale={scale}
+            forceFit
+          >
             <Axis name="gameCounter" />
             <Axis name="value" />
             <Legend />
@@ -48,4 +54,4 @@ const VisionScore = props => {
   );
 };
 
-export default VisionScore;
+export default DamageDealtToChampions;

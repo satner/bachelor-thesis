@@ -3,10 +3,11 @@ import { gql } from "apollo-server-express";
 export default gql`
   extend type Query {
     getSummonerInfo(userId: String!): SummonerData!
-    getVisionScore(userId: String!): [VisionScore]
+    getVisionScore(userId: String!): [AreaMultiGraph]
     getKDAPerGame(userId: String!): [KDA]
     getWinRatio(userId: String!): Float
     getKillsStats(userId: String!): [killsStats]
+    getDamageDealtToChampions(userId: String!): [AreaMultiGraph]
   }
 
   extend type Mutation {
@@ -21,7 +22,7 @@ export default gql`
     name: String
   }
 
-  type VisionScore {
+  type AreaMultiGraph {
     type: String
     value: Int
     gameCounter: Int

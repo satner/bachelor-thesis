@@ -12,7 +12,7 @@ const GET_KILLS = gql`
   }
 `;
 
-const Kill = props => {
+const Kills = props => {
   return (
     <Query query={GET_KILLS} variables={{ userId: props.userId }}>
       {({ loading, error, data }) => {
@@ -32,4 +32,4 @@ const Kill = props => {
   );
 };
 
-export default Kill;
+export default Kills;

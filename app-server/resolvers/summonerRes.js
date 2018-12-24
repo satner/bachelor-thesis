@@ -124,6 +124,46 @@ export default {
           console.error("❌ Searching summoner data error", err);
         });
       return finalData;
+    },
+    getDamageDealtToChampions: async (_source, _args) => {
+      let finalData = [];
+      await SummonerSchema.findOne({ userId: _args.userId })
+        .exec()
+        .then(data => {
+          data.summonerMatchDetails.forEach((data, index) => {
+            let totalDamage = {};
+            let magicDamage = {};
+            let physicalDamage = {};
+            let trueDamage = {};
+
+            totalDamage.type = "Total Damage";
+            totalDamage.value = Number(data.stats.totalDamageDealtToChampions);
+            totalDamage.gameCounter = index;
+
+            magicDamage.type = "Magic Damage";
+            magicDamage.value = Number(data.stats.magicDamageDealtToChampions); // kane to string number
+            magicDamage.gameCounter = index;
+
+            physicalDamage.type = "Physical Damage";
+            physicalDamage.value = Number(
+              data.stats.physicalDamageDealtToChampions
+            ); // kane to string number
+            physicalDamage.gameCounter = index;
+
+            trueDamage.type = "True Damage";
+            trueDamage.value = Number(data.stats.trueDamageDealtToChampions); // kane to string number
+            trueDamage.gameCounter = index;
+
+            finalData.push(totalDamage);
+            finalData.push(magicDamage);
+            finalData.push(physicalDamage);
+            finalData.push(trueDamage);
+          });
+        })
+        .catch(err => {
+          console.error("❌ Searching summoner data error", err);
+        });
+      return finalData;
     }
   },
   Mutation: {
