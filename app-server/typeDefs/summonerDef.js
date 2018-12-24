@@ -4,6 +4,7 @@ export default gql`
   extend type Query {
     getSummonerInfo(userId: String!): SummonerData!
     getVisionScore(userId: String!): [VisionScore]
+    getKDAPerGame(userId: String!): [KDA]
   }
 
   extend type Mutation {
@@ -21,6 +22,11 @@ export default gql`
   type VisionScore {
     type: String
     value: Int
+    gameCounter: Int
+  }
+
+  type KDA {
+    kda: Float
     gameCounter: Int
   }
 `;

@@ -46,6 +46,28 @@ export default {
           console.error("❌ Searching summoner data error", err);
         });
       return finalData;
+    },
+    getKDAPerGame: async (_source, _args) => {
+      let finalData = [];
+      await SummonerSchema.findOne({ userId: _args.userId })
+        .exec()
+        .then(data => {
+          data.summonerMatchDetails.forEach((data, index) => {
+            let tempObject = {};
+            tempObject.kda =
+              Math.round(
+                ((data.stats.kills + data.stats.assists) / data.stats.deaths) *
+                  100
+              ) / 100;
+            tempObject.gameCounter = index;
+
+            finalData.push(tempObject);
+          });
+        })
+        .catch(err => {
+          console.error("❌ Searching summoner data error", err);
+        });
+      return finalData;
     }
   },
   Mutation: {
