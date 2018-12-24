@@ -20,7 +20,8 @@
     "url": "https://github.com/satner/bachelor-thesis.git"
   },
   "devDependencies": {
-    "nodemon": "^1.18.6"
+    "nodemon": "^1.18.6",
+    "prettier": "^1.15.3"
   },
   "dependencies": {
     "apollo-datasource-rest": "^0.2.0",

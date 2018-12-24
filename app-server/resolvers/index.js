@@ -1,7 +1,4 @@
-import summonerRes from './summonerRes'
-import userRes from './userRes'
+import summonerRes from "./summonerRes";
+import userRes from "./userRes";
 
-export default [
-    summonerRes,
-    userRes
-]
+export default [summonerRes, userRes];
