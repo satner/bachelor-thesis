@@ -6,6 +6,7 @@ export default gql`
     getVisionScore(userId: String!): [VisionScore]
     getKDAPerGame(userId: String!): [KDA]
     getWinRatio(userId: String!): Float
+    getKillsStats(userId: String!): [killsStats]
   }
 
   extend type Mutation {
@@ -29,5 +30,10 @@ export default gql`
   type KDA {
     kda: Float
     gameCounter: Int
+  }
+
+  type killsStats {
+    killType: String
+    value: Int
   }
 `;

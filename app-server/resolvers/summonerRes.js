@@ -87,6 +87,43 @@ export default {
           console.error("❌ Searching summoner data error", err);
         });
       return finalData;
+    },
+    getKillsStats: async (_source, _args) => {
+      let finalData = [];
+      let doubleKills = {
+        killType: "Double kills",
+        value: 0
+      };
+      let tripleKills = {
+        killType: "Triple kills",
+        value: 0
+      };
+      let quadraKills = {
+        killType: "Quadra kills",
+        value: 0
+      };
+      let pentaKills = {
+        killType: "Penta kills",
+        value: 0
+      };
+      await SummonerSchema.findOne({ userId: _args.userId })
+        .exec()
+        .then(data => {
+          data.summonerMatchDetails.forEach((data, index) => {
+            doubleKills.value += data.stats.doubleKills;
+            tripleKills.value += data.stats.tripleKills;
+            quadraKills.value += data.stats.quadraKills;
+            pentaKills.value += data.stats.pentaKills;
+          });
+          finalData.push(doubleKills);
+          finalData.push(tripleKills);
+          finalData.push(quadraKills);
+          finalData.push(pentaKills);
+        })
+        .catch(err => {
+          console.error("❌ Searching summoner data error", err);
+        });
+      return finalData;
     }
   },
   Mutation: {
