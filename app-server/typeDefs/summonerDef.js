@@ -8,6 +8,7 @@ export default gql`
     getWinRatio(userId: String!): Float
     getKillsStats(userId: String!): [killsStats]
     getDamageDealtToChampions(userId: String!): [AreaMultiGraph]
+    getCreepsPerMinDeltas(userId: String!): [AreaMultiGraphFloat]
   }
 
   extend type Mutation {
@@ -28,6 +29,11 @@ export default gql`
     gameCounter: Int
   }
 
+  type AreaMultiGraphFloat {
+    type: String
+    value: Float
+    gameCounter: Int
+  }
   type KDA {
     kda: Float
     gameCounter: Int

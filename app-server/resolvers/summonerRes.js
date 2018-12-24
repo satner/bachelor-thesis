@@ -164,6 +164,39 @@ export default {
           console.error("❌ Searching summoner data error", err);
         });
       return finalData;
+    },
+    getCreepsPerMinDeltas: async (_source, _args) => {
+      let finalData = [];
+      await SummonerSchema.findOne({ userId: _args.userId })
+        .exec()
+        .then(user => {
+          user.summonerMatchDetails.forEach((data, index) => {
+            if (data.timeline.creepsPerMinDeltas) {
+              Object.entries(data.timeline.creepsPerMinDeltas)
+                .sort()
+                .forEach((d, i) => {
+                  let creepsPerMinDeltas = {};
+                  if (d[0].startsWith("0")) {
+                    creepsPerMinDeltas.type = "0-10";
+                  } else if (d[0].startsWith("10")) {
+                    creepsPerMinDeltas.type = "10-20";
+                  } else if (d[0].startsWith("20")) {
+                    creepsPerMinDeltas.type = "20-30";
+                  } else if (d[0].startsWith("30")) {
+                    creepsPerMinDeltas.type = "30-40";
+                  }
+
+                  creepsPerMinDeltas.value = Number(d[1]);
+                  creepsPerMinDeltas.gameCounter = index;
+                  finalData.push(creepsPerMinDeltas);
+                });
+            }
+          });
+        })
+        .catch(err => {
+          console.error("❌ Searching summoner data error", err);
+        });
+      return finalData;
     }
   },
   Mutation: {

@@ -5,12 +5,12 @@ import KDA from "./Stats/KDA";
 import WinRatio from "./Stats/WinRatio";
 import Kills from "./Stats/Kills";
 import DamageDealtToChampions from "./Stats/DamageDealtToChampions";
+import CreepsPerMinDeltas from "./Stats/CreepsPerMinDeltas";
 
 const { Footer, Sider, Content } = Layout;
 
 class Stats extends Component {
   render() {
-    console.log(this.props);
     return (
       <div>
         <div
@@ -31,6 +31,7 @@ class Stats extends Component {
             <WinRatio userId={this.props.location.state.userId} />
             <Kills userId={this.props.location.state.userId} />
             <DamageDealtToChampions userId={this.props.location.state.userId} />
+            <CreepsPerMinDeltas userId={this.props.location.state.userId} />
           </Content>
         </Layout>
       </div>
