@@ -5,6 +5,7 @@ export default gql`
     getSummonerInfo(userId: String!): SummonerData!
     getVisionScore(userId: String!): [VisionScore]
     getKDAPerGame(userId: String!): [KDA]
+    getWinRatio(userId: String!): Float
   }
 
   extend type Mutation {

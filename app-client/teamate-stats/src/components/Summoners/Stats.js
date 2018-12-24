@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Layout } from "antd";
 import VisionScore from "./Stats/VisionScore";
 import KDA from "./Stats/KDA";
+import WinRatio from "./Stats/WinRatio";
 
 const { Footer, Sider, Content } = Layout;
 
@@ -25,6 +26,7 @@ class Stats extends Component {
           <Content>
             <VisionScore userId={this.props.location.state.userId} />
             <KDA userId={this.props.location.state.userId} />
+            <WinRatio userId={this.props.location.state.userId} />
           </Content>
         </Layout>
       </div>

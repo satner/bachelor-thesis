@@ -68,6 +68,25 @@ export default {
           console.error("❌ Searching summoner data error", err);
         });
       return finalData;
+    },
+    getWinRatio: async (_source, _args) => {
+      let finalData = 0;
+      let allMatches = 0;
+      await SummonerSchema.findOne({ userId: _args.userId })
+        .exec()
+        .then(data => {
+          data.summonerMatchDetails.forEach((data, index) => {
+            if (data.stats.win) {
+              finalData++;
+            }
+            allMatches++;
+          });
+          finalData = Math.floor((finalData / allMatches) * 100);
+        })
+        .catch(err => {
+          console.error("❌ Searching summoner data error", err);
+        });
+      return finalData;
     }
   },
   Mutation: {
