@@ -58,9 +58,10 @@ export default {
 
       if (Object.keys(summonerValues).length !== 0) {
         query.summoner = {$elemMatch: summonerValues}
+      } else {
+        query.summoner = {$exists: true, $ne: []} // Gia na apokliso  tous user pou den expun dilwsei akoma accounts
       }
 
-      query.summoner = {$exists: true, $ne: []} // Gia na apokliso  tous user pou den expun dilwsei akoma accounts
       return await UserSchema.find(query).skip(_args.skip)
           .limit(_args.limit)
           .exec()
@@ -73,7 +74,7 @@ export default {
       let query = {};
       let summonerValues = {};
 
-      console.log('===>ARGS', _args);
+
       if (_args.server) {
         summonerValues.server = _args.server;
         query.summoner = summonerValues;
@@ -95,8 +96,13 @@ export default {
           query.languages = {$in: _args.languages}
         }
       }
-      query.summoner = {$exists: true, $ne: []} // Gia na apokliso  tous user pou den expun dilwsei akoma accounts
-      console.log('QUERY', query)
+
+      if (Object.keys(summonerValues).length !== 0) {
+        query.summoner = {$elemMatch: summonerValues}
+      } else {
+        query.summoner = {$exists: true, $ne: []} // Gia na apokliso  tous user pou den expun dilwsei akoma accounts
+      }
+
       return await UserSchema.countDocuments(query)
           .exec()
           .then()
