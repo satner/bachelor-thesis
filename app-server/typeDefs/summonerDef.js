@@ -19,7 +19,8 @@ export default gql`
   }
 
   type VisionScore {
-    visionScore: Int
+    type: String
+    value: Int
     gameCounter: Int
   }
 `;

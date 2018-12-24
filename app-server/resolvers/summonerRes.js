@@ -21,10 +21,25 @@ export default {
         .exec()
         .then(data => {
           data.summonerMatchDetails.forEach((data, index) => {
-            let tempObject = {};
-            tempObject.visionScore = Number(data.stats.visionScore); // kane to string number
-            tempObject.gameCounter = index;
-            finalData.push(tempObject);
+            let visionScoreObject = {};
+            let wardsPlacedObject = {};
+            let wardsKilledObject = {};
+
+            visionScoreObject.type = "Vision Score";
+            visionScoreObject.value = Number(data.stats.visionScore);
+            visionScoreObject.gameCounter = index;
+
+            wardsPlacedObject.type = "Wards Placed";
+            wardsPlacedObject.value = Number(data.stats.wardsPlaced); // kane to string number
+            wardsPlacedObject.gameCounter = index;
+
+            wardsKilledObject.type = "Wards Killed";
+            wardsKilledObject.value = Number(data.stats.wardsKilled); // kane to string number
+            wardsKilledObject.gameCounter = index;
+
+            finalData.push(visionScoreObject);
+            finalData.push(wardsPlacedObject);
+            finalData.push(wardsKilledObject);
           });
         })
         .catch(err => {
