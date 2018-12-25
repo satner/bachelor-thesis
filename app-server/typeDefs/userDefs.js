@@ -2,7 +2,7 @@ import { gql } from "apollo-server-express";
 
 export default gql`
   extend type Query {
-    getUserInfos(userId: String!): User
+    getUserInfos(id: String!): User
     getPaginationUsers(
       limit: Int
       skip: Int
