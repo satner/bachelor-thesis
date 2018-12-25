@@ -289,6 +289,18 @@ export default {
           console.error("❌ Searching summoner data error", err);
         });
       return finalData;
+    },
+    getCalendarStats: async (_source, _args) => {
+      let finalData;
+      await SummonerSchema.findOne({ userId: _args.userId })
+        .exec()
+        .then(user => {
+          finalData = user.matchesTimeline;
+        })
+        .catch(err => {
+          console.error("❌ Searching summoner data error", err);
+        });
+      return finalData;
     }
   },
   Mutation: {

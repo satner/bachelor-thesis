@@ -11,6 +11,7 @@ export default gql`
     getCreepsPerMinDeltas(userId: String!): [AreaMultiGraphFloat]
     getXpPerMinDeltas(userId: String!): [AreaMultiGraphFloat]
     getGoldPerMinDeltas(userId: String!): [AreaMultiGraphFloat]
+    getCalendarStats(userId: String!): [Calendar]
   }
 
   extend type Mutation {
@@ -43,6 +44,11 @@ export default gql`
 
   type killsStats {
     killType: String
+    value: Int
+  }
+
+  type Calendar {
+    day: String
     value: Int
   }
 

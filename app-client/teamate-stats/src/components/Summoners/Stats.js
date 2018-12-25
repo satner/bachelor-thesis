@@ -8,8 +8,9 @@ import DamageDealtToChampions from "./Stats/DamageDealtToChampions";
 import CreepsPerMinDeltas from "./Stats/CreepsPerMinDeltas";
 import XpPerMinDeltas from "./Stats/XpPerMinDeltas";
 import GoldPerMinDeltas from "./Stats/GoldPerMinDeltas";
+import CalendarTimeline from "./Stats/CalendarTimeline";
 
-const { Footer, Sider, Content } = Layout;
+const { Content } = Layout;
 
 class Stats extends Component {
   render() {
@@ -36,6 +37,7 @@ class Stats extends Component {
             <CreepsPerMinDeltas userId={this.props.location.state.userId} />
             <XpPerMinDeltas userId={this.props.location.state.userId} />
             <GoldPerMinDeltas userId={this.props.location.state.userId} />
+            <CalendarTimeline userId={this.props.location.state.userId} />
           </Content>
         </Layout>
       </div>

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@nivo/calendar": "^0.52.0",
     "antd": "^3.10.9",
     "apollo-boost": "^0.1.22",
     "bizcharts": "^3.4.1",
