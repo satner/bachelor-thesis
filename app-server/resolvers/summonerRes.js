@@ -21,25 +21,27 @@ export default {
         .exec()
         .then(data => {
           data.summonerMatchDetails.forEach((data, index) => {
-            let visionScoreObject = {};
-            let wardsPlacedObject = {};
-            let wardsKilledObject = {};
+            if (data.stats.visionScore) {
+              let visionScoreObject = {};
+              let wardsPlacedObject = {};
+              let wardsKilledObject = {};
 
-            visionScoreObject.type = "Vision Score";
-            visionScoreObject.value = Number(data.stats.visionScore);
-            visionScoreObject.gameCounter = index;
+              visionScoreObject.type = "Vision Score";
+              visionScoreObject.value = Number(data.stats.visionScore);
+              visionScoreObject.gameCounter = index;
 
-            wardsPlacedObject.type = "Wards Placed";
-            wardsPlacedObject.value = Number(data.stats.wardsPlaced); // kane to string number
-            wardsPlacedObject.gameCounter = index;
+              wardsPlacedObject.type = "Wards Placed";
+              wardsPlacedObject.value = Number(data.stats.wardsPlaced); // kane to string number
+              wardsPlacedObject.gameCounter = index;
 
-            wardsKilledObject.type = "Wards Killed";
-            wardsKilledObject.value = Number(data.stats.wardsKilled); // kane to string number
-            wardsKilledObject.gameCounter = index;
+              wardsKilledObject.type = "Wards Killed";
+              wardsKilledObject.value = Number(data.stats.wardsKilled); // kane to string number
+              wardsKilledObject.gameCounter = index;
 
-            finalData.push(visionScoreObject);
-            finalData.push(wardsPlacedObject);
-            finalData.push(wardsKilledObject);
+              finalData.push(visionScoreObject);
+              finalData.push(wardsPlacedObject);
+              finalData.push(wardsKilledObject);
+            }
           });
         })
         .catch(err => {
@@ -53,15 +55,18 @@ export default {
         .exec()
         .then(data => {
           data.summonerMatchDetails.forEach((data, index) => {
-            let tempObject = {};
-            tempObject.kda =
-              Math.round(
-                ((data.stats.kills + data.stats.assists) / data.stats.deaths) *
-                  100
-              ) / 100;
-            tempObject.gameCounter = index;
+            if (data.stats.kills) {
+              let tempObject = {};
+              tempObject.kda =
+                Math.round(
+                  ((data.stats.kills + data.stats.assists) /
+                    data.stats.deaths) *
+                    100
+                ) / 100;
+              tempObject.gameCounter = index;
 
-            finalData.push(tempObject);
+              finalData.push(tempObject);
+            }
           });
         })
         .catch(err => {
@@ -110,10 +115,12 @@ export default {
         .exec()
         .then(data => {
           data.summonerMatchDetails.forEach((data, index) => {
-            doubleKills.value += data.stats.doubleKills;
-            tripleKills.value += data.stats.tripleKills;
-            quadraKills.value += data.stats.quadraKills;
-            pentaKills.value += data.stats.pentaKills;
+            if (data.stats.doubleKills) {
+              doubleKills.value += data.stats.doubleKills;
+              tripleKills.value += data.stats.tripleKills;
+              quadraKills.value += data.stats.quadraKills;
+              pentaKills.value += data.stats.pentaKills;
+            }
           });
           finalData.push(doubleKills);
           finalData.push(tripleKills);
@@ -131,33 +138,39 @@ export default {
         .exec()
         .then(data => {
           data.summonerMatchDetails.forEach((data, index) => {
-            let totalDamage = {};
-            let magicDamage = {};
-            let physicalDamage = {};
-            let trueDamage = {};
+            if (data.stats.magicDamageDealtToChampions) {
+              let totalDamage = {};
+              let magicDamage = {};
+              let physicalDamage = {};
+              let trueDamage = {};
 
-            totalDamage.type = "Total Damage";
-            totalDamage.value = Number(data.stats.totalDamageDealtToChampions);
-            totalDamage.gameCounter = index;
+              totalDamage.type = "Total Damage";
+              totalDamage.value = Number(
+                data.stats.totalDamageDealtToChampions
+              );
+              totalDamage.gameCounter = index;
 
-            magicDamage.type = "Magic Damage";
-            magicDamage.value = Number(data.stats.magicDamageDealtToChampions); // kane to string number
-            magicDamage.gameCounter = index;
+              magicDamage.type = "Magic Damage";
+              magicDamage.value = Number(
+                data.stats.magicDamageDealtToChampions
+              ); // kane to string number
+              magicDamage.gameCounter = index;
 
-            physicalDamage.type = "Physical Damage";
-            physicalDamage.value = Number(
-              data.stats.physicalDamageDealtToChampions
-            ); // kane to string number
-            physicalDamage.gameCounter = index;
+              physicalDamage.type = "Physical Damage";
+              physicalDamage.value = Number(
+                data.stats.physicalDamageDealtToChampions
+              ); // kane to string number
+              physicalDamage.gameCounter = index;
 
-            trueDamage.type = "True Damage";
-            trueDamage.value = Number(data.stats.trueDamageDealtToChampions); // kane to string number
-            trueDamage.gameCounter = index;
+              trueDamage.type = "True Damage";
+              trueDamage.value = Number(data.stats.trueDamageDealtToChampions); // kane to string number
+              trueDamage.gameCounter = index;
 
-            finalData.push(totalDamage);
-            finalData.push(magicDamage);
-            finalData.push(physicalDamage);
-            finalData.push(trueDamage);
+              finalData.push(totalDamage);
+              finalData.push(magicDamage);
+              finalData.push(physicalDamage);
+              finalData.push(trueDamage);
+            }
           });
         })
         .catch(err => {
