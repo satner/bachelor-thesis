@@ -321,6 +321,53 @@ export default {
       finalData.minDay = moment.min(momentDays).format("YYYY-MM-DD");
       finalData.timeline = finalTimeStamps;
       return finalData;
+    },
+    getRadarStats: async (_source, _args) => {
+      let finalData = [];
+      let allMatches = 0;
+      let mapControl = { type: "Map Control", value: 0 };
+      let goldAggregate = { type: "Gold Aggregate", value: 0 };
+      let damageAggregate = { type: "Damage Aggregate", value: 0 };
+      await SummonerSchema.findOne({ userId: _args.userId })
+        .exec()
+        .then(user => {
+          user.summonerMatchDetails.forEach((data, index) => {
+            if (data) {
+              mapControl.value +=
+                data.stats.wardsPlaced +
+                data.stats.wardsKilled +
+                data.stats.damageDealtToObjectives +
+                data.stats.damageDealtToObjectives;
+              if (data.stats.firstTowerKill) {
+                mapControl.value++;
+                goldAggregate.value++;
+              }
+              goldAggregate.value +=
+                data.stats.goldEarned + data.stats.totalMinionsKilled;
+              if (data.stats.firstBloodKill) {
+                goldAggregate.value++;
+              }
+              damageAggregate.value += data.stats.totalDamageDealtToChampions;
+              damageAggregate.value -= data.stats.totalDamageTaken;
+
+              allMatches++;
+            }
+          });
+          mapControl.value = Math.floor(mapControl.value / allMatches);
+          goldAggregate.value = Math.floor(goldAggregate.value / allMatches);
+          damageAggregate.value = Math.floor(
+            damageAggregate.value / allMatches
+          );
+
+          finalData.push(mapControl);
+          finalData.push(goldAggregate);
+          finalData.push(damageAggregate);
+        })
+        .catch(err => {
+          console.error("❌ Searching summoner data error", err);
+        });
+
+      return finalData;
     }
   },
   Mutation: {

@@ -12,6 +12,7 @@ export default gql`
     getXpPerMinDeltas(userId: String!): [AreaMultiGraphFloat]
     getGoldPerMinDeltas(userId: String!): [AreaMultiGraphFloat]
     getCalendarStats(userId: String!): Calendar
+    getRadarStats(userId: String!): [Radar]
   }
 
   extend type Mutation {
@@ -61,6 +62,11 @@ export default gql`
 
   type Time {
     day: String
+    value: Int
+  }
+
+  type Radar {
+    type: String
     value: Int
   }
 `;
