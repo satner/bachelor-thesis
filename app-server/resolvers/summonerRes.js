@@ -368,6 +368,32 @@ export default {
         });
 
       return finalData;
+    },
+    getThreeMostPlayedChampions: async (_source, _args) => {
+      let finalData = [];
+      let championsCount = [];
+      await SummonerSchema.findOne({ userId: _args.userId })
+        .exec()
+        .then(user => {
+          user.summonerMatchDetails.forEach((data, index) => {
+            if (data) {
+              let temp = { value: 1 };
+              temp.championId = data.championId;
+              championsCount.push(temp);
+            }
+          });
+          finalData = _(championsCount)
+            .groupBy("championId")
+            .map((objs, key) => ({
+              championId: key,
+              value: _.sumBy(objs, "value")
+            }))
+            .value();
+        })
+        .catch(err => {
+          console.error("❌ Searching summoner data error", err);
+        });
+      return finalData;
     }
   },
   Mutation: {

@@ -10,6 +10,7 @@ import XpPerMinDeltas from "./Stats/XpPerMinDeltas";
 import GoldPerMinDeltas from "./Stats/GoldPerMinDeltas";
 import CalendarTimeline from "./Stats/CalendarTimeline";
 import RadarStats from "./Stats/RadarStats";
+import MostPlayedChampions from "./Stats/MostPlayedChampions";
 
 const { Content } = Layout;
 
@@ -40,6 +41,7 @@ class Stats extends Component {
             <GoldPerMinDeltas userId={this.props.location.state.userId} />
             <CalendarTimeline userId={this.props.location.state.userId} />
             <RadarStats userId={this.props.location.state.userId} />
+            <MostPlayedChampions userId={this.props.location.state.userId} />
           </Content>
         </Layout>
       </div>
