@@ -74,19 +74,32 @@ export default {
         });
       return finalData;
     },
-    getWinRatio: async (_source, _args) => {
-      let finalData = 0;
+    getAvgStats: async (_source, _args) => {
+      let finalData = {};
       let allMatches = 0;
+      finalData.winRatio = 0;
+      finalData.goldAvg = 0;
+      finalData.damageAvg = 0;
       await SummonerSchema.findOne({ userId: _args.userId })
         .exec()
         .then(data => {
           data.summonerMatchDetails.forEach((data, index) => {
             if (data.stats.win) {
-              finalData++;
+              finalData.winRatio++;
+            }
+            if (data.stats.goldEarned) {
+              finalData.goldAvg += data.stats.goldEarned;
+            }
+            if (data.stats.totalDamageDealt) {
+              finalData.damageAvg += data.stats.totalDamageDealt;
             }
             allMatches++;
           });
-          finalData = Math.floor((finalData / allMatches) * 100);
+          finalData.winRatio = Math.floor(
+            (finalData.winRatio / allMatches) * 100
+          );
+          finalData.goldAvg = Math.floor(finalData.goldAvg / allMatches);
+          finalData.damageAvg = Math.floor(finalData.damageAvg / allMatches);
         })
         .catch(err => {
           console.error("❌ Searching summoner data error", err);

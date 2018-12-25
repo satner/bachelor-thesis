@@ -5,7 +5,7 @@ export default gql`
     getSummonerInfo(userId: String!): SummonerData!
     getVisionScore(userId: String!): [AreaMultiGraph]
     getKDAPerGame(userId: String!): [KDA]
-    getWinRatio(userId: String!): Float
+    getAvgStats(userId: String!): AvgStats
     getKillsStats(userId: String!): [killsStats]
     getDamageDealtToChampions(userId: String!): [AreaMultiGraph]
     getCreepsPerMinDeltas(userId: String!): [AreaMultiGraphFloat]
@@ -44,5 +44,11 @@ export default gql`
   type killsStats {
     killType: String
     value: Int
+  }
+
+  type AvgStats {
+    winRatio: Int
+    goldAvg: Int
+    damageAvg: Int
   }
 `;

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Layout } from "antd";
 import VisionScore from "./Stats/VisionScore";
 import KDA from "./Stats/KDA";
-import WinRatio from "./Stats/WinRatio";
+import AvgStats from "./Stats/AvgStats";
 import Kills from "./Stats/Kills";
 import DamageDealtToChampions from "./Stats/DamageDealtToChampions";
 import CreepsPerMinDeltas from "./Stats/CreepsPerMinDeltas";
@@ -30,7 +30,7 @@ class Stats extends Component {
           <Content>
             <VisionScore userId={this.props.location.state.userId} />
             <KDA userId={this.props.location.state.userId} />
-            <WinRatio userId={this.props.location.state.userId} />
+            <AvgStats userId={this.props.location.state.userId} />
             <Kills userId={this.props.location.state.userId} />
             <DamageDealtToChampions userId={this.props.location.state.userId} />
             <CreepsPerMinDeltas userId={this.props.location.state.userId} />
