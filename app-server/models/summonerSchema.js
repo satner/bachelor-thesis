@@ -21,12 +21,7 @@ const summonerSchema = new mongoose.Schema(
       inactive: Boolean,
       hotStreak: Boolean
     },
-    matchesTimeline: [
-      {
-        day: String,
-        value: Number
-      }
-    ],
+    matchesTimeline: [Number],
     totalGames: Number,
     startIndex: Number,
     endIndex: Number,

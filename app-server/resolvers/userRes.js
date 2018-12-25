@@ -1,8 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
-import moment from "moment";
-import _ from "lodash";
 import { SummonerSchema, UserSchema } from "../models";
 import { API_KEY, QUEUE, SEASON } from "../lol-config";
 import { EMAIL, PASSWORD } from "../mail-settings";
@@ -122,7 +120,6 @@ export default {
       let matchDetails = [];
       let finalData = {};
       let timeStamps = [];
-      let finalTimeStamps = [];
       // Cheak ama iparxei idi sto DB
       await SummonerSchema.findOne({
         "summonerInfo.name": _args.summoner,
@@ -176,22 +173,9 @@ export default {
             finalData.startIndex = matchList.startIndex;
             finalData.endIndex = matchList.endIndex;
             finalData.totalGames = matchList.totalGames;
-
-            // convert each match timestamp to normal date
             matchList.matches.forEach(data => {
-              let temp = {};
-              temp.day = moment(data.timestamp).format("YYYY-MM-DD");
-              temp.value = 1;
-              timeStamps.push(temp);
+              timeStamps.push(data.timestamp);
             });
-            finalTimeStamps = _(timeStamps)
-              .groupBy("day")
-              .map((objs, key) => ({
-                day: key,
-                value: _.sumBy(objs, "value")
-              }))
-              .value();
-
             return matchList.matches;
           })
           .catch(err => {
@@ -230,7 +214,7 @@ export default {
             finalData.summonerMatchDetails = matchDetails;
             finalData.userId = _args.id;
             finalData.summonerInfo.server = _args.server;
-            finalData.matchesTimeline = finalTimeStamps;
+            finalData.matchesTimeline = timeStamps;
             SummonerSchema.create(finalData);
             newSummoner.tier = finalData.summonerLeagueInfo.tier;
             newSummoner.profileIconId = finalData.summonerInfo.profileIconId;

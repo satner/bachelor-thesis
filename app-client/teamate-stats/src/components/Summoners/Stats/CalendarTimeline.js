@@ -6,8 +6,12 @@ import { ResponsiveCalendar } from "@nivo/calendar";
 const GET_CALENDAR_STATS = gql`
   query($userId: String!) {
     getCalendarStats(userId: $userId) {
-      day
-      value
+      maxDay
+      minDay
+      timeline {
+        day
+        value
+      }
     }
   }
 `;
@@ -19,11 +23,11 @@ const CalendarTimeline = props => {
         if (loading) return "Loading...";
         if (error) return `Error! ${error.message}`;
         return (
-          <div style={{ height: 500 }}>
+          <div style={{ height: 450 }}>
             <ResponsiveCalendar
-              data={data.getCalendarStats}
-              from="2018-10-25"
-              to="2018-07-30"
+              data={data.getCalendarStats.timeline}
+              from={data.getCalendarStats.minDay}
+              to={data.getCalendarStats.maxDay}
               emptyColor="#eeeeee"
               colors={["#61cdbb", "#97e3d5", "#e8c1a0", "#f47560"]}
               margin={{

@@ -1,3 +1,4 @@
+import moment from "moment";
 import { SummonerSchema } from "../models";
 import { API_KEY, QUEUE, SEASON } from "../lol-config";
 const _ = require("lodash");
@@ -291,15 +292,34 @@ export default {
       return finalData;
     },
     getCalendarStats: async (_source, _args) => {
-      let finalData;
+      let finalData = {};
+      let finalTimeStamps = [];
       await SummonerSchema.findOne({ userId: _args.userId })
         .exec()
         .then(user => {
-          finalData = user.matchesTimeline;
+          // convert each match timestamp to normal date
+          let timeStamps = [];
+          user.matchesTimeline.forEach(data => {
+            let temp = {};
+            temp.day = moment(data).format("YYYY-MM-DD");
+            temp.value = 1;
+            timeStamps.push(temp);
+          });
+          finalTimeStamps = _(timeStamps)
+            .groupBy("day")
+            .map((objs, key) => ({
+              day: key,
+              value: _.sumBy(objs, "value")
+            }))
+            .value();
         })
         .catch(err => {
           console.error("❌ Searching summoner data error", err);
         });
+      let momentDays = finalTimeStamps.map(d => moment(d.day));
+      finalData.maxDay = moment.max(momentDays).format("YYYY-MM-DD");
+      finalData.minDay = moment.min(momentDays).format("YYYY-MM-DD");
+      finalData.timeline = finalTimeStamps;
       return finalData;
     }
   },
