@@ -131,7 +131,7 @@ class Grid extends Component {
           if (loading) return <Spin size="large" />;
           if (error) return <p>{`Error: ${error}`}</p>;
           return data.getPaginationUsers.map((u, i) => {
-            console.log(u._id);
+            console.log(u);
 
             return (
               <Card

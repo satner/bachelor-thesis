@@ -1,6 +1,6 @@
 import React from "react";
 import gql from "graphql-tag";
-import { Axis, Chart, Geom, Legend, Tooltip, Coord } from "bizcharts";
+import { Axis, Chart, Geom, Tooltip, Coord } from "bizcharts";
 import { Query } from "react-apollo";
 
 const GET_RADAR_sTATS = gql`

@@ -4,7 +4,7 @@ import { Query } from "react-apollo";
 import { ResponsiveBar } from "@nivo/bar";
 const GET_MOST_PLAYED = gql`
   query($userId: String!) {
-    getThreeMostPlayedChampions(userId: $userId) {
+    getFiveMostPlayedChampions(userId: $userId) {
       name
       wins
       winsColor
@@ -32,7 +32,7 @@ const MostPlayedChampions = props => {
                 bottom: 60,
                 left: 80
               }}
-              data={data.getThreeMostPlayedChampions}
+              data={data.getFiveMostPlayedChampions}
               indexBy="name"
               keys={["wins", "losses"]}
               padding={0.2}

@@ -58,14 +58,17 @@ export default {
           data.summonerMatchDetails.forEach((data, index) => {
             if (data.stats.kills) {
               let tempObject = {};
-              tempObject.kda =
-                Math.round(
-                  ((data.stats.kills + data.stats.assists) /
-                    data.stats.deaths) *
-                    100
-                ) / 100;
-              tempObject.gameCounter = index;
+              if (data.stats.deaths !== 0) {
+                tempObject.kda = Math.floor(
+                  (data.stats.kills + data.stats.assists) / data.stats.deaths
+                );
+              } else {
+                tempObject.kda = Math.floor(
+                  (data.stats.kills + data.stats.assists) / 1
+                );
+              }
 
+              tempObject.gameCounter = index;
               finalData.push(tempObject);
             }
           });
@@ -73,6 +76,7 @@ export default {
         .catch(err => {
           console.error("❌ Searching summoner data error", err);
         });
+
       return finalData;
     },
     getAvgStats: async (_source, _args) => {
@@ -369,7 +373,7 @@ export default {
 
       return finalData;
     },
-    getThreeMostPlayedChampions: async (_source, _args) => {
+    getFiveMostPlayedChampions: async (_source, _args) => {
       let finalData = [];
       let championsCount = [];
       await SummonerSchema.findOne({ userId: _args.userId })
@@ -407,18 +411,28 @@ export default {
               d.lossesColor = "hsl(352, 70%, 50%)";
             });
           });
-
           await Promise.all(championsNamePromises);
         })
         .catch(err => {
           console.error("❌ Searching summoner data error", err);
         });
-      return finalData;
+      // Ipologismos ton total games me kathe champion
+      finalData.forEach(data => {
+        data.championTotalGames = data.wins + data.losses;
+      });
+
+      // Sort tou array final data
+      let results = _.orderBy(finalData, ["championTotalGames"], ["desc"]);
+
+      // Epistrofi mono to penta champion me ta perisotera games
+      return results.splice(0, 5);
     }
   },
   Mutation: {
-    // TODO: check start, end and totalgames index
     updateSummonerInfo: (_source, _args) => {
+      console.log("eimai edw");
+      let newEndIndex = 0;
+      let newTimeline = [];
       SummonerSchema.findOne(
         { "summonerInfo.name": _args.summonerName },
         (err, result) => {
@@ -429,6 +443,10 @@ export default {
             { queue: [QUEUE], season: [SEASON], beginIndex: result.endIndex }
           )
             .then(matchList => {
+              matchList.matches.forEach(data => {
+                newTimeline.push(data.timestamp);
+              });
+              newEndIndex = result.endIndex + matchList.matches.length;
               return matchList;
             })
             .then(matchesList => {
@@ -454,7 +472,7 @@ export default {
                     })
                     .catch(err => {
                       console.error(
-                        ">>> setSummonerInfo resolver: Match Endpoint Error (details)" +
+                        ">>> updateSummonerInfo resolver: Match Endpoint Error (details)" +
                           err
                       );
                     });
@@ -463,17 +481,23 @@ export default {
                 SummonerSchema.updateOne(
                   { _id: result._id },
                   {
-                    $push: { summonerMatchDetails: matchDetails },
-                    $inc: { endIndex: 100 },
+                    $push: {
+                      summonerMatchDetails: matchDetails,
+                      matchesTimeline: newTimeline
+                    },
+                    endIndex: newEndIndex,
                     totalGames: matchesList.totalGames
                   },
                   { safe: true, upsert: true },
                   function(err, model) {
-                    if (err)
+                    if (err) {
                       console.error(
-                        ">>> setSummonerInfo resolver: Update Error"
+                        ">>> updateSummonerInfo resolver: Update Error",
+                        err
                       );
-                    console.log("💪 Summoner updated");
+                    } else {
+                      console.log("💪 Summoner updated");
+                    }
                   }
                 );
               });

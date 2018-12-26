@@ -13,7 +13,7 @@ export default gql`
     getGoldPerMinDeltas(userId: String!): [AreaMultiGraphFloat]
     getCalendarStats(userId: String!): Calendar
     getRadarStats(userId: String!): [Radar]
-    getThreeMostPlayedChampions(userId: String!): [MostPlayed]
+    getFiveMostPlayedChampions(userId: String!): [MostPlayed]
   }
 
   extend type Mutation {
