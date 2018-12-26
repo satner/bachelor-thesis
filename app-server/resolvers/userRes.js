@@ -153,7 +153,11 @@ export default {
           _args.server
         )
           .then(data => {
-            finalData.summonerLeagueInfo = data[1]; // Ston index 1 einai ta flex
+            if (data[0].queueType.includes("SOLO")) {
+              finalData.summonerLeagueInfo = data[0];
+            } else {
+              finalData.summonerLeagueInfo = data[1];
+            }
             return api.Match.gettingListByAccount(
               finalData.summonerInfo.accountId,
               _args.server,

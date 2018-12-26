@@ -430,13 +430,27 @@ export default {
   },
   Mutation: {
     updateSummonerInfo: (_source, _args) => {
-      console.log("eimai edw");
       let newEndIndex = 0;
       let newTimeline = [];
+      let newTier = "";
       SummonerSchema.findOne(
-        { "summonerInfo.name": _args.summonerName },
+        {
+          "summonerInfo.name": _args.summonerName,
+          "summonerInfo.server": _args.server
+        },
         (err, result) => {
           let matchDetails = [];
+          api.League.gettingPositionsForSummonerId(
+            result.summonerInfo.id,
+            _args.server
+          ).then(d => {
+            if (d[0].queueType.includes("SOLO")) {
+              newTier = d[0].tier;
+            } else {
+              newTier = d[1].tier;
+            }
+          });
+
           api.Match.gettingListByAccount(
             result.summonerInfo.accountId,
             _args.server,
@@ -486,7 +500,8 @@ export default {
                       matchesTimeline: newTimeline
                     },
                     endIndex: newEndIndex,
-                    totalGames: matchesList.totalGames
+                    totalGames: matchesList.totalGames,
+                    "summonerLeagueInfo.tier": newTier
                   },
                   { safe: true, upsert: true },
                   function(err, model) {
