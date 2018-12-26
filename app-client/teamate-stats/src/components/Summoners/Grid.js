@@ -161,7 +161,17 @@ class Grid extends Component {
                     </span>
                   </Tooltip>,
                   <Tooltip title="See stats">
-                    <Link to={{ pathname: "/stats", state: { userId: u._id } }}>
+                    <Link
+                      to={{
+                        pathname: "/stats",
+                        state: {
+                          userId: u._id,
+                          summonerName: u.summoner[0].name,
+                          server: u.summoner[0].server,
+                          restSummonersOfAccount: u.summoner.slice(1)
+                        }
+                      }}
+                    >
                       <Icon type="ellipsis" />
                     </Link>
                   </Tooltip>

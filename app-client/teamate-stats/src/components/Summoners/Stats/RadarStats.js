@@ -4,8 +4,12 @@ import { Axis, Chart, Geom, Tooltip, Coord } from "bizcharts";
 import { Query } from "react-apollo";
 
 const GET_RADAR_sTATS = gql`
-  query($userId: String!) {
-    getRadarStats(userId: $userId) {
+  query($userId: String!, $summonerName: String!, $server: String!) {
+    getRadarStats(
+      userId: $userId
+      summonerName: $summonerName
+      server: $server
+    ) {
       type
       value
     }
@@ -14,7 +18,14 @@ const GET_RADAR_sTATS = gql`
 
 const RadarStats = props => {
   return (
-    <Query query={GET_RADAR_sTATS} variables={{ userId: props.userId }}>
+    <Query
+      query={GET_RADAR_sTATS}
+      variables={{
+        userId: props.userId,
+        summonerName: props.summonerName,
+        server: props.server
+      }}
+    >
       {({ loading, error, data }) => {
         if (loading) return "Loading...";
         if (error) return `Error! ${error.message}`;

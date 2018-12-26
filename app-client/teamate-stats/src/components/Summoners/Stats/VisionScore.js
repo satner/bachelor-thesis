@@ -4,8 +4,12 @@ import { Axis, Chart, Geom, Tooltip, Legend } from "bizcharts";
 import { Query } from "react-apollo";
 
 const GET_VISION_SCORE = gql`
-  query($userId: String!) {
-    getVisionScore(userId: $userId) {
+  query($userId: String!, $summonerName: String!, $server: String!) {
+    getVisionScore(
+      userId: $userId
+      summonerName: $summonerName
+      server: $server
+    ) {
       type
       value
       gameCounter
@@ -17,7 +21,14 @@ const scale = {
 };
 const VisionScore = props => {
   return (
-    <Query query={GET_VISION_SCORE} variables={{ userId: props.userId }}>
+    <Query
+      query={GET_VISION_SCORE}
+      variables={{
+        userId: props.userId,
+        summonerName: props.summonerName,
+        server: props.server
+      }}
+    >
       {({ loading, error, data }) => {
         if (loading) return "Loading...";
         if (error) return `Error! ${error.message}`;

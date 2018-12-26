@@ -3,8 +3,12 @@ import gql from "graphql-tag";
 import { Query } from "react-apollo";
 import { ResponsiveBar } from "@nivo/bar";
 const GET_MOST_PLAYED = gql`
-  query($userId: String!) {
-    getFiveMostPlayedChampions(userId: $userId) {
+  query($userId: String!, $summonerName: String!, $server: String!) {
+    getFiveMostPlayedChampions(
+      userId: $userId
+      summonerName: $summonerName
+      server: $server
+    ) {
       name
       wins
       winsColor
@@ -16,7 +20,14 @@ const GET_MOST_PLAYED = gql`
 
 const MostPlayedChampions = props => {
   return (
-    <Query query={GET_MOST_PLAYED} variables={{ userId: props.userId }}>
+    <Query
+      query={GET_MOST_PLAYED}
+      variables={{
+        userId: props.userId,
+        summonerName: props.summonerName,
+        server: props.server
+      }}
+    >
       {({ loading, error, data }) => {
         if (loading) return "Loading...";
         if (error) return `Error! ${error.message}`;

@@ -4,8 +4,12 @@ import { Axis, Chart, Geom, Coord, Tooltip } from "bizcharts";
 import { Query } from "react-apollo";
 
 const GET_KILLS = gql`
-  query($userId: String!) {
-    getKillsStats(userId: $userId) {
+  query($userId: String!, $summonerName: String!, $server: String!) {
+    getKillsStats(
+      userId: $userId
+      summonerName: $summonerName
+      server: $server
+    ) {
       killType
       value
     }
@@ -14,7 +18,14 @@ const GET_KILLS = gql`
 
 const Kills = props => {
   return (
-    <Query query={GET_KILLS} variables={{ userId: props.userId }}>
+    <Query
+      query={GET_KILLS}
+      variables={{
+        userId: props.userId,
+        summonerName: props.summonerName,
+        server: props.server
+      }}
+    >
       {({ loading, error, data }) => {
         if (loading) return "Loading...";
         if (error) return `Error! ${error.message}`;

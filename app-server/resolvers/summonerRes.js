@@ -18,7 +18,11 @@ export default {
     },
     getVisionScore: async (_source, _args) => {
       let finalData = [];
-      await SummonerSchema.findOne({ userId: _args.userId })
+      await SummonerSchema.findOne({
+        userId: _args.userId,
+        "summonerInfo.name": _args.summonerName,
+        "summonerInfo.server": _args.server
+      })
         .exec()
         .then(data => {
           data.summonerMatchDetails.forEach((data, index) => {
@@ -52,7 +56,11 @@ export default {
     },
     getKDAPerGame: async (_source, _args) => {
       let finalData = [];
-      await SummonerSchema.findOne({ userId: _args.userId })
+      await SummonerSchema.findOne({
+        userId: _args.userId,
+        "summonerInfo.name": _args.summonerName,
+        "summonerInfo.server": _args.server
+      })
         .exec()
         .then(data => {
           data.summonerMatchDetails.forEach((data, index) => {
@@ -85,7 +93,11 @@ export default {
       finalData.winRatio = 0;
       finalData.goldAvg = 0;
       finalData.damageAvg = 0;
-      await SummonerSchema.findOne({ userId: _args.userId })
+      await SummonerSchema.findOne({
+        userId: _args.userId,
+        "summonerInfo.name": _args.summonerName,
+        "summonerInfo.server": _args.server
+      })
         .exec()
         .then(data => {
           data.summonerMatchDetails.forEach((data, index) => {
@@ -129,7 +141,11 @@ export default {
         killType: "Penta kills",
         value: 0
       };
-      await SummonerSchema.findOne({ userId: _args.userId })
+      await SummonerSchema.findOne({
+        userId: _args.userId,
+        "summonerInfo.name": _args.summonerName,
+        "summonerInfo.server": _args.server
+      })
         .exec()
         .then(data => {
           data.summonerMatchDetails.forEach((data, index) => {
@@ -152,7 +168,11 @@ export default {
     },
     getDamageDealtToChampions: async (_source, _args) => {
       let finalData = [];
-      await SummonerSchema.findOne({ userId: _args.userId })
+      await SummonerSchema.findOne({
+        userId: _args.userId,
+        "summonerInfo.name": _args.summonerName,
+        "summonerInfo.server": _args.server
+      })
         .exec()
         .then(data => {
           data.summonerMatchDetails.forEach((data, index) => {
@@ -198,7 +218,11 @@ export default {
     },
     getCreepsPerMinDeltas: async (_source, _args) => {
       let finalData = [];
-      await SummonerSchema.findOne({ userId: _args.userId })
+      await SummonerSchema.findOne({
+        userId: _args.userId,
+        "summonerInfo.name": _args.summonerName,
+        "summonerInfo.server": _args.server
+      })
         .exec()
         .then(user => {
           user.summonerMatchDetails.forEach((data, index) => {
@@ -231,7 +255,11 @@ export default {
     },
     getXpPerMinDeltas: async (_source, _args) => {
       let finalData = [];
-      await SummonerSchema.findOne({ userId: _args.userId })
+      await SummonerSchema.findOne({
+        userId: _args.userId,
+        "summonerInfo.name": _args.summonerName,
+        "summonerInfo.server": _args.server
+      })
         .exec()
         .then(user => {
           user.summonerMatchDetails.forEach((data, index) => {
@@ -264,7 +292,11 @@ export default {
     },
     getGoldPerMinDeltas: async (_source, _args) => {
       let finalData = [];
-      await SummonerSchema.findOne({ userId: _args.userId })
+      await SummonerSchema.findOne({
+        userId: _args.userId,
+        "summonerInfo.name": _args.summonerName,
+        "summonerInfo.server": _args.server
+      })
         .exec()
         .then(user => {
           user.summonerMatchDetails.forEach((data, index) => {
@@ -298,7 +330,11 @@ export default {
     getCalendarStats: async (_source, _args) => {
       let finalData = {};
       let finalTimeStamps = [];
-      await SummonerSchema.findOne({ userId: _args.userId })
+      await SummonerSchema.findOne({
+        userId: _args.userId,
+        "summonerInfo.name": _args.summonerName,
+        "summonerInfo.server": _args.server
+      })
         .exec()
         .then(user => {
           // convert each match timestamp to normal date
@@ -332,7 +368,11 @@ export default {
       let mapControl = { type: "Map Control", value: 0 };
       let goldAggregate = { type: "Gold Aggregate", value: 0 };
       let damageAggregate = { type: "Damage Aggregate", value: 0 };
-      await SummonerSchema.findOne({ userId: _args.userId })
+      await SummonerSchema.findOne({
+        userId: _args.userId,
+        "summonerInfo.name": _args.summonerName,
+        "summonerInfo.server": _args.server
+      })
         .exec()
         .then(user => {
           user.summonerMatchDetails.forEach((data, index) => {
@@ -376,7 +416,11 @@ export default {
     getFiveMostPlayedChampions: async (_source, _args) => {
       let finalData = [];
       let championsCount = [];
-      await SummonerSchema.findOne({ userId: _args.userId })
+      await SummonerSchema.findOne({
+        userId: _args.userId,
+        "summonerInfo.name": _args.summonerName,
+        "summonerInfo.server": _args.server
+      })
         .exec()
         .then(async user => {
           user.summonerMatchDetails.forEach((data, index) => {

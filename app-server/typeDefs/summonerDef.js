@@ -3,17 +3,61 @@ import { gql } from "apollo-server-express";
 export default gql`
   extend type Query {
     getSummonerInfo(userId: String!): SummonerData!
-    getVisionScore(userId: String!): [AreaMultiGraph]
-    getKDAPerGame(userId: String!): [KDA]
-    getAvgStats(userId: String!): AvgStats
-    getKillsStats(userId: String!): [killsStats]
-    getDamageDealtToChampions(userId: String!): [AreaMultiGraph]
-    getCreepsPerMinDeltas(userId: String!): [AreaMultiGraphFloat]
-    getXpPerMinDeltas(userId: String!): [AreaMultiGraphFloat]
-    getGoldPerMinDeltas(userId: String!): [AreaMultiGraphFloat]
-    getCalendarStats(userId: String!): Calendar
-    getRadarStats(userId: String!): [Radar]
-    getFiveMostPlayedChampions(userId: String!): [MostPlayed]
+    getVisionScore(
+      userId: String!
+      summonerName: String!
+      server: String!
+    ): [AreaMultiGraph]
+    getKDAPerGame(
+      userId: String!
+      summonerName: String!
+      server: String!
+    ): [KDA]
+    getAvgStats(
+      userId: String!
+      summonerName: String!
+      server: String!
+    ): AvgStats
+    getKillsStats(
+      userId: String!
+      summonerName: String!
+      server: String!
+    ): [killsStats]
+    getDamageDealtToChampions(
+      userId: String!
+      summonerName: String!
+      server: String!
+    ): [AreaMultiGraph]
+    getCreepsPerMinDeltas(
+      userId: String!
+      summonerName: String!
+      server: String!
+    ): [AreaMultiGraphFloat]
+    getXpPerMinDeltas(
+      userId: String!
+      summonerName: String!
+      server: String!
+    ): [AreaMultiGraphFloat]
+    getGoldPerMinDeltas(
+      userId: String!
+      summonerName: String!
+      server: String!
+    ): [AreaMultiGraphFloat]
+    getCalendarStats(
+      userId: String!
+      summonerName: String!
+      server: String!
+    ): Calendar
+    getRadarStats(
+      userId: String!
+      summonerName: String!
+      server: String!
+    ): [Radar]
+    getFiveMostPlayedChampions(
+      userId: String!
+      summonerName: String!
+      server: String!
+    ): [MostPlayed]
   }
 
   extend type Mutation {

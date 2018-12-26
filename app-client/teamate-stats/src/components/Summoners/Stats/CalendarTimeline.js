@@ -4,8 +4,12 @@ import { Query } from "react-apollo";
 import { ResponsiveCalendar } from "@nivo/calendar";
 
 const GET_CALENDAR_STATS = gql`
-  query($userId: String!) {
-    getCalendarStats(userId: $userId) {
+  query($userId: String!, $summonerName: String!, $server: String!) {
+    getCalendarStats(
+      userId: $userId
+      summonerName: $summonerName
+      server: $server
+    ) {
       maxDay
       minDay
       timeline {
@@ -18,7 +22,14 @@ const GET_CALENDAR_STATS = gql`
 
 const CalendarTimeline = props => {
   return (
-    <Query query={GET_CALENDAR_STATS} variables={{ userId: props.userId }}>
+    <Query
+      query={GET_CALENDAR_STATS}
+      variables={{
+        userId: props.userId,
+        summonerName: props.summonerName,
+        server: props.server
+      }}
+    >
       {({ loading, error, data }) => {
         if (loading) return "Loading...";
         if (error) return `Error! ${error.message}`;

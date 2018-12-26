@@ -4,8 +4,12 @@ import { Query } from "react-apollo";
 import { Chart, Geom, Axis, Tooltip } from "bizcharts";
 
 const GET_KDA = gql`
-  query($userId: String!) {
-    getKDAPerGame(userId: $userId) {
+  query($userId: String!, $summonerName: String!, $server: String!) {
+    getKDAPerGame(
+      userId: $userId
+      summonerName: $summonerName
+      server: $server
+    ) {
       kda
       gameCounter
     }
@@ -17,7 +21,14 @@ const scale = {
 };
 const KDA = props => {
   return (
-    <Query query={GET_KDA} variables={{ userId: props.userId }}>
+    <Query
+      query={GET_KDA}
+      variables={{
+        userId: props.userId,
+        summonerName: props.summonerName,
+        server: props.server
+      }}
+    >
       {({ loading, error, data }) => {
         if (loading) return "Loading...";
         if (error) return `Error! ${error.message}`;

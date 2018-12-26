@@ -4,8 +4,12 @@ import { Axis, Chart, Geom, Legend, Tooltip } from "bizcharts";
 import { Query } from "react-apollo";
 
 const GET_CREEPS_PER_MIN = gql`
-  query($userId: String!) {
-    getCreepsPerMinDeltas(userId: $userId) {
+  query($userId: String!, $summonerName: String!, $server: String!) {
+    getCreepsPerMinDeltas(
+      userId: $userId
+      summonerName: $summonerName
+      server: $server
+    ) {
       type
       value
       gameCounter
@@ -17,7 +21,14 @@ const scale = {
 };
 const CreepsPerMinDeltas = props => {
   return (
-    <Query query={GET_CREEPS_PER_MIN} variables={{ userId: props.userId }}>
+    <Query
+      query={GET_CREEPS_PER_MIN}
+      variables={{
+        userId: props.userId,
+        summonerName: props.summonerName,
+        server: props.server
+      }}
+    >
       {({ loading, error, data }) => {
         if (loading) return "Loading...";
         if (error) return `Error! ${error.message}`;

@@ -4,8 +4,12 @@ import { Axis, Chart, Geom, Legend, Tooltip } from "bizcharts";
 import { Query } from "react-apollo";
 
 const GET_DAMAGE_DEALT = gql`
-  query($userId: String!) {
-    getDamageDealtToChampions(userId: $userId) {
+  query($userId: String!, $summonerName: String!, $server: String!) {
+    getDamageDealtToChampions(
+      userId: $userId
+      summonerName: $summonerName
+      server: $server
+    ) {
       type
       value
       gameCounter
@@ -18,7 +22,14 @@ const scale = {
 
 const DamageDealtToChampions = props => {
   return (
-    <Query query={GET_DAMAGE_DEALT} variables={{ userId: props.userId }}>
+    <Query
+      query={GET_DAMAGE_DEALT}
+      variables={{
+        userId: props.userId,
+        summonerName: props.summonerName,
+        server: props.server
+      }}
+    >
       {({ loading, error, data }) => {
         if (loading) return "Loading...";
         if (error) return `Error! ${error.message}`;
