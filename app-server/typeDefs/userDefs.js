@@ -47,6 +47,7 @@ export default gql`
     summoner: [Accounts]
     languages: [String]
     roles: [String]
+    latestPatchNumber: String
   }
 
   type Accounts {

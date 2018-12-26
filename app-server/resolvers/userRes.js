@@ -31,6 +31,7 @@ export default {
     },
     getPaginationUsers: async (_source, _args) => {
       let query = {};
+      let finalData = {};
       let summonerValues = {};
 
       if (_args.server) {
@@ -61,14 +62,26 @@ export default {
         query.summoner = { $exists: true, $ne: [] }; // Gia na apokliso  tous user pou den expun dilwsei akoma accounts
       }
 
-      return await UserSchema.find(query)
+      let latestPatchNumber = "8.24.1"; // Default value
+      await api.StaticData.gettingVersions().then(data => {
+        latestPatchNumber = data[0];
+      });
+
+      await UserSchema.find(query)
         .skip(_args.skip)
         .limit(_args.limit)
         .exec()
-        .then()
+        .then(data => {
+          finalData = data;
+          data.forEach((d, index) => {
+            finalData[index].latestPatchNumber = latestPatchNumber;
+          });
+        })
         .catch(err => {
           console.error("❌ Get pagination users!" + err);
         });
+
+      return finalData;
     },
     getPaginationNumber: async (_source, _args) => {
       let query = {};

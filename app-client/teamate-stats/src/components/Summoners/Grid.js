@@ -35,6 +35,7 @@ const PAGINATION_USERS = gql`
       }
       languages
       roles
+      latestPatchNumber
     }
   }
 `;
@@ -143,9 +144,9 @@ class Grid extends Component {
                   <Divider>
                     <Avatar
                       size="large"
-                      src={`http://ddragon.leagueoflegends.com/cdn/8.24.1/img/profileicon/${
-                        u.summoner[0].profileIconId
-                      }.png`}
+                      src={`http://ddragon.leagueoflegends.com/cdn/${
+                        u.latestPatchNumber
+                      }/img/profileicon/${u.summoner[0].profileIconId}.png`}
                     />
                   </Divider>
                 }
