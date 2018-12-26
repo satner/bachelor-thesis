@@ -1,118 +1,47 @@
 import React from "react";
 import gql from "graphql-tag";
-import {
-  Chart,
-  Geom,
-  Axis,
-  Tooltip,
-  Coord,
-  Label,
-  Legend,
-  View,
-  Guide,
-  Shape
-} from "bizcharts";
 import { Query } from "react-apollo";
-
+import { ResponsiveBar } from "@nivo/bar";
 const GET_MOST_PLAYED = gql`
   query($userId: String!) {
     getThreeMostPlayedChampions(userId: $userId) {
-      championId
-      value
+      name
+      wins
+      winsColor
+      losses
+      lossesColor
     }
   }
 `;
-Shape.registerShape("point", "image", {
-  drawShape: function(cfg, container) {
-    cfg.points = this.parsePoints(cfg.points);
-    const coord = this._coord;
-    container.addShape("line", {
-      attrs: {
-        x1: cfg.points[0].x,
-        y1: cfg.points[0].y,
-        x2: cfg.points[0].x,
-        y2: coord.start.y,
-        stroke: "#ccc",
-        lineWidth: 1,
-        lineDash: [4, 2]
-      }
-    });
-    return container.addShape("image", {
-      attrs: {
-        x: cfg.points[0].x - (12 * cfg.size) / 2,
-        y: cfg.points[0].y - 12 * cfg.size,
-        width: 12 * cfg.size,
-        height: 12 * cfg.size,
-        img: cfg.shape[1]
-      }
-    });
-  }
-});
-const data = [
-  { name: "Internet Explorer", value: 26 },
-  { name: "Chrome", value: 40 },
-  { name: "Firefox", value: 30 },
-  { name: "Safari", value: 24 },
-  { name: "Opera", value: 15 },
-  { name: "Undetectable", value: 8 }
-];
-const imageMap = {
-  "Internet Explorer":
-    "https://gw.alipayobjects.com/zos/rmsportal/eOYRaLPOmkieVvjyjTzM.png",
-  Chrome: "https://gw.alipayobjects.com/zos/rmsportal/dWJWRLWfpOEbwCyxmZwu.png",
-  Firefox:
-    "https://gw.alipayobjects.com/zos/rmsportal/ZEPeDluKmAoTioCABBTc.png",
-  Safari: "https://gw.alipayobjects.com/zos/rmsportal/eZYhlLzqWLAYwOHQAXmc.png",
-  Opera: "https://gw.alipayobjects.com/zos/rmsportal/vXiGOWCGZNKuVVpVYQAw.png",
-  Undetectable:
-    "https://gw.alipayobjects.com/zos/rmsportal/NjApYXminrnhBgOXyuaK.png"
-};
-const cols = {
-  value: {
-    nice: false,
-    max: 60,
-    min: 0
-  }
-};
+
 const MostPlayedChampions = props => {
   return (
     <Query query={GET_MOST_PLAYED} variables={{ userId: props.userId }}>
-      {({ loading, error, data2 }) => {
+      {({ loading, error, data }) => {
         if (loading) return "Loading...";
         if (error) return `Error! ${error.message}`;
+
         return (
-          <Chart
-            height={window.innerHeight}
-            data={data}
-            padding={[20, 20, 90]}
-            scale={cols}
-            forceFit
-          >
-            <Axis name="name" />
-            <Axis name="value" visible={false} />
-            <Tooltip />
-            <Geom
-              type="point"
-              position="name*value"
-              color="name"
-              shape={[
-                "name",
-                name => {
-                  return ["image", imageMap[name]]; // 根据具体的字段指定 shape
-                }
-              ]}
-              size="value"
-              style={{ stroke: "#fff", lineWidth: 1, fillOpacity: 1 }}
-            >
-              <Label
-                content="value"
-                offset={-20}
-                textStyle={{
-                  fontSize: 16 // 文本大小
-                }}
-              />
-            </Geom>
-          </Chart>
+          <div style={{ height: 600 }}>
+            <ResponsiveBar
+              width={900}
+              height={500}
+              margin={{
+                top: 60,
+                right: 80,
+                bottom: 60,
+                left: 80
+              }}
+              data={data.getThreeMostPlayedChampions}
+              indexBy="name"
+              keys={["wins", "losses"]}
+              padding={0.2}
+              labelTextColor="inherit:darker(1.4)"
+              labelSkipWidth={16}
+              labelSkipHeight={16}
+              groupMode="grouped"
+            />
+          </div>
         );
       }}
     </Query>

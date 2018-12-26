@@ -374,21 +374,41 @@ export default {
       let championsCount = [];
       await SummonerSchema.findOne({ userId: _args.userId })
         .exec()
-        .then(user => {
+        .then(async user => {
           user.summonerMatchDetails.forEach((data, index) => {
             if (data) {
               let temp = { value: 1 };
               temp.championId = data.championId;
+              if (data.stats.win) {
+                temp.wins = 1;
+              } else {
+                temp.losses = 1;
+              }
               championsCount.push(temp);
             }
           });
+
+          // Poses fores exei pexei auto to champion
           finalData = _(championsCount)
             .groupBy("championId")
             .map((objs, key) => ({
               championId: key,
-              value: _.sumBy(objs, "value")
+              wins: _.sumBy(objs, "wins") || 0,
+              losses: _.sumBy(objs, "losses") || 0
             }))
             .value();
+
+          // Getting champion name from champion id
+          let championsNamePromises = finalData.map(async d => {
+            await api.StaticData.gettingChampionById(d.championId).then(res => {
+              delete d.championId;
+              d.name = res.name;
+              d.winsColor = "hsl(88, 70%, 50%)";
+              d.lossesColor = "hsl(352, 70%, 50%)";
+            });
+          });
+
+          await Promise.all(championsNamePromises);
         })
         .catch(err => {
           console.error("❌ Searching summoner data error", err);

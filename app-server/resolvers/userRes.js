@@ -19,7 +19,6 @@ const ObjectId = require("mongoose").Types.ObjectId;
 ObjectId.prototype.valueOf = function() {
   return this.toString();
 };
-
 const JWT_KEY = "kappa";
 
 export default {

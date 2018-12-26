@@ -72,7 +72,10 @@ export default gql`
   }
 
   type MostPlayed {
-    championId: Int
-    value: Int
+    name: String
+    wins: Int
+    losses: Int
+    winsColor: String
+    lossesColor: String
   }
 `;

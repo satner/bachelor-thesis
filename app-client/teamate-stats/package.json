@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@antv/data-set": "^0.10.1",
+    "@nivo/bar": "^0.52.0",
     "@nivo/calendar": "^0.52.0",
     "antd": "^3.10.9",
     "apollo-boost": "^0.1.22",
