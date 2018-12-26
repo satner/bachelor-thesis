@@ -2,6 +2,8 @@ import React from "react";
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
 import { ResponsiveCalendar } from "@nivo/calendar";
+import ReactLoading from "react-loading";
+import "./graphs.css";
 
 const GET_CALENDAR_STATS = gql`
   query($userId: String!, $summonerName: String!, $server: String!) {
@@ -31,7 +33,16 @@ const CalendarTimeline = props => {
       }}
     >
       {({ loading, error, data }) => {
-        if (loading) return "Loading...";
+        if (loading)
+          return (
+            <ReactLoading
+              type={"bubbles"}
+              color={"#0a253e"}
+              height={100}
+              width={100}
+              className="loader-graph"
+            />
+          );
         if (error) return `Error! ${error.message}`;
         return (
           <div style={{ height: 450 }}>

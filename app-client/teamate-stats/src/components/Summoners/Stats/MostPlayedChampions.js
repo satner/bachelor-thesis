@@ -2,6 +2,9 @@ import React from "react";
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
 import { ResponsiveBar } from "@nivo/bar";
+import ReactLoading from "react-loading";
+import "./graphs.css";
+
 const GET_MOST_PLAYED = gql`
   query($userId: String!, $summonerName: String!, $server: String!) {
     getFiveMostPlayedChampions(
@@ -29,13 +32,21 @@ const MostPlayedChampions = props => {
       }}
     >
       {({ loading, error, data }) => {
-        if (loading) return "Loading...";
+        if (loading)
+          return (
+            <ReactLoading
+              type={"bubbles"}
+              color={"#0a253e"}
+              height={100}
+              width={100}
+              className="loader-graph"
+            />
+          );
         if (error) return `Error! ${error.message}`;
 
         return (
           <div style={{ height: 600 }}>
             <ResponsiveBar
-              width={900}
               height={500}
               margin={{
                 top: 60,

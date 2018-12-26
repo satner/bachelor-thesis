@@ -38,8 +38,8 @@ const LiquidGraph = props => {
   return (
     <LiquidFillGauge
       {...props}
-      width={radius * 2}
-      height={radius * 2}
+      width={radius}
+      height={radius}
       value={value}
       percent=""
       textSize={1}

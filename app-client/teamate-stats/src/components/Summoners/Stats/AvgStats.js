@@ -2,6 +2,8 @@ import React from "react";
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
 import LiquidGraph from "./AvgStats/LiquidGraph";
+import ReactLoading from "react-loading";
+import "./graphs.css";
 
 const GET_AVG_STATS = gql`
   query($userId: String!, $summonerName: String!, $server: String!) {
@@ -24,14 +26,32 @@ const AvgStats = props => {
       }}
     >
       {({ loading, error, data }) => {
-        if (loading) return "Loading...";
+        if (loading)
+          return (
+            <ReactLoading
+              type={"bubbles"}
+              color={"#0a253e"}
+              height={"10%"}
+              width={"20%"}
+              className="loader-graph"
+            />
+          );
         if (error) return `Error! ${error.message}`;
 
         return (
-          <div>
-            <LiquidGraph value={data.getAvgStats.winRatio} />
-            <LiquidGraph value={data.getAvgStats.goldAvg} />
-            <LiquidGraph value={data.getAvgStats.damageAvg} />
+          <div id="liquid-graph">
+            <div>
+              <h3 style={{ textAlign: "center" }}>Win Ratio</h3>
+              <LiquidGraph value={data.getAvgStats.winRatio} />
+            </div>
+            <div>
+              <h3 style={{ textAlign: "center" }}>Average Gold</h3>
+              <LiquidGraph value={data.getAvgStats.goldAvg} />
+            </div>
+            <div>
+              <h3 style={{ textAlign: "center" }}>Average Damage</h3>
+              <LiquidGraph value={data.getAvgStats.damageAvg} />
+            </div>
           </div>
         );
       }}
