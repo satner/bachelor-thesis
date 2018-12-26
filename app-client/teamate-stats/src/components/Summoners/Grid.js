@@ -166,13 +166,11 @@ class Grid extends Component {
                         pathname: "/stats",
                         state: {
                           userId: u._id,
-                          summonerName: u.summoner[0].name,
-                          server: u.summoner[0].server,
                           summonersOfAccount: u.summoner
                         }
                       }}
                     >
-                      <Icon type="ellipsis" />
+                      <Icon type="area-chart" />
                     </Link>
                   </Tooltip>
                 ]}

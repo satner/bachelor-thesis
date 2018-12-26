@@ -1,7 +1,7 @@
 import React from "react";
 import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
-import { Button } from "antd";
+import { Button, Popover } from "antd";
 
 const ADD_TODO = gql`
   mutation($summonerName: String!, $server: String!) {
@@ -13,9 +13,11 @@ const UpdateSummoner = props => {
   return (
     <Mutation mutation={ADD_TODO}>
       {(updateSummonerInfo, { data }) => (
-        <div>
+        <Popover content={"Maybe take a few minutes"}>
           <Button
-            type="primary"
+            style={{ display: "inline", marginLeft: 25 }}
+            icon={"redo"}
+            size={"large"}
             onClick={e => {
               e.preventDefault();
               updateSummonerInfo({
@@ -28,7 +30,7 @@ const UpdateSummoner = props => {
           >
             Update
           </Button>
-        </div>
+        </Popover>
       )}
     </Mutation>
   );

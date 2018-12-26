@@ -1,5 +1,5 @@
 import moment from "moment";
-import { SummonerSchema } from "../models";
+import { SummonerSchema, UserSchema } from "../models";
 import { API_KEY, QUEUE, SEASON } from "../lol-config";
 const _ = require("lodash");
 import LeagueJs from "leaguejs";
@@ -554,6 +554,24 @@ export default {
                         ">>> updateSummonerInfo resolver: Update Error",
                         err
                       );
+                    } else {
+                      console.log("💪 Summoner updated");
+                    }
+                  }
+                );
+                UserSchema.updateOne(
+                  {
+                    summoner: {
+                      $elemMatch: {
+                        name: _args.summonerName,
+                        server: _args.server
+                      }
+                    }
+                  },
+                  { $set: { "summoner.$.tier": newTier } },
+                  (err, data) => {
+                    if (err) {
+                      console.error("❌ Updating Summoner error", err);
                     } else {
                       console.log("💪 Summoner updated");
                     }
