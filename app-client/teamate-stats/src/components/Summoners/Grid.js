@@ -168,7 +168,7 @@ class Grid extends Component {
                           userId: u._id,
                           summonerName: u.summoner[0].name,
                           server: u.summoner[0].server,
-                          restSummonersOfAccount: u.summoner.slice(1)
+                          summonersOfAccount: u.summoner
                         }
                       }}
                     >

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Layout, Collapse, Icon } from "antd";
+import { Layout, Tabs } from "antd";
 import VisionScore from "./Stats/VisionScore";
 import KDA from "./Stats/KDA";
 import AvgStats from "./Stats/AvgStats";
@@ -11,42 +11,18 @@ import GoldPerMinDeltas from "./Stats/GoldPerMinDeltas";
 import CalendarTimeline from "./Stats/CalendarTimeline";
 import RadarStats from "./Stats/RadarStats";
 import MostPlayedChampions from "./Stats/MostPlayedChampions";
-import Link from "react-router-dom/es/Link";
 
 const { Content } = Layout;
-const Panel = Collapse.Panel;
+const TabPane = Tabs.TabPane;
 
 class Stats extends Component {
   render() {
-    let collapse;
     let userId = this.props.location.state.userId;
     let summonerName = this.props.location.state.summonerName;
     let server = this.props.location.state.server;
-    let otherSummonerAccounts = this.props.location.state
-      .restSummonersOfAccount;
+    let summonersOfAccount = this.props.location.state.summonersOfAccount;
+    console.log(summonersOfAccount);
 
-    /*if (otherSummonerAccounts) {
-        collapse = (
-            <Collapse defaultActiveKey={["1"]}>
-              {otherSummonerAccounts.map((data, index) => {
-                return (
-                    <Panel header={`${index + 1} summoner account`} key={index}>
-                      <Link
-                          to={{
-                            pathname: "/stats",
-                            state: {
-                              userId
-                            }
-                          }}
-                      >
-                        <Icon type="ellipsis" />
-                      </Link>
-                    </Panel>
-                );
-              })}
-            </Collapse>
-        );
-    }*/
     return (
       <div>
         <div
@@ -62,58 +38,69 @@ class Stats extends Component {
         </div>
         <Layout style={{ marginTop: "150px", backgroundColor: "#fff" }}>
           <Content>
-            {/*{collapse}*/}
-            <VisionScore
-              userId={userId}
-              summonerName={summonerName}
-              server={server}
-            />
-            <KDA userId={userId} summonerName={summonerName} server={server} />
-            <AvgStats
-              userId={userId}
-              summonerName={summonerName}
-              server={server}
-            />
-            <Kills
-              userId={userId}
-              summonerName={summonerName}
-              server={server}
-            />
-            <DamageDealtToChampions
-              userId={userId}
-              summonerName={summonerName}
-              server={server}
-            />
-            <CreepsPerMinDeltas
-              userId={userId}
-              summonerName={summonerName}
-              server={server}
-            />
-            <XpPerMinDeltas
-              userId={userId}
-              summonerName={summonerName}
-              server={server}
-            />
-            <GoldPerMinDeltas
-              userId={userId}
-              summonerName={summonerName}
-              server={server}
-            />
-            <CalendarTimeline
-              userId={userId}
-              summonerName={summonerName}
-              server={server}
-            />
-            <RadarStats
-              userId={userId}
-              summonerName={summonerName}
-              server={server}
-            />
-            <MostPlayedChampions
-              userId={userId}
-              summonerName={summonerName}
-              server={server}
-            />
+            <Tabs defaultActiveKey="1" tabPosition={"left"}>
+              {summonersOfAccount.map((data, index) => {
+                return (
+                  <TabPane tab={`Account #${index + 1}`} key={index + 1}>
+                    <VisionScore
+                      userId={userId}
+                      summonerName={data.name}
+                      server={data.server}
+                    />
+                    <KDA
+                      userId={userId}
+                      summonerName={data.name}
+                      server={data.server}
+                    />
+                    <AvgStats
+                      userId={userId}
+                      summonerName={data.name}
+                      server={data.server}
+                    />
+                    <Kills
+                      userId={userId}
+                      summonerName={data.name}
+                      server={data.server}
+                    />
+                    <DamageDealtToChampions
+                      userId={userId}
+                      summonerName={data.name}
+                      server={data.server}
+                    />
+                    <CreepsPerMinDeltas
+                      userId={userId}
+                      summonerName={data.name}
+                      server={data.server}
+                    />
+                    <XpPerMinDeltas
+                      userId={userId}
+                      summonerName={data.name}
+                      server={data.server}
+                    />
+                    <GoldPerMinDeltas
+                      userId={userId}
+                      summonerName={data.name}
+                      server={data.server}
+                    />
+                    <CalendarTimeline
+                      userId={userId}
+                      summonerName={data.name}
+                      server={data.server}
+                    />
+                    <RadarStats
+                      userId={userId}
+                      summonerName={data.name}
+                      server={data.server}
+                    />
+                    <MostPlayedChampions
+                      userId={userId}
+                      summonerName={data.name}
+                      server={data.server}
+                    />
+                  </TabPane>
+                );
+              })}
+            </Tabs>
           </Content>
         </Layout>
       </div>
