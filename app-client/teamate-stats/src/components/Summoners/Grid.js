@@ -17,6 +17,8 @@ const PAGINATION_USERS = gql`
     $server: String
     $languages: [String]
     $winRatio: Int
+    $avgDamage: Int
+    $avgGold: Int
   ) {
     getPaginationUsers(
       limit: $limit
@@ -26,6 +28,8 @@ const PAGINATION_USERS = gql`
       server: $server
       languages: $languages
       winRatio: $winRatio
+      avgDamage: $avgDamage
+      avgGold: $avgGold
     ) {
       _id
       summoner {
@@ -127,7 +131,9 @@ class Grid extends Component {
           roles: this.props.data.roles,
           server: this.props.data.server,
           languages: this.props.data.languages,
-          winRatio: this.props.data.winRatio
+          winRatio: this.props.data.winRatio,
+          avgDamage: this.props.data.avgDamage,
+          avgGold: this.props.data.avgGold
         }}
         errorPolicy="all"
       >

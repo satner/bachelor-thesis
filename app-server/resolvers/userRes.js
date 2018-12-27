@@ -30,7 +30,6 @@ export default {
       });
     },
     getPaginationUsers: async (_source, _args) => {
-      console.log(_args);
       let query = {};
       let finalData = {};
       let summonerValues = {};
@@ -62,6 +61,16 @@ export default {
         query.summoner = summonerValues;
       }
 
+      if (_args.avgGold) {
+        summonerValues.avgGold = { $gte: _args.avgGold };
+        query.summoner = summonerValues;
+      }
+
+      if (_args.avgDamage) {
+        summonerValues.avgDamage = { $gte: _args.avgDamage };
+        query.summoner = summonerValues;
+      }
+
       if (Object.keys(summonerValues).length !== 0) {
         query.summoner = { $elemMatch: summonerValues };
       } else {
@@ -73,7 +82,6 @@ export default {
         latestPatchNumber = data[0];
       });
 
-      console.log("QUERY", query);
       await UserSchema.find(query)
         .skip(_args.skip)
         .limit(_args.limit)
@@ -118,6 +126,16 @@ export default {
 
       if (_args.winRatio) {
         summonerValues.winRatio = { $gte: _args.winRatio };
+        query.summoner = summonerValues;
+      }
+
+      if (_args.avgGold) {
+        summonerValues.avgGold = { $gte: _args.avgGold };
+        query.summoner = summonerValues;
+      }
+
+      if (_args.avgDamage) {
+        summonerValues.avgDamage = { $gte: _args.avgDamage };
         query.summoner = summonerValues;
       }
 
@@ -223,9 +241,11 @@ export default {
             );
           });
 
+        let avgGold = 0;
+        let avgDamage = 0;
         summonerNameApiPromise.then(matchList => {
           Promise.all(
-            matchList.map(async function(match) {
+            matchList.map(async function(match, index) {
               await api.Match.gettingById(match.gameId, _args.server)
                 .then(data => {
                   // Pernw to participantid tou summoner
@@ -235,12 +255,25 @@ export default {
                     return summoner.player.summonerName === _args.summoner;
                   });
 
-                  let temp = data.participants.filter(function(summoner) {
+                  let myUserData = data.participants.filter(function(summoner) {
                     return (
                       summoner.participantId === summonerID[0].participantId
                     );
                   });
-                  matchDetails.push(temp[0]);
+
+                  // Calculate average GOLD and DAMAGE
+                  if (myUserData[0].stats.goldEarned) {
+                    avgGold += myUserData[0].stats.goldEarned;
+                  }
+                  if (myUserData[0].stats.totalDamageDealt) {
+                    avgDamage += myUserData[0].stats.totalDamageDealt;
+                  }
+                  if (matchList.length - 1 === index) {
+                    avgGold = Math.floor(avgGold / matchList.length);
+                    avgDamage = Math.floor(avgDamage / matchList.length);
+                  }
+
+                  matchDetails.push(myUserData[0]);
                 })
                 .catch(err => {
                   console.error(
@@ -250,6 +283,12 @@ export default {
                 });
             })
           ).then(async () => {
+            // Store average GOLD and DAMAGE
+            newSummoner.avgGold = avgGold;
+            newSummoner.avgDamage = avgDamage;
+            finalData.summonerLeagueInfo.avgGold = avgGold;
+            finalData.summonerLeagueInfo.avgDamage = avgDamage;
+
             finalData.summonerMatchDetails = matchDetails;
             finalData.userId = _args.id;
             finalData.summonerInfo.server = _args.server;
@@ -258,6 +297,7 @@ export default {
             newSummoner.tier = finalData.summonerLeagueInfo.tier;
             newSummoner.profileIconId = finalData.summonerInfo.profileIconId;
             newSummoner.summonerLevel = finalData.summonerInfo.summonerLevel;
+
             await UserSchema.findOneAndUpdate(
               { _id: _args.id },
               { $push: { summoner: newSummoner } }

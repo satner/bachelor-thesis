@@ -14,7 +14,9 @@ const userSchema = new mongoose.Schema(
         tier: String,
         profileIconId: Number,
         summonerLevel: Number,
-        winRatio: Number
+        winRatio: Number,
+        avgGold: Number,
+        avgDamage: Number
       }
     ],
     languages: [String],

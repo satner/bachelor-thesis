@@ -63,6 +63,12 @@ class Summoners extends Component {
       return data.name;
     });
 
+    // Average gold
+    values.avgGold *= 1000;
+
+    // Average Damage
+    values.avgDamage *= 5000;
+
     console.log(values);
     this.setState({
       values
@@ -137,7 +143,7 @@ class Summoners extends Component {
               </Divider>
               <FormItem {...formItemLayout}>
                 {getFieldDecorator("winRatio", {
-                  initialValue: 50
+                  initialValue: 40
                 })(
                   <Slider
                     step={1}
@@ -153,13 +159,30 @@ class Summoners extends Component {
               </Divider>
               <FormItem {...formItemLayout}>
                 {getFieldDecorator("avgGold", {
-                  initialValue: 7
+                  initialValue: 10
                 })(
                   <Slider
                     step={0.5}
                     min={1}
                     tipFormatter={index => {
                       return <span>{index * 1000}</span>;
+                    }}
+                  />
+                )}
+              </FormItem>
+
+              <Divider>
+                <h3>Average Damage Over</h3>
+              </Divider>
+              <FormItem {...formItemLayout}>
+                {getFieldDecorator("avgDamage", {
+                  initialValue: 4
+                })(
+                  <Slider
+                    step={0.5}
+                    min={1}
+                    tipFormatter={index => {
+                      return <span>{index * 5000}</span>;
                     }}
                   />
                 )}

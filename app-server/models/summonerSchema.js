@@ -20,7 +20,9 @@ const summonerSchema = new mongoose.Schema(
       veteran: Boolean,
       inactive: Boolean,
       hotStreak: Boolean,
-      winRatio: Number
+      winRatio: Number,
+      avgGold: Number,
+      avgDamage: Number
     },
     matchesTimeline: [Number],
     totalGames: Number,

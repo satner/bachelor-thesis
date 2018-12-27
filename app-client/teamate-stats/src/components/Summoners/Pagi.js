@@ -10,6 +10,8 @@ const PAGINATION_NUMBER = gql`
     $server: String
     $languages: [String]
     $winRatio: Int
+    $avgDamage: Int
+    $avgGold: Int
   ) {
     getPaginationNumber(
       tier: $tier
@@ -17,6 +19,8 @@ const PAGINATION_NUMBER = gql`
       server: $server
       languages: $languages
       winRatio: $winRatio
+      avgDamage: $avgDamage
+      avgGold: $avgGold
     )
   }
 `;
@@ -29,7 +33,9 @@ const Pagi = props => (
       roles: props.data.roles,
       server: props.data.server,
       languages: props.data.languages,
-      winRatio: props.data.winRatio
+      winRatio: props.data.winRatio,
+      avgDamage: props.data.avgDamage,
+      avgGold: props.data.avgGold
     }}
     errorPolicy="all"
   >

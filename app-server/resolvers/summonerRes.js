@@ -89,10 +89,6 @@ export default {
     },
     getAvgStats: async (_source, _args) => {
       let finalData = {};
-      let allMatches = 0;
-      finalData.winRatio = 0;
-      finalData.goldAvg = 0;
-      finalData.damageAvg = 0;
       await SummonerSchema.findOne({
         userId: _args.userId,
         "summonerInfo.name": _args.summonerName,
@@ -100,18 +96,9 @@ export default {
       })
         .exec()
         .then(data => {
-          data.summonerMatchDetails.forEach((data, index) => {
-            if (data.stats.goldEarned) {
-              finalData.goldAvg += data.stats.goldEarned;
-            }
-            if (data.stats.totalDamageDealt) {
-              finalData.damageAvg += data.stats.totalDamageDealt;
-            }
-            allMatches++;
-          });
           finalData.winRatio = data.summonerLeagueInfo.winRatio;
-          finalData.goldAvg = Math.floor(finalData.goldAvg / allMatches);
-          finalData.damageAvg = Math.floor(finalData.damageAvg / allMatches);
+          finalData.goldAvg = data.summonerLeagueInfo.avgGold;
+          finalData.damageAvg = data.summonerLeagueInfo.avgDamage;
         })
         .catch(err => {
           console.error("❌ Searching summoner data error", err);
@@ -473,6 +460,8 @@ export default {
       let newTimeline = [];
       let newTier = "";
       let newWinRatio = 0;
+      let newAvgGold = 0;
+      let newAvgDamage = 0;
       SummonerSchema.findOne(
         {
           "summonerInfo.name": _args.summonerName,
@@ -513,7 +502,7 @@ export default {
             })
             .then(matchesList => {
               Promise.all(
-                matchesList.matches.map(async function(match) {
+                matchesList.matches.map(async function(match, index) {
                   await api.Match.gettingById(match.gameId, _args.server)
                     .then(data => {
                       // Pernw to participantid tou summoner
@@ -525,12 +514,31 @@ export default {
                         }
                       );
 
-                      let temp = data.participants.filter(function(summoner) {
+                      let myUserData = data.participants.filter(function(
+                        summoner
+                      ) {
                         return (
                           summoner.participantId === summonerID[0].participantId
                         );
                       });
-                      matchDetails.push(temp[0]);
+
+                      // Calculate average GOLD and DAMAGE
+                      if (myUserData[0].stats.goldEarned) {
+                        newAvgGold += myUserData[0].stats.goldEarned;
+                      }
+                      if (myUserData[0].stats.totalDamageDealt) {
+                        newAvgDamage += myUserData[0].stats.totalDamageDealt;
+                      }
+                      if (matchesList.length - 1 === index) {
+                        newAvgGold = Math.floor(
+                          newAvgGold / matchesList.length
+                        );
+                        newAvgDamage = Math.floor(
+                          newAvgDamage / matchesList.length
+                        );
+                      }
+
+                      matchDetails.push(myUserData[0]);
                     })
                     .catch(err => {
                       console.error(
@@ -540,7 +548,7 @@ export default {
                     });
                 })
               ).then(() => {
-                console.log("eeeeeeee", newWinRatio);
+                console.log("eeeeeeee", newAvgGold, newAvgDamage);
                 SummonerSchema.updateOne(
                   { _id: result._id },
                   {
@@ -551,7 +559,11 @@ export default {
                     endIndex: newEndIndex,
                     totalGames: matchesList.totalGames,
                     "summonerLeagueInfo.tier": newTier,
-                    "summonerLeagueInfo.winRatio": newWinRatio
+                    "summonerLeagueInfo.winRatio": newWinRatio,
+                    $inc: {
+                      "summonerLeagueInfo.avgGold": newAvgGold,
+                      "summonerLeagueInfo.avgDamage": newAvgDamage
+                    }
                   },
                   { safe: true, upsert: true },
                   function(err, model) {
@@ -578,6 +590,10 @@ export default {
                     $set: {
                       "summoner.$.tier": newTier,
                       "summoner.$.winRatio": newWinRatio
+                    },
+                    $inc: {
+                      "summoner.$.avgGold": newAvgGold,
+                      "summoner.$.avgDamage": newAvgDamage
                     }
                   },
                   (err, data) => {

@@ -11,6 +11,8 @@ export default gql`
       server: String
       languages: [String]
       winRatio: Int
+      avgGold: Int
+      avgDamage: Int
     ): [User]
     getPaginationNumber(
       tier: [String]
@@ -18,6 +20,8 @@ export default gql`
       server: String
       languages: [String]
       winRatio: Int
+      avgGold: Int
+      avgDamage: Int
     ): Int
   }
 
