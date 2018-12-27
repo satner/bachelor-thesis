@@ -2,7 +2,6 @@ import React from "react";
 import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
 import { Button, Popover } from "antd";
-import ReactLoading from "react-loading";
 import "./graphs.css";
 
 const ADD_TODO = gql`

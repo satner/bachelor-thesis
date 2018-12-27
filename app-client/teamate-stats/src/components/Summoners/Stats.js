@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Layout, Tabs, Card } from "antd";
+import { Layout, Tabs } from "antd";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -127,7 +127,7 @@ class Stats extends Component {
                     </div>
 
                     <div className="card card-1">
-                      <h3>Kills per Game</h3>
+                      <h3>Kills Class</h3>
                       <Kills
                         userId={userId}
                         summonerName={data.name}
@@ -169,7 +169,7 @@ class Stats extends Component {
                           <span>
                             <FontAwesomeIcon icon={faLevelUpAlt} />
                             <span style={{ paddingLeft: 15 }}>
-                              Xp Per 10 mins
+                              XP Per 10 mins
                             </span>
                           </span>
                         }

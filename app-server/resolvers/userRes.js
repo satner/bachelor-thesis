@@ -30,6 +30,7 @@ export default {
       });
     },
     getPaginationUsers: async (_source, _args) => {
+      console.log(_args);
       let query = {};
       let finalData = {};
       let summonerValues = {};
@@ -56,6 +57,11 @@ export default {
         }
       }
 
+      if (_args.winRatio) {
+        summonerValues.winRatio = { $gte: _args.winRatio };
+        query.summoner = summonerValues;
+      }
+
       if (Object.keys(summonerValues).length !== 0) {
         query.summoner = { $elemMatch: summonerValues };
       } else {
@@ -67,6 +73,7 @@ export default {
         latestPatchNumber = data[0];
       });
 
+      console.log("QUERY", query);
       await UserSchema.find(query)
         .skip(_args.skip)
         .limit(_args.limit)
@@ -109,6 +116,11 @@ export default {
         }
       }
 
+      if (_args.winRatio) {
+        summonerValues.winRatio = { $gte: _args.winRatio };
+        query.summoner = summonerValues;
+      }
+
       if (Object.keys(summonerValues).length !== 0) {
         query.summoner = { $elemMatch: summonerValues };
       } else {
@@ -148,6 +160,7 @@ export default {
             await api.Summoner.gettingByName(_args.summoner, _args.server)
               .then(data => {
                 done = true;
+
                 finalData.summonerInfo = data;
               })
               .catch(err => {
@@ -171,6 +184,16 @@ export default {
             } else {
               finalData.summonerLeagueInfo = data[1];
             }
+            // store win ratio to user Schema
+            newSummoner.winRatio = Math.floor(
+              (finalData.summonerLeagueInfo.wins /
+                (finalData.summonerLeagueInfo.wins +
+                  finalData.summonerLeagueInfo.losses)) *
+                100
+            );
+            // Store win ratio to summoner Schema
+            finalData.summonerLeagueInfo.winRatio = newSummoner.winRatio;
+
             return api.Match.gettingListByAccount(
               finalData.summonerInfo.accountId,
               _args.server,

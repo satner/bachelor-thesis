@@ -4,6 +4,7 @@ import { Axis, Chart, Geom, Coord, Tooltip } from "bizcharts";
 import { Query } from "react-apollo";
 import ReactLoading from "react-loading";
 import "./graphs.css";
+import { Alert } from "antd";
 
 const GET_KILLS = gql`
   query($userId: String!, $summonerName: String!, $server: String!) {
@@ -39,7 +40,14 @@ const Kills = props => {
               className="loader-graph"
             />
           );
-        if (error) return `Error! ${error.message}`;
+        if (error)
+          return (
+            <Alert
+              message=" An Error Occurred"
+              description="Please refresh the page"
+              type="error"
+            />
+          );
         return (
           <Chart height={400} data={data.getKillsStats} forceFit>
             <Coord transpose />

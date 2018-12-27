@@ -4,6 +4,7 @@ import { Axis, Chart, Geom, Tooltip, Coord } from "bizcharts";
 import { Query } from "react-apollo";
 import ReactLoading from "react-loading";
 import "./graphs.css";
+import { Alert } from "antd";
 
 const GET_RADAR_sTATS = gql`
   query($userId: String!, $summonerName: String!, $server: String!) {
@@ -39,7 +40,14 @@ const RadarStats = props => {
               className="loader-graph"
             />
           );
-        if (error) return `Error! ${error.message}`;
+        if (error)
+          return (
+            <Alert
+              message=" An Error Occurred"
+              description="Please refresh the page"
+              type="error"
+            />
+          );
         return (
           <Chart height={500} data={data.getRadarStats} forceFit>
             <Coord type="polar" radius={0.8} />

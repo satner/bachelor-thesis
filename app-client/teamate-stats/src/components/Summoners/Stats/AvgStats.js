@@ -3,6 +3,7 @@ import gql from "graphql-tag";
 import { Query } from "react-apollo";
 import LiquidGraph from "./AvgStats/LiquidGraph";
 import ReactLoading from "react-loading";
+import { Alert } from "antd";
 import "./graphs.css";
 
 const GET_AVG_STATS = gql`
@@ -36,7 +37,14 @@ const AvgStats = props => {
               className="loader-graph"
             />
           );
-        if (error) return `Error! ${error.message}`;
+        if (error)
+          return (
+            <Alert
+              message=" An Error Occurred"
+              description="Please refresh the page"
+              type="error"
+            />
+          );
 
         return (
           <div id="liquid-graph">

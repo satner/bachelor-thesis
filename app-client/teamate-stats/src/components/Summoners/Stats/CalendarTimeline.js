@@ -4,6 +4,7 @@ import { Query } from "react-apollo";
 import { ResponsiveCalendar } from "@nivo/calendar";
 import ReactLoading from "react-loading";
 import "./graphs.css";
+import { Alert } from "antd";
 
 const GET_CALENDAR_STATS = gql`
   query($userId: String!, $summonerName: String!, $server: String!) {
@@ -43,7 +44,14 @@ const CalendarTimeline = props => {
               className="loader-graph"
             />
           );
-        if (error) return `Error! ${error.message}`;
+        if (error)
+          return (
+            <Alert
+              message=" An Error Occurred"
+              description="Please refresh the page"
+              type="error"
+            />
+          );
         return (
           <div style={{ height: 450 }}>
             <ResponsiveCalendar

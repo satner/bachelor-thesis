@@ -4,6 +4,7 @@ import { Query } from "react-apollo";
 import { Chart, Geom, Axis, Tooltip } from "bizcharts";
 import ReactLoading from "react-loading";
 import "./graphs.css";
+import { Alert } from "antd";
 
 const GET_KDA = gql`
   query($userId: String!, $summonerName: String!, $server: String!) {
@@ -42,7 +43,14 @@ const KDA = props => {
               className="loader-graph"
             />
           );
-        if (error) return `Error! ${error.message}`;
+        if (error)
+          return (
+            <Alert
+              message=" An Error Occurred"
+              description="Please refresh the page"
+              type="error"
+            />
+          );
         return (
           <Chart height={400} data={data.getKDAPerGame} scale={scale} forceFit>
             <Axis name="gameCounter" title />
@@ -52,7 +60,7 @@ const KDA = props => {
             <Geom
               type="point"
               position="gameCounter*kda"
-              size={4}
+              size={2}
               shape={"circle"}
               style={{ stroke: "#fff", lineWidth: 1 }}
             />

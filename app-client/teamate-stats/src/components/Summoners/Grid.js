@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Query } from "react-apollo";
-import { Avatar, Card, Icon, Spin, Divider, Tooltip } from "antd";
+import { Avatar, Card, Icon, Spin, Divider, Tooltip, Alert } from "antd";
 import gql from "graphql-tag";
 import lang from "../../languages-v2";
 import Link from "react-router-dom/es/Link";
@@ -12,10 +12,11 @@ const PAGINATION_USERS = gql`
   query(
     $limit: Int
     $skip: Int
-    $tier: String
+    $tier: [String]
     $roles: [String]
     $server: String
     $languages: [String]
+    $winRatio: Int
   ) {
     getPaginationUsers(
       limit: $limit
@@ -24,6 +25,7 @@ const PAGINATION_USERS = gql`
       roles: $roles
       server: $server
       languages: $languages
+      winRatio: $winRatio
     ) {
       _id
       summoner {
@@ -124,13 +126,21 @@ class Grid extends Component {
           tier: this.props.data.tier,
           roles: this.props.data.roles,
           server: this.props.data.server,
-          languages: this.props.data.languages
+          languages: this.props.data.languages,
+          winRatio: this.props.data.winRatio
         }}
         errorPolicy="all"
       >
         {({ loading, error, data }) => {
           if (loading) return <Spin size="large" />;
-          if (error) return <p>{`Error: ${error}`}</p>;
+          if (error)
+            return (
+              <Alert
+                message=" An Error Occurred"
+                description="please refresh the page"
+                type="error"
+              />
+            );
           return data.getPaginationUsers.map((u, i) => {
             return (
               <Card

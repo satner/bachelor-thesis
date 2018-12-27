@@ -101,9 +101,6 @@ export default {
         .exec()
         .then(data => {
           data.summonerMatchDetails.forEach((data, index) => {
-            if (data.stats.win) {
-              finalData.winRatio++;
-            }
             if (data.stats.goldEarned) {
               finalData.goldAvg += data.stats.goldEarned;
             }
@@ -112,9 +109,7 @@ export default {
             }
             allMatches++;
           });
-          finalData.winRatio = Math.floor(
-            (finalData.winRatio / allMatches) * 100
-          );
+          finalData.winRatio = data.summonerLeagueInfo.winRatio;
           finalData.goldAvg = Math.floor(finalData.goldAvg / allMatches);
           finalData.damageAvg = Math.floor(finalData.damageAvg / allMatches);
         })
@@ -477,6 +472,7 @@ export default {
       let newEndIndex = 0;
       let newTimeline = [];
       let newTier = "";
+      let newWinRatio = 0;
       SummonerSchema.findOne(
         {
           "summonerInfo.name": _args.summonerName,
@@ -490,8 +486,16 @@ export default {
           ).then(d => {
             if (d[0].queueType.includes("SOLO")) {
               newTier = d[0].tier;
+              // calculate new win ratio
+              newWinRatio = Math.floor(
+                (d[0].wins / (d[0].wins + d[0].losses)) * 100
+              );
             } else {
               newTier = d[1].tier;
+              // calculate new win ratio
+              newWinRatio = Math.floor(
+                (d[1].wins / (d[1].wins + d[1].losses)) * 100
+              );
             }
           });
 
@@ -536,6 +540,7 @@ export default {
                     });
                 })
               ).then(() => {
+                console.log("eeeeeeee", newWinRatio);
                 SummonerSchema.updateOne(
                   { _id: result._id },
                   {
@@ -545,7 +550,8 @@ export default {
                     },
                     endIndex: newEndIndex,
                     totalGames: matchesList.totalGames,
-                    "summonerLeagueInfo.tier": newTier
+                    "summonerLeagueInfo.tier": newTier,
+                    "summonerLeagueInfo.winRatio": newWinRatio
                   },
                   { safe: true, upsert: true },
                   function(err, model) {
@@ -568,7 +574,12 @@ export default {
                       }
                     }
                   },
-                  { $set: { "summoner.$.tier": newTier } },
+                  {
+                    $set: {
+                      "summoner.$.tier": newTier,
+                      "summoner.$.winRatio": newWinRatio
+                    }
+                  },
                   (err, data) => {
                     if (err) {
                       console.error("❌ Updating Summoner error", err);

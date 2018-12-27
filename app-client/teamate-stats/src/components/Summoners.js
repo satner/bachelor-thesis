@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Select, Checkbox, Form, Button } from "antd";
+import { Select, Checkbox, Form, Button, Slider, Divider } from "antd";
 import lang from "../languages-v2";
 import Grid from "./Summoners/Grid";
 import Pagi from "./Summoners/Pagi";
@@ -56,6 +56,14 @@ class Summoners extends Component {
   }
 
   handleFilterForm = values => {
+    // tier number to name
+    let start = values.tier[0];
+    let end = values.tier[1];
+    values.tier = tiers.slice(start, end + 1).map(data => {
+      return data.name;
+    });
+
+    console.log(values);
     this.setState({
       values
     });
@@ -97,6 +105,51 @@ class Summoners extends Component {
               }}
               style={{ marginTop: "200px", marginLeft: "50px" }}
             >
+              <Divider>
+                <h3>Tier</h3>
+              </Divider>
+              <FormItem {...formItemLayout}>
+                {getFieldDecorator("tier", {
+                  initialValue: [1, 3]
+                })(
+                  <Slider
+                    range
+                    min={0}
+                    max={7}
+                    step={1}
+                    tipFormatter={index => {
+                      return (
+                        <img
+                          height="45"
+                          width="50"
+                          alt={index.name}
+                          src={tiers[index].path}
+                          style={{ maxWidth: "100%", maxHeight: "100%" }}
+                        />
+                      );
+                    }}
+                  />
+                )}
+              </FormItem>
+
+              <Divider>
+                <h3>Win Ratio Over</h3>
+              </Divider>
+              <FormItem {...formItemLayout}>
+                {getFieldDecorator("winRatio", {
+                  initialValue: 50
+                })(
+                  <Slider
+                    step={1}
+                    tipFormatter={index => {
+                      return <span>{index}%</span>;
+                    }}
+                  />
+                )}
+              </FormItem>
+              <Divider>
+                <h3>Server</h3>
+              </Divider>
               <FormItem {...formItemLayout}>
                 {getFieldDecorator("server")(
                   <Select size="large" placeholder="Server" allowClear>
@@ -111,6 +164,9 @@ class Summoners extends Component {
                 )}
               </FormItem>
 
+              <Divider>
+                <h3>Role</h3>
+              </Divider>
               <FormItem {...formItemLayout}>
                 {getFieldDecorator("roles")(
                   <CheckboxGroup size="large">
@@ -131,6 +187,9 @@ class Summoners extends Component {
                 )}
               </FormItem>
 
+              <Divider>
+                <h3>Language</h3>
+              </Divider>
               <FormItem {...formItemLayout}>
                 {getFieldDecorator("languages")(
                   <Select mode="multiple" placeholder="Language" size="large">
@@ -145,27 +204,18 @@ class Summoners extends Component {
                 )}
               </FormItem>
 
-              <FormItem {...formItemLayout}>
-                {getFieldDecorator("tier")(
-                  <Select placeholder="Tier" size="large" allowClear>
-                    {tiers.map(t => {
-                      return (
-                        <Option key={t.name}>
-                          <img
-                            src={t.path}
-                            style={{ height: "25px", width: "30px" }}
-                            alt={t.name}
-                          />
-                          {t.name.charAt(0).toUpperCase() + t.name.slice(1)}
-                        </Option>
-                      );
-                    })}
-                  </Select>
-                )}
-              </FormItem>
-
+              <Divider>
+                <h3>Search</h3>
+              </Divider>
               <FormItem {...buttonItemLayout}>
-                <Button type="primary" htmlType="submit" size="large">
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  size="large"
+                  ghost
+                  block
+                  icon={"search"}
+                >
                   Apply Filters
                 </Button>
               </FormItem>

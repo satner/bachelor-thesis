@@ -4,6 +4,7 @@ import { Query } from "react-apollo";
 import { ResponsiveBar } from "@nivo/bar";
 import ReactLoading from "react-loading";
 import "./graphs.css";
+import { Alert } from "antd";
 
 const GET_MOST_PLAYED = gql`
   query($userId: String!, $summonerName: String!, $server: String!) {
@@ -42,7 +43,14 @@ const MostPlayedChampions = props => {
               className="loader-graph"
             />
           );
-        if (error) return `Error! ${error.message}`;
+        if (error)
+          return (
+            <Alert
+              message=" An Error Occurred"
+              description="Please refresh the page"
+              type="error"
+            />
+          );
 
         return (
           <div style={{ height: 600 }}>

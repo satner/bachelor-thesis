@@ -4,6 +4,7 @@ import { Axis, Chart, Geom, Tooltip, Legend } from "bizcharts";
 import { Query } from "react-apollo";
 import ReactLoading from "react-loading";
 import "./graphs.css";
+import { Alert } from "antd";
 
 const GET_VISION_SCORE = gql`
   query($userId: String!, $summonerName: String!, $server: String!) {
@@ -42,7 +43,14 @@ const VisionScore = props => {
               className="loader-graph"
             />
           );
-        if (error) return `Error! ${error.message}`;
+        if (error)
+          return (
+            <Alert
+              message=" An Error Occurred"
+              description="Please refresh the page"
+              type="error"
+            />
+          );
         return (
           <Chart height={400} data={data.getVisionScore} scale={scale} forceFit>
             <Axis name="gameCounter" />
@@ -58,7 +66,7 @@ const VisionScore = props => {
             <Geom
               type="point"
               position="gameCounter*value"
-              size={4}
+              size={2}
               shape={"circle"}
               style={{ stroke: "#fff", lineWidth: 1 }}
               color="type"

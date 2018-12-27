@@ -4,6 +4,7 @@ import { Axis, Chart, Geom, Legend, Tooltip } from "bizcharts";
 import { Query } from "react-apollo";
 import ReactLoading from "react-loading";
 import "./graphs.css";
+import { Alert } from "antd";
 
 const GET_DAMAGE_DEALT = gql`
   query($userId: String!, $summonerName: String!, $server: String!) {
@@ -43,7 +44,14 @@ const DamageDealtToChampions = props => {
               className="loader-graph"
             />
           );
-        if (error) return `Error! ${error.message}`;
+        if (error)
+          return (
+            <Alert
+              message=" An Error Occurred"
+              description="Please refresh the page"
+              type="error"
+            />
+          );
         return (
           <Chart
             height={400}
@@ -64,7 +72,7 @@ const DamageDealtToChampions = props => {
             <Geom
               type="point"
               position="gameCounter*value"
-              size={4}
+              size={2}
               shape={"circle"}
               style={{ stroke: "#fff", lineWidth: 1 }}
               color="type"

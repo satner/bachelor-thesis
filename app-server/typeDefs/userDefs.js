@@ -6,16 +6,18 @@ export default gql`
     getPaginationUsers(
       limit: Int
       skip: Int
-      tier: String
+      tier: [String]
       roles: [String]
       server: String
       languages: [String]
+      winRatio: Int
     ): [User]
     getPaginationNumber(
-      tier: String
+      tier: [String]
       roles: [String]
       server: String
       languages: [String]
+      winRatio: Int
     ): Int
   }
 
