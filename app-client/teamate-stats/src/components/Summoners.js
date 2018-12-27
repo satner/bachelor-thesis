@@ -147,6 +147,24 @@ class Summoners extends Component {
                   />
                 )}
               </FormItem>
+
+              <Divider>
+                <h3>Average Gold Over</h3>
+              </Divider>
+              <FormItem {...formItemLayout}>
+                {getFieldDecorator("avgGold", {
+                  initialValue: 7
+                })(
+                  <Slider
+                    step={0.5}
+                    min={1}
+                    tipFormatter={index => {
+                      return <span>{index * 1000}</span>;
+                    }}
+                  />
+                )}
+              </FormItem>
+
               <Divider>
                 <h3>Server</h3>
               </Divider>
