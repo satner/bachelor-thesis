@@ -3,6 +3,7 @@ import { Select, Checkbox, Form, Button, Slider, Divider } from "antd";
 import lang from "../languages-v2";
 import Grid from "./Summoners/Grid";
 import Pagi from "./Summoners/Pagi";
+import "./summoners.css";
 
 const Option = Select.Option;
 const CheckboxGroup = Checkbox.Group;
@@ -103,6 +104,7 @@ class Summoners extends Component {
           {/* All the filters div*/}
           <div style={{ marginLeft: "50px", width: "320px" }}>
             <Form
+              className={"filter-card"}
               onSubmit={e => {
                 e.preventDefault();
                 this.props.form.validateFields((err, values) => {
