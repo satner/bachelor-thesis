@@ -2,8 +2,13 @@ import React, { Component } from "react";
 import { Query } from "react-apollo";
 import { Avatar, Card, Icon, Spin, Divider, Tooltip, Alert } from "antd";
 import gql from "graphql-tag";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCoins, faPercent, faBolt } from "@fortawesome/free-solid-svg-icons";
 import lang from "../../languages-v2";
 import Link from "react-router-dom/es/Link";
+
+library.add(faCoins, faPercent, faBolt); // Icons
 
 // TODO: Add skeleton instead of spinner
 const LIMIT = 6;
@@ -40,6 +45,12 @@ const PAGINATION_USERS = gql`
         tier
         profileIconId
         summonerLevel
+        winRatio
+        avgGold
+        avgDamage
+        mostPlayedChampions {
+          name
+        }
       }
       languages
       roles
@@ -198,6 +209,87 @@ class Grid extends Component {
                   description={this.unfoldServerName(u.summoner[0].server)}
                   style={{ textAlign: "center", paddingBottom: "20px" }}
                 />
+
+                <Card.Grid style={gridStyle}>
+                  <Meta
+                    title={
+                      <Tooltip title="Win Ratio">
+                        <FontAwesomeIcon icon={faPercent} />
+                      </Tooltip>
+                    }
+                    description={u.summoner[0].winRatio}
+                    style={{
+                      textAlign: "center",
+                      paddingBottom: "20px",
+                      fontSize: "20px"
+                    }}
+                  />
+                </Card.Grid>
+
+                <Card.Grid style={gridStyle}>
+                  <Meta
+                    title={
+                      <Tooltip title="Average Gold">
+                        <FontAwesomeIcon icon={faCoins} />
+                      </Tooltip>
+                    }
+                    description={u.summoner[0].avgGold
+                      .toString()
+                      .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.")}
+                    style={{
+                      textAlign: "center",
+                      paddingBottom: "20px",
+                      fontSize: "20px"
+                    }}
+                  />
+                </Card.Grid>
+
+                <Card.Grid style={gridStyle}>
+                  <Meta
+                    title={
+                      <Tooltip title="Average Damage">
+                        <FontAwesomeIcon icon={faBolt} />
+                      </Tooltip>
+                    }
+                    description={u.summoner[0].avgDamage
+                      .toString()
+                      .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.")}
+                    style={{
+                      textAlign: "center",
+                      paddingBottom: "20px",
+                      fontSize: "20px"
+                    }}
+                  />
+                </Card.Grid>
+
+                <Card.Grid style={{ width: "100%" }}>
+                  <Meta
+                    title="Most Played Champions"
+                    description={u.summoner[0].mostPlayedChampions.map(data => {
+                      return (
+                        <div
+                          style={{ display: "inline", marginLeft: "15px" }}
+                          key={data.name}
+                        >
+                          <Tooltip title={data.name} placement="bottom">
+                            <Avatar
+                              size="large"
+                              src={`http://ddragon.leagueoflegends.com/cdn/${
+                                u.latestPatchNumber
+                              }/img/champion/${data.name}.png`}
+                            />
+                          </Tooltip>
+                        </div>
+                      );
+                    })}
+                    style={{
+                      textAlign: "center",
+                      paddingBottom: "20px",
+                      fontSize: "20px"
+                    }}
+                  />
+                </Card.Grid>
+
                 <Card.Grid style={gridStyle}>
                   <Meta
                     title="Roles"
@@ -207,6 +299,7 @@ class Grid extends Component {
                     style={{ textAlign: "center", paddingBottom: "20px" }}
                   />
                 </Card.Grid>
+
                 <Card.Grid style={gridStyle}>
                   <Meta
                     title="Languages"
@@ -221,6 +314,7 @@ class Grid extends Component {
                     style={{ textAlign: "center", paddingBottom: "20px" }}
                   />
                 </Card.Grid>
+
                 <Card.Grid style={gridStyle}>
                   <Meta
                     title="Tier"

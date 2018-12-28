@@ -64,9 +64,17 @@ export default gql`
     tier: String
     profileIconId: Int
     summonerLevel: Int
+    winRatio: Int
+    avgGold: Int
+    avgDamage: Int
+    mostPlayedChampions: [Champion]
   }
 
   type Champion {
     name: String
+    wins: Int
+    losses: Int
+    championTotalGames: Int
+    championId: Int
   }
 `;
