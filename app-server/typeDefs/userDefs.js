@@ -63,4 +63,8 @@ export default gql`
     profileIconId: Int
     summonerLevel: Int
   }
+
+  type Champion {
+    name: String
+  }
 `;

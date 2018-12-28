@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Select, Checkbox, Form, Button, Slider, Divider } from "antd";
 import lang from "../languages-v2";
+import champions from "../champions";
 import Grid from "./Summoners/Grid";
 import Pagi from "./Summoners/Pagi";
 import "./summoners.css";
@@ -187,6 +188,28 @@ class Summoners extends Component {
                       return <span>{index * 5000}</span>;
                     }}
                   />
+                )}
+              </FormItem>
+
+              <Divider>
+                <h3>Champions</h3>
+              </Divider>
+              <FormItem {...formItemLayout}>
+                {getFieldDecorator("champions")(
+                  <Select
+                    mode="multiple"
+                    placeholder="Champions"
+                    size="large"
+                    maxTagCount={5}
+                  >
+                    {champions.map(l => {
+                      return (
+                        <Option key={l.name} value={l.name}>
+                          {l.name}
+                        </Option>
+                      );
+                    })}
+                  </Select>
                 )}
               </FormItem>
 

@@ -16,7 +16,8 @@ const userSchema = new mongoose.Schema(
         summonerLevel: Number,
         winRatio: Number,
         avgGold: Number,
-        avgDamage: Number
+        avgDamage: Number,
+        mostPlayedChampions: { type: Array, default: [] }
       }
     ],
     languages: [String],

@@ -22,7 +22,8 @@ const summonerSchema = new mongoose.Schema(
       hotStreak: Boolean,
       winRatio: Number,
       avgGold: Number,
-      avgDamage: Number
+      avgDamage: Number,
+      mostPlayedChampions: { type: Array, default: [] }
     },
     matchesTimeline: { type: Array, default: [] },
     totalGames: Number,

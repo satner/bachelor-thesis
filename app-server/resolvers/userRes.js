@@ -165,6 +165,9 @@ export default {
       let finalData = {};
       let timeStamps = [];
       let finalTimeStamps = [];
+      let avgGold = 0;
+      let avgDamage = 0;
+      let championsCount = [];
       // Cheak ama iparxei idi sto DB
       await SummonerSchema.findOne({
         "summonerInfo.name": _args.summoner,
@@ -257,13 +260,11 @@ export default {
             );
           });
 
-        let avgGold = 0;
-        let avgDamage = 0;
         summonerNameApiPromise.then(matchList => {
           Promise.all(
             matchList.map(async function(match, index) {
               await api.Match.gettingById(match.gameId, _args.server)
-                .then(data => {
+                .then(async data => {
                   // Pernw to participantid tou summoner
                   let summonerID = data.participantIdentities.filter(function(
                     summoner
@@ -289,6 +290,56 @@ export default {
                     avgDamage = Math.floor(avgDamage / matchList.length);
                   }
 
+                  // Calculate 5 most played champions
+                  let temp = { value: 1 };
+                  temp.championId = myUserData[0].championId;
+                  if (myUserData[0].stats.win) {
+                    temp.wins = 1;
+                  } else {
+                    temp.losses = 1;
+                  }
+                  championsCount.push(temp);
+
+                  if (matchList.length - 1 === index) {
+                    // Poses fores exei pexei auto to champion
+                    championsCount = _(championsCount)
+                      .groupBy("championId")
+                      .map((objs, key) => ({
+                        championId: key,
+                        wins: _.sumBy(objs, "wins") || 0,
+                        losses: _.sumBy(objs, "losses") || 0
+                      }))
+                      .value();
+
+                    // Getting champion name from champion id
+                    let championsNamePromises = championsCount.map(async d => {
+                      await api.StaticData.gettingChampionById(d.championId)
+                        .then(res => {
+                          d.name = res.name;
+                          d.winsColor = "hsl(88, 70%, 50%)";
+                          d.lossesColor = "hsl(352, 70%, 50%)";
+                        })
+                        .catch(err => {
+                          console.error("Getting champion names error");
+                        });
+                    });
+                    await Promise.all(championsNamePromises);
+                    // Ipologismos ton total games me kathe champion
+                    championsCount.forEach(data => {
+                      data.championTotalGames = data.wins + data.losses;
+                    });
+
+                    // Sort tou array final data
+                    let results = _.orderBy(
+                      championsCount,
+                      ["championTotalGames"],
+                      ["desc"]
+                    );
+
+                    // Store mono ton pente champion me ta perisotera games
+                    championsCount = results.splice(0, 5);
+                  }
+
                   matchDetails.push(myUserData[0]);
                 })
                 .catch(err => {
@@ -304,6 +355,10 @@ export default {
             newSummoner.avgDamage = avgDamage;
             finalData.summonerLeagueInfo.avgGold = avgGold;
             finalData.summonerLeagueInfo.avgDamage = avgDamage;
+
+            // Store 5 most played champions
+            newSummoner.mostPlayedChampions = championsCount;
+            finalData.summonerLeagueInfo.mostPlayedChampions = championsCount;
 
             finalData.summonerMatchDetails = matchDetails;
             finalData.userId = _args.id;
