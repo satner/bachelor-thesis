@@ -4,7 +4,7 @@ import { Query } from "react-apollo";
 import { ResponsiveCalendar } from "@nivo/calendar";
 import ReactLoading from "react-loading";
 import "./graphs.css";
-import { Alert } from "antd";
+import { Alert, Divider } from "antd";
 
 const GET_CALENDAR_STATS = gql`
   query($userId: String!, $summonerName: String!, $server: String!) {
@@ -83,6 +83,14 @@ const CalendarTimeline = props => {
                   itemDirection: "top-to-bottom"
                 }
               ]}
+              tooltip={data => {
+                return (
+                  <div>
+                    <Divider> {data.day} </Divider>
+                    <Divider>Play {data.value} times</Divider>
+                  </div>
+                );
+              }}
             />
           </div>
         );

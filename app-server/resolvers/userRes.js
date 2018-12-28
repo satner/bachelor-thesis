@@ -1,13 +1,14 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
+import moment from "moment";
+const _ = require("lodash");
 import { SummonerSchema, UserSchema } from "../models";
 import { API_KEY, QUEUE, SEASON } from "../lol-config";
 import { EMAIL, PASSWORD } from "../mail-settings";
 import LeagueJs from "leaguejs";
 
 const api = new LeagueJs(API_KEY, {
-  // TODO: test burst mode
   caching: {
     isEnabled: true,
     defaults: { stdTTL: 120 } // add a TTL to all Endpoints
@@ -19,6 +20,7 @@ const ObjectId = require("mongoose").Types.ObjectId;
 ObjectId.prototype.valueOf = function() {
   return this.toString();
 };
+
 const JWT_KEY = "kappa";
 
 export default {
@@ -162,6 +164,7 @@ export default {
       let matchDetails = [];
       let finalData = {};
       let timeStamps = [];
+      let finalTimeStamps = [];
       // Cheak ama iparxei idi sto DB
       await SummonerSchema.findOne({
         "summonerInfo.name": _args.summoner,
@@ -230,9 +233,22 @@ export default {
             finalData.startIndex = matchList.startIndex;
             finalData.endIndex = matchList.endIndex;
             finalData.totalGames = matchList.totalGames;
+
+            // Convert each timestamp to normal data
             matchList.matches.forEach(data => {
-              timeStamps.push(data.timestamp);
+              let temp = {};
+              temp.day = moment(data.timestamp).format("YYYY-MM-DD");
+              temp.value = 1;
+              timeStamps.push(temp);
             });
+            finalTimeStamps = _(timeStamps)
+              .groupBy("day")
+              .map((objs, key) => ({
+                day: key,
+                value: _.sumBy(objs, "value")
+              }))
+              .value();
+
             return matchList.matches;
           })
           .catch(err => {
@@ -292,7 +308,7 @@ export default {
             finalData.summonerMatchDetails = matchDetails;
             finalData.userId = _args.id;
             finalData.summonerInfo.server = _args.server;
-            finalData.matchesTimeline = timeStamps;
+            finalData.matchesTimeline = finalTimeStamps;
             SummonerSchema.create(finalData);
             newSummoner.tier = finalData.summonerLeagueInfo.tier;
             newSummoner.profileIconId = finalData.summonerInfo.profileIconId;
@@ -327,15 +343,15 @@ export default {
         .exec()
         .then(d => {
           if (d) {
-            console.log("🗑 Summoner Deleted!");
+            console.log("🗑 Summoner Deleted! -- UserSchema");
             done = true;
           } else {
-            console.error("❌ Summoner has not deleted!");
+            console.error("❌ Summoner has not deleted! -- UserSchema");
             done = false;
           }
         })
         .catch(e => {
-          console.error("❌ Summoner has not deleted!", e);
+          console.error("❌ Summoner has not deleted! -- UserSchema", e);
           done = false;
         });
       await SummonerSchema.findOneAndDelete({
@@ -346,15 +362,15 @@ export default {
         .exec()
         .then(d => {
           if (d) {
-            console.log("🗑 Summoner Deleted!");
+            console.log("🗑 Summoner Deleted! -- SummonerSchema");
             done = true;
           } else {
-            console.error("❌ Summoner has not deleted!");
+            console.error("❌ Summoner has not deleted! -- SummonerSchema");
             done = false;
           }
         })
         .catch(e => {
-          console.error("❌ Summoner has not deleted!", e);
+          console.error("❌ Summoner has not deleted! -- SummonerSchema", e);
           done = false;
         });
       return done;

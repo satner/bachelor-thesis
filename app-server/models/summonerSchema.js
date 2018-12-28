@@ -24,7 +24,7 @@ const summonerSchema = new mongoose.Schema(
       avgGold: Number,
       avgDamage: Number
     },
-    matchesTimeline: [Number],
+    matchesTimeline: { type: Array, default: [] },
     totalGames: Number,
     startIndex: Number,
     endIndex: Number,

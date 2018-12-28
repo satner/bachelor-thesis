@@ -318,30 +318,18 @@ export default {
         "summonerInfo.server": _args.server
       })
         .exec()
-        .then(user => {
-          // convert each match timestamp to normal date
-          let timeStamps = [];
-          user.matchesTimeline.forEach(data => {
-            let temp = {};
-            temp.day = moment(data).format("YYYY-MM-DD");
-            temp.value = 1;
-            timeStamps.push(temp);
-          });
-          finalTimeStamps = _(timeStamps)
-            .groupBy("day")
-            .map((objs, key) => ({
-              day: key,
-              value: _.sumBy(objs, "value")
-            }))
-            .value();
+        .then(data => {
+          finalTimeStamps = data.matchesTimeline;
         })
         .catch(err => {
           console.error("❌ Searching summoner data error", err);
         });
+      // Calculate min and max date
       let momentDays = finalTimeStamps.map(d => moment(d.day));
       finalData.maxDay = moment.max(momentDays).format("YYYY-MM-DD");
       finalData.minDay = moment.min(momentDays).format("YYYY-MM-DD");
       finalData.timeline = finalTimeStamps;
+
       return finalData;
     },
     getRadarStats: async (_source, _args) => {
@@ -457,7 +445,8 @@ export default {
   Mutation: {
     updateSummonerInfo: (_source, _args) => {
       let newEndIndex = 0;
-      let newTimeline = [];
+      let newTimeStamps = [];
+      let newFinalTimeStamps = [];
       let newTier = "";
       let newWinRatio = 0;
       let newAvgGold = 0;
@@ -494,9 +483,22 @@ export default {
             { queue: [QUEUE], season: [SEASON], beginIndex: result.endIndex }
           )
             .then(matchList => {
+              // Convert each timestamp to normal data
               matchList.matches.forEach(data => {
-                newTimeline.push(data.timestamp);
+                let temp = {};
+                temp.day = moment(data.timestamp).format("YYYY-MM-DD");
+                temp.value = 1;
+                newTimeStamps.push(temp);
               });
+              newFinalTimeStamps = _(newTimeStamps)
+                .groupBy("day")
+                .map((objs, key) => ({
+                  day: key,
+                  value: _.sumBy(objs, "value")
+                }))
+                .value();
+
+              // Calculate new end index
               newEndIndex = result.endIndex + matchList.matches.length;
               return matchList;
             })
@@ -547,15 +549,33 @@ export default {
                       );
                     });
                 })
-              ).then(() => {
-                console.log("eeeeeeee", newAvgGold, newAvgDamage);
+              ).then(async () => {
+                // Take old value of matchesTimeline and do stuff
+                await SummonerSchema.findById(result._id)
+                  .exec()
+                  .then(data => {
+                    newFinalTimeStamps = _.concat(
+                      data.matchesTimeline,
+                      newFinalTimeStamps
+                    );
+                    newFinalTimeStamps = _(newFinalTimeStamps)
+                      .groupBy("day")
+                      .map((objs, key) => ({
+                        day: key,
+                        value: _.sumBy(objs, "value")
+                      }))
+                      .value();
+                  })
+                  .catch(err => {
+                    console.error(">>> updateSummonerInfo resolver " + err);
+                  });
                 SummonerSchema.updateOne(
                   { _id: result._id },
                   {
                     $push: {
-                      summonerMatchDetails: matchDetails,
-                      matchesTimeline: newTimeline
+                      summonerMatchDetails: matchDetails
                     },
+                    matchesTimeline: newFinalTimeStamps,
                     endIndex: newEndIndex,
                     totalGames: matchesList.totalGames,
                     "summonerLeagueInfo.tier": newTier,
