@@ -7,6 +7,8 @@ import { SummonerSchema, UserSchema } from "../models";
 import { API_KEY, QUEUE, SEASON } from "../lol-config";
 import { EMAIL, PASSWORD } from "../mail-settings";
 import LeagueJs from "leaguejs";
+import forgotPasswordEmailHTML from "../forgotPasswordEmailHTML";
+import forgotPasswordEmailTXT from "../forgotPasswordEmailTXT";
 
 const api = new LeagueJs(API_KEY, {
   caching: {
@@ -563,8 +565,8 @@ export default {
                   from: `"TeamMate Stats 👻" ${EMAIL}`,
                   to: _args.email,
                   subject: "Reset Password",
-                  text: "Hello world?",
-                  html: `<a href=http://localhost:3000/reset-password?token=${token}>Click here to reset your password!</a>`
+                  text: forgotPasswordEmailTXT(token),
+                  html: forgotPasswordEmailHTML(token)
                 };
 
                 transporter.sendMail(mailOptions, (error, info) => {

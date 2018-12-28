@@ -343,6 +343,7 @@ class Grid extends Component {
                     description={
                       <Tooltip title={u.summoner[0].tier} placement="bottom">
                         <Avatar
+                          style={{ height: "70px", width: "70px" }}
                           size="large"
                           src={this.unfoldTier(u.summoner[0].tier)}
                         />
