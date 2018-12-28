@@ -7,7 +7,8 @@ import {
   Select,
   Button,
   notification,
-  Checkbox
+  Checkbox,
+  Divider
 } from "antd";
 import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
@@ -167,6 +168,8 @@ class SignUp extends Component {
                   }}
                   style={registerForm}
                 >
+                  <h1 style={{ textAlign: "center" }}>Sign Up</h1>
+                  <Divider />
                   <FormItem {...formItemLayout} label="E-mail">
                     {getFieldDecorator("email", {
                       rules: [
@@ -209,54 +212,6 @@ class SignUp extends Component {
                       <Input type="password" onBlur={this.handleConfirmBlur} />
                     )}
                   </FormItem>
-                  {/* <FormItem
-                          {...formItemLayout}
-                          label={(
-                              <span>
-              Summoner Name&nbsp;
-                                <Tooltip title="What is you league of legends summoner name?">
-                <Icon type="question-circle-o" />
-              </Tooltip>
-            </span>
-                          )}
-                      >
-                        {getFieldDecorator('summoner', {
-                          rules: [{ required: true, message: 'Please input your summoner name!', whitespace: true }],
-                        })(
-                            <Input />
-                        )}
-                      </FormItem>*/}
-                  {/* <FormItem
-                          {...formItemLayout}
-                          label={(
-                              <span>
-              Server&nbsp;
-                                <Tooltip title="Which server is the account?">
-                <Icon type="question-circle-o" />
-              </Tooltip>
-            </span>
-                          )}
-                      >
-                        {getFieldDecorator('server', {
-                          rules: [{ required: true, message: 'Please select server game!', whitespace: true }],
-                        })(
-                            <Select
-                                placeholder="Please select server"
-                            >
-                              <Option value='na'>North America</Option>
-                              <Option value='kr'>Republic of korea</Option>
-                              <Option value='ru'>Russia</Option>
-                              <Option value='br1'>Brazil</Option>
-                              <Option value='eun1'>Europe Nordic and East</Option>
-                              <Option value='euw1'>Europe West</Option>
-                              <Option value='jp1'>Japan</Option>
-                              <Option value='la1'>Latin America North</Option>
-                              <Option value='la2'>Latin America South</Option>
-                              <Option value='oc1'>Ocean</Option>
-                              <Option value='tr1'>Turkey</Option>
-                            </Select>
-                        )}
-                      </FormItem>*/}
                   <FormItem
                     {...formItemLayout}
                     label={
