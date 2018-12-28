@@ -102,9 +102,17 @@ const servers = [
   { shortName: "oc1", name: "Ocean" },
   { shortName: "tr1", name: "Turkey" }
 ];
-const gridStyle = {
+const gridStyleFirstLine = {
   width: "33.3%",
   textAlign: "center"
+};
+
+const gridStyleThirdLine = {
+  width: "33.3%",
+  textAlign: "center",
+  minHeight: "220px",
+  maxHeight: "220px",
+  overflow: "auto"
 };
 
 class Grid extends Component {
@@ -211,7 +219,7 @@ class Grid extends Component {
                   style={{ textAlign: "center", paddingBottom: "20px" }}
                 />
 
-                <Card.Grid style={gridStyle}>
+                <Card.Grid style={gridStyleFirstLine}>
                   <Meta
                     title={
                       <Tooltip title="Win Ratio">
@@ -227,7 +235,7 @@ class Grid extends Component {
                   />
                 </Card.Grid>
 
-                <Card.Grid style={gridStyle}>
+                <Card.Grid style={gridStyleFirstLine}>
                   <Meta
                     title={
                       <Tooltip title="Average Gold">
@@ -245,7 +253,7 @@ class Grid extends Component {
                   />
                 </Card.Grid>
 
-                <Card.Grid style={gridStyle}>
+                <Card.Grid style={gridStyleFirstLine}>
                   <Meta
                     title={
                       <Tooltip title="Average Damage">
@@ -300,7 +308,7 @@ class Grid extends Component {
                   />
                 </Card.Grid>
 
-                <Card.Grid style={gridStyle}>
+                <Card.Grid style={gridStyleThirdLine}>
                   <Meta
                     title="Roles"
                     description={this.unfoldRoles(u.roles).map((i, index) => {
@@ -314,7 +322,7 @@ class Grid extends Component {
                   />
                 </Card.Grid>
 
-                <Card.Grid style={gridStyle}>
+                <Card.Grid style={gridStyleThirdLine}>
                   <Meta
                     title="Languages"
                     description={this.unfoldLanguages(u.languages).map(i => {
@@ -329,7 +337,7 @@ class Grid extends Component {
                   />
                 </Card.Grid>
 
-                <Card.Grid style={gridStyle}>
+                <Card.Grid style={gridStyleThirdLine}>
                   <Meta
                     title="Tier"
                     description={

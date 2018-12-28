@@ -626,7 +626,7 @@ export default {
         await UserSchema.find({ email: _args.email })
           .exec()
           .then(user => {
-            if (user.length >= 1) {
+            if (user.length > 1) {
               console.log("Email already exists!");
               done = false;
             } else {
