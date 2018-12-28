@@ -419,6 +419,7 @@ export default {
       let newAvgGold = 0;
       let newAvgDamage = 0;
       let newChampionsCount = [];
+      let newProfileIconId = 0;
       SummonerSchema.findOne(
         {
           "summonerInfo.name": _args.summonerName,
@@ -621,12 +622,25 @@ export default {
                   .catch(err => {
                     console.error(">>> updateSummonerInfo resolver " + err);
                   });
+
+                // Update profile icon id
+                await api.Summoner.gettingByName(
+                  _args.summonerName,
+                  _args.server
+                )
+                  .then(data => {
+                    newProfileIconId = data.profileIconId;
+                  })
+                  .catch(err => {
+                    console.error(">>> updateSummonerInfo resolver 22" + err);
+                  });
                 SummonerSchema.updateOne(
                   { _id: result._id },
                   {
                     $push: {
                       summonerMatchDetails: matchDetails
                     },
+                    "summonerInfo.profileIconId": newProfileIconId,
                     "summonerLeagueInfo.mostPlayedChampions": newChampionsCount,
                     matchesTimeline: newFinalTimeStamps,
                     endIndex: newEndIndex,
@@ -668,7 +682,8 @@ export default {
                       "summoner.$.avgGold": newAvgGold,
                       "summoner.$.avgDamage": newAvgDamage
                     },
-                    "summoner.$.mostPlayedChampions": newChampionsCount
+                    "summoner.$.mostPlayedChampions": newChampionsCount,
+                    "summoner.$.profileIconId": newProfileIconId
                   },
                   (err, data) => {
                     if (err) {
