@@ -13,6 +13,7 @@ export default gql`
       winRatio: Int
       avgGold: Int
       avgDamage: Int
+      champions: [String]
     ): [User]
     getPaginationNumber(
       tier: [String]
@@ -22,6 +23,7 @@ export default gql`
       winRatio: Int
       avgGold: Int
       avgDamage: Int
+      champions: [String]
     ): Int
   }
 

@@ -73,6 +73,15 @@ export default {
         query.summoner = summonerValues;
       }
 
+      if (_args.champions) {
+        if (_args.champions.length > 0) {
+          summonerValues.mostPlayedChampions = {
+            $elemMatch: { name: { $in: _args.champions } }
+          };
+          query.summoner = summonerValues;
+        }
+      }
+
       if (Object.keys(summonerValues).length !== 0) {
         query.summoner = { $elemMatch: summonerValues };
       } else {
@@ -84,6 +93,7 @@ export default {
         latestPatchNumber = data[0];
       });
 
+      console.log("QUERY", query);
       await UserSchema.find(query)
         .skip(_args.skip)
         .limit(_args.limit)
@@ -139,6 +149,15 @@ export default {
       if (_args.avgDamage) {
         summonerValues.avgDamage = { $gte: _args.avgDamage };
         query.summoner = summonerValues;
+      }
+
+      if (_args.champions) {
+        if (_args.champions.length > 0) {
+          summonerValues.mostPlayedChampions = {
+            $elemMatch: { name: { $in: _args.champions } }
+          };
+          query.summoner = summonerValues;
+        }
       }
 
       if (Object.keys(summonerValues).length !== 0) {
