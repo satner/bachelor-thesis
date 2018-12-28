@@ -57,13 +57,6 @@ const KDA = props => {
             <Axis name="kda" title />
             <Tooltip crosshairs={{ type: "y" }} />
             <Geom type="line" position="gameCounter*kda" size={2} />
-            <Geom
-              type="point"
-              position="gameCounter*kda"
-              size={2}
-              shape={"circle"}
-              style={{ stroke: "#fff", lineWidth: 1 }}
-            />
           </Chart>
         );
       }}

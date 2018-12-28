@@ -44,6 +44,7 @@ class Stats extends Component {
     let res = servers.filter(s => s.shortName === server);
     return res[0].name;
   };
+
   render() {
     let userId = this.props.location.state.userId;
     let summonersOfAccount = this.props.location.state.summonersOfAccount;

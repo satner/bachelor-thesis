@@ -68,14 +68,6 @@ const GoldPerMinDeltas = props => {
               color="type"
               size={2}
             />
-            <Geom
-              type="point"
-              position="gameCounter*value"
-              size={2}
-              shape={"circle"}
-              style={{ stroke: "#fff", lineWidth: 1 }}
-              color="type"
-            />
           </Chart>
         );
       }}

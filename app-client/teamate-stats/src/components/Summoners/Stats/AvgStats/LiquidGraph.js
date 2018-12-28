@@ -3,8 +3,8 @@ import { color } from "d3-color";
 import LiquidFillGauge from "react-liquid-gauge";
 import { interpolateRgb } from "d3-interpolate";
 
-const startColor = "#6495ed";
-const endColor = "#dc143c";
+const startColor = "#e8c1a0";
+const endColor = "#f47560";
 const radius = 150;
 const interpolate = interpolateRgb(startColor, endColor);
 
@@ -42,7 +42,7 @@ const LiquidGraph = props => {
       height={radius}
       value={value}
       percent=""
-      textSize={1}
+      textSize={0.5}
       textOffsetX={0}
       textOffsetY={0}
       textRenderer={({ value, width, height, textSize, percent }) => {

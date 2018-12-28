@@ -313,8 +313,12 @@ class Grid extends Component {
                     title="Roles"
                     description={this.unfoldRoles(u.roles).map((i, index) => {
                       return (
-                        <Tooltip title={u.roles[index]} placement="bottom">
-                          <Avatar key={i} size="large" src={i} />
+                        <Tooltip
+                          title={u.roles[index]}
+                          key={i}
+                          placement="bottom"
+                        >
+                          <Avatar size="large" src={i} />
                         </Tooltip>
                       );
                     })}
