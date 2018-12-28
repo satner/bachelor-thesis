@@ -50,6 +50,7 @@ const PAGINATION_USERS = gql`
         avgDamage
         mostPlayedChampions {
           name
+          championTotalGames
         }
       }
       languages
@@ -271,7 +272,16 @@ class Grid extends Component {
                           style={{ display: "inline", marginLeft: "15px" }}
                           key={data.name}
                         >
-                          <Tooltip title={data.name} placement="bottom">
+                          <Tooltip
+                            title={
+                              <div style={{ textAlign: "center" }}>
+                                <span>{data.name}</span>
+                                <br />
+                                Total games: {data.championTotalGames}
+                              </div>
+                            }
+                            placement="bottom"
+                          >
                             <Avatar
                               size="large"
                               src={`http://ddragon.leagueoflegends.com/cdn/${
@@ -293,8 +303,12 @@ class Grid extends Component {
                 <Card.Grid style={gridStyle}>
                   <Meta
                     title="Roles"
-                    description={this.unfoldRoles(u.roles).map(i => {
-                      return <Avatar key={i} size="large" src={i} />;
+                    description={this.unfoldRoles(u.roles).map((i, index) => {
+                      return (
+                        <Tooltip title={u.roles[index]} placement="bottom">
+                          <Avatar key={i} size="large" src={i} />
+                        </Tooltip>
+                      );
                     })}
                     style={{ textAlign: "center", paddingBottom: "20px" }}
                   />
@@ -319,10 +333,12 @@ class Grid extends Component {
                   <Meta
                     title="Tier"
                     description={
-                      <Avatar
-                        size="large"
-                        src={this.unfoldTier(u.summoner[0].tier)}
-                      />
+                      <Tooltip title={u.summoner[0].tier} placement="bottom">
+                        <Avatar
+                          size="large"
+                          src={this.unfoldTier(u.summoner[0].tier)}
+                        />
+                      </Tooltip>
                     }
                     style={{ textAlign: "center", paddingBottom: "20px" }}
                   />

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Select, Checkbox, Form, Button, Slider, Divider } from "antd";
+import { Select, Checkbox, Form, Button, Slider, Divider, BackTop } from "antd";
 import lang from "../languages-v2";
 import champions from "../champions";
 import Grid from "./Summoners/Grid";
@@ -299,6 +299,9 @@ class Summoners extends Component {
             <Pagi onChange={this.handlePagination} data={this.state.values} />
           </div>
         </div>
+        <BackTop visibilityHeight={100}>
+          <div className={"ant-back-top"}>UP</div>
+        </BackTop>
       </main>
     );
   }
