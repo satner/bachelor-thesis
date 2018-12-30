@@ -180,7 +180,6 @@ export default {
     addSummoner: async (_source, _args) => {
       let done = false;
       let newSummoner = {};
-      newSummoner.name = _args.summoner;
       newSummoner.server = _args.server;
       let matchDetails = [];
       let finalData = {};
@@ -300,7 +299,9 @@ export default {
                       let summonerID = data.participantIdentities.filter(
                         function(summoner) {
                           return (
-                            summoner.player.summonerName === _args.summoner
+                            //  finalData.summonerInfo.name giati apo to api kanoun ignore to word case
+                            summoner.player.summonerName ===
+                            finalData.summonerInfo.name
                           );
                         }
                       );
@@ -383,7 +384,7 @@ export default {
                     })
                     .catch(err => {
                       console.error(
-                        ">>> setSummonerInfo resolver: Match Endpoint Error (details)" +
+                        ">>> addSummoner resolver: Match Endpoint Error (details)" +
                           err
                       );
                     });
@@ -404,6 +405,7 @@ export default {
                 finalData.summonerInfo.server = _args.server;
                 finalData.matchesTimeline = finalTimeStamps;
                 SummonerSchema.create(finalData);
+                newSummoner.name = finalData.summonerInfo.name;
                 newSummoner.tier = finalData.summonerLeagueInfo.tier;
                 newSummoner.profileIconId =
                   finalData.summonerInfo.profileIconId;

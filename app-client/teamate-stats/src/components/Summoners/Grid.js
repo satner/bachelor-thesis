@@ -172,10 +172,9 @@ class Grid extends Component {
           return data.getPaginationUsers.map((u, i) => {
             return (
               <Card
-                key={"test" + i}
+                key={u.summoner[0].name + i}
                 hoverable={true}
                 className={"summoner-card"}
-                style={{ width: 400 }}
                 cover={
                   <Divider>
                     <Avatar
@@ -293,7 +292,10 @@ class Grid extends Component {
                               size="large"
                               src={`http://ddragon.leagueoflegends.com/cdn/${
                                 u.latestPatchNumber
-                              }/img/champion/${data.name}.png`}
+                              }/img/champion/${data.name.replace(
+                                /\s/g,
+                                ""
+                              )}.png`}
                             />
                           </Tooltip>
                         </div>

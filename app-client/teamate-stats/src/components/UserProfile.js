@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Divider, Form, Layout, Tabs } from "antd";
+import { Divider, Layout, Tabs } from "antd";
 import jwt from "jsonwebtoken";
 import AccountSettings from "./UserProfile/AccountSettings";
 import DeleteAccount from "./UserProfile/DeleteAccount";
@@ -36,11 +36,9 @@ class UserProfile extends Component {
                 style={{ height: 570 }}
               >
                 <TabPane tab="Account Settings" key="1">
-                  {" "}
                   <AccountSettings data={this.state} />
                 </TabPane>
                 <TabPane tab="Linked Accounts" key="2">
-                  {" "}
                   <LinkedAccounts data={this.state} />
                 </TabPane>
                 <TabPane tab="Delete Account" key="3">
@@ -58,7 +56,7 @@ class UserProfile extends Component {
 
 const summonerProfileStyle = {
   marginTop: "170px",
-  maxWidth: "700px",
+  maxWidth: "1090px",
   display: "block",
   marginLeft: "auto",
   marginRight: "auto"

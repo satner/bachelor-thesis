@@ -374,6 +374,8 @@ blockquote, ol, p, ul {
 
 .summoners--grid {
   width: 60%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Display cards */
@@ -389,7 +391,9 @@ blockquote, ol, p, ul {
 }
 
 .summoner-card {
-  margin: 20px;
+  margin: 15px;
+  width: 400px;
+
 }
 
 .landing-page--card {

@@ -96,7 +96,7 @@ class Summoners extends Component {
         </div>
 
         <div className="summoners--container">
-          {/* All the filters div*/}
+          {/* All the filters */}
           <div style={{ marginLeft: "50px", width: "320px" }}>
             <Form
               className={"filter-card"}

@@ -58,7 +58,7 @@ const lang = [
   { code: "gl", name: "Galician", nativeName: "Galego" },
   { code: "ka", name: "Georgian", nativeName: "ქართული" },
   { code: "de", name: "German", nativeName: "Deutsch" },
-  { code: "el", name: "Greek, Modern", nativeName: "Ελληνικά" },
+  { code: "gr", name: "Greek, Modern", nativeName: "Ελληνικά" },
   { code: "gn", name: "Guaraní", nativeName: "Avañeẽ" },
   { code: "gu", name: "Gujarati", nativeName: "ગુજરાતી" },
   { code: "ht", name: "Haitian; Haitian Creole", nativeName: "Kreyòl ayisyen" },

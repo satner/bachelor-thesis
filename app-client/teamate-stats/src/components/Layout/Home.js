@@ -10,8 +10,8 @@ class Home extends Component {
           <div className="container">
             <h1 className={"pitch-paragraph"}>Find your next teammate</h1>
             <p className={"pitch-paragraph sub"}>
-              By checking player Activity, Win ratio, Average gold and damage,
-              Map control, Damage per game and More ...
+              Matching variants include player activity, win ratio, average
+              gold, map and objective control etc...
             </p>
             <footer>
               <p>
