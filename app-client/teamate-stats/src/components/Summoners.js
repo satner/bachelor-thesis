@@ -97,7 +97,7 @@ class Summoners extends Component {
 
         <div className="summoners--container">
           {/* All the filters */}
-          <div style={{ marginLeft: "50px", width: "320px" }}>
+          <div>
             <Form
               className={"filter-card"}
               onSubmit={e => {
@@ -106,7 +106,7 @@ class Summoners extends Component {
                   this.handleFilterForm(values);
                 });
               }}
-              style={{ marginTop: "200px", marginLeft: "50px" }}
+              style={{ marginTop: "200px" }}
             >
               <Divider>
                 <h3>Tier</h3>
@@ -283,10 +283,7 @@ class Summoners extends Component {
           </div>
 
           {/* Grid card layout of summoners*/}
-          <div
-            className="summoners--grid"
-            style={{ marginTop: "200px", marginLeft: "50px" }}
-          >
+          <div className="summoners--grid">
             <div className="card--grid">
               <Grid page={this.state.selida} data={this.state.values} />
             </div>

@@ -225,11 +225,7 @@ class Grid extends Component {
                       </Tooltip>
                     }
                     description={u.summoner[0].winRatio}
-                    style={{
-                      textAlign: "center",
-                      paddingBottom: "20px",
-                      fontSize: "20px"
-                    }}
+                    className={"avg-stats"}
                   />
                 </Card.Grid>
 
@@ -243,11 +239,7 @@ class Grid extends Component {
                     description={u.summoner[0].avgGold
                       .toString()
                       .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.")}
-                    style={{
-                      textAlign: "center",
-                      paddingBottom: "20px",
-                      fontSize: "20px"
-                    }}
+                    className={"avg-stats"}
                   />
                 </Card.Grid>
 
@@ -261,11 +253,7 @@ class Grid extends Component {
                     description={u.summoner[0].avgDamage
                       .toString()
                       .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.")}
-                    style={{
-                      textAlign: "center",
-                      paddingBottom: "20px",
-                      fontSize: "20px"
-                    }}
+                    className={"avg-stats"}
                   />
                 </Card.Grid>
 
@@ -332,13 +320,12 @@ class Grid extends Component {
                     title="Languages"
                     description={this.unfoldLanguages(u.languages).map(i => {
                       return (
-                        <span key={i}>
+                        <div key={i} className={"card-lang"}>
                           <Icon type="caret-right" />
                           {i} <br />
-                        </span>
+                        </div>
                       );
                     })}
-                    style={{ textAlign: "center", paddingBottom: "20px" }}
                   />
                 </Card.Grid>
 
@@ -348,7 +335,7 @@ class Grid extends Component {
                     description={
                       <Tooltip title={u.summoner[0].tier} placement="bottom">
                         <Avatar
-                          style={{ height: "70px", width: "70px" }}
+                          className={"tier-avatar"}
                           size="large"
                           src={this.unfoldTier(u.summoner[0].tier)}
                         />

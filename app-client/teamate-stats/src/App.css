@@ -364,6 +364,7 @@ blockquote, ol, p, ul {
 .summoners--container {
   display: flex;
   flex-flow: row wrap;
+  justify-content: space-around;
 }
 
 /* Filters */
@@ -374,8 +375,8 @@ blockquote, ol, p, ul {
 
 .summoners--grid {
   width: 60%;
-  margin-left: auto;
-  margin-right: auto;
+  margin-top: 200px;
+  margin-left: 50px;
 }
 
 /* Display cards */
@@ -387,12 +388,49 @@ blockquote, ol, p, ul {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-evenly;
 }
 
 .summoner-card {
   margin: 15px;
-  width: 400px;
+  width: 450px;
+}
+
+.tier-avatar {
+  width: 70px;
+  height: 70px;
+}
+
+.avg-stats {
+  text-align: center;
+  padding-bottom: 20px;
+  font-size: 20px;
+}
+
+.card-lang {
+  text-align: left;
+  padding-bottom: 20px;
+}
+
+
+@media (max-width: 750px) {
+  .summoners--grid {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .summoner-card {
+    width: 350px;
+  }
+
+  .tier-avatar {
+    width: 50px;
+    height: 50px;
+  }
+
+  .avg-stats {
+    font-size: 15px;
+  }
 
 }
 
