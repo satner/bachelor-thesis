@@ -26,16 +26,10 @@ const ForgotPassword = props => {
     <Mutation mutation={FORGOT_PASSWORD}>
       {(forgotPassword, { data }) => (
         <div>
-          <div
-            className="illo"
-            style={{
-              position: "absolute",
-              top: "0",
-              zIndex: "-1",
-              width: "100%"
-            }}
-          >
-            <img src={require("../../images/wave.svg")} alt="Background" />
+          <div className={"top-svg"}>
+            <div className="illo">
+              <img src={require("../../images/wave.svg")} alt="Background" />
+            </div>
           </div>
           <Layout style={{ marginTop: "150px" }}>
             <Content style={{ backgroundColor: "white" }}>

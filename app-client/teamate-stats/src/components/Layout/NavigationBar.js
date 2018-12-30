@@ -54,10 +54,10 @@ class NavigationBar extends Component {
                   <div> </div>
                 ) : (
                   <div>
-                    <Button ghost href="/login" style={btnContainer}>
+                    <Button ghost href="/login">
                       Log in
                     </Button>
-                    <Button ghost href="/signup" style={btnContainer}>
+                    <Button ghost href="/signup" className={"auth-btn"}>
                       Sign up
                     </Button>
                   </div>
@@ -72,9 +72,5 @@ class NavigationBar extends Component {
     );
   }
 }
-
-const btnContainer = {
-  marginLeft: "1em"
-};
 
 export default NavigationBar;

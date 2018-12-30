@@ -10,7 +10,6 @@ import Link from "react-router-dom/es/Link";
 
 library.add(faCoins, faPercent, faBolt); // Icons
 
-// TODO: Add skeleton instead of spinner
 const LIMIT = 6;
 const { Meta } = Card;
 const PAGINATION_USERS = gql`

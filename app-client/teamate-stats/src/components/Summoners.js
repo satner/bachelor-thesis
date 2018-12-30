@@ -89,16 +89,10 @@ class Summoners extends Component {
     const formItemLayout = null;
     return (
       <main id="main" className={"test"}>
-        <div
-          className="illo"
-          style={{
-            position: "absolute",
-            top: "0",
-            zIndex: "-1",
-            width: "100%"
-          }}
-        >
-          <img src={require("../images/wave.svg")} alt="Background" />
+        <div className={"top-svg"}>
+          <div className="illo">
+            <img src={require("../images/wave.svg")} alt="Background" />
+          </div>
         </div>
 
         <div className="summoners--container">

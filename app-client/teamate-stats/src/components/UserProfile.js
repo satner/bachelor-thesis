@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Layout, Tabs } from "antd";
+import { Divider, Form, Layout, Tabs } from "antd";
 import jwt from "jsonwebtoken";
 import AccountSettings from "./UserProfile/AccountSettings";
 import DeleteAccount from "./UserProfile/DeleteAccount";
@@ -19,20 +19,17 @@ class UserProfile extends Component {
   render() {
     return (
       <div>
-        <div
-          className="illo"
-          style={{
-            position: "absolute",
-            top: "0",
-            zIndex: "-1",
-            width: "100%"
-          }}
-        >
-          <img src={require("../images/wave.svg")} alt="Background" />
+        <div className={"top-svg"}>
+          <div className="illo">
+            <img src={require("../images/wave.svg")} alt="Background" />
+          </div>
         </div>
-        <Layout style={{ marginTop: "150px" }}>
+
+        <Layout style={summonerProfileStyle}>
           <Layout>
             <Content style={{ backgroundColor: "#fff" }}>
+              <h1 style={{ textAlign: "center" }}>Account Configurations</h1>
+              <Divider />
               <Tabs
                 defaultActiveKey="1"
                 tabPosition={"left"}
@@ -58,5 +55,13 @@ class UserProfile extends Component {
     );
   }
 }
+
+const summonerProfileStyle = {
+  marginTop: "170px",
+  maxWidth: "700px",
+  display: "block",
+  marginLeft: "auto",
+  marginRight: "auto"
+};
 
 export default UserProfile;

@@ -85,6 +85,35 @@ blockquote, ol, p, ul {
   width: auto;
 }
 
+.top-svg .illo {
+  overflow: hidden;
+  background: #fff;
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: -1;
+}
+
+.top-svg .illo img {
+  flex: 0 0 auto;
+  height:12em;
+  width: auto;
+}
+
+.auth-btn {
+  margin-left: 1em;
+}
+
+@media (max-width: 400px) {
+  .top-svg .illo img {
+    height: 17em;
+  }
+}
+
 .summoner--home+.section {
   margin-top: 0;
 }
