@@ -8,15 +8,10 @@ class Home extends Component {
       <main id="main">
         <section className="summoner summoner--home">
           <div className="container">
-            <h1>
-              <span style={{ fontSize: "50px" }}>lorem ipsum </span>
-              <span className="smaller">lorem ipsum</span>
-            </h1>
-            <p style={{ fontSize: "25px" }}>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolores,
-              est, quam! Accusamus, alias consequatur distinctio earum harum
-              laboriosam nobis officia pariatur praesentium quaerat repellendus
-              reprehenderit, velit voluptates. Maxime, quisquam ratione.
+            <h1 className={"pitch-paragraph"}>Find your next teammate</h1>
+            <p className={"pitch-paragraph sub"}>
+              By checking player Activity, Win ratio, Average gold and damage,
+              Map control, Damage per game and More ...
             </p>
             <footer>
               <p>
@@ -32,30 +27,26 @@ class Home extends Component {
         </section>
         <section className="section section--home-core">
           <div className="container">
-            <h1
-              style={{ fontSize: "3em", fontWeight: "500", lineWeight: "1.2" }}
-            >
-              Find teammate in seconds*
-            </h1>
+            <h1 id={"pitch-header"}>Find teammate in seconds*</h1>
             <ol className="grid">
               <li>
                 <h2>1. Connect your accounts</h2>
                 <Card className="landing-page--card " bordered={false}>
-                  <p>
+                  <div>
                     <h3>Faker</h3> <h5>Republic of Korea</h5>
-                  </p>
+                  </div>
                   <Divider />
-                  <p>
+                  <div>
                     <h3>Bjergsen</h3> <h5>North America</h5>
-                  </p>
+                  </div>
                   <Divider />
-                  <p>
+                  <div>
                     <h3>PozerasLeeSin</h3> <h5>Europe Nordic and East</h5>
-                  </p>
+                  </div>
                   <Divider />
-                  <p>
+                  <div>
                     <h3>An Active Member</h3> <h5>Europe Nordic and East</h5>
-                  </p>
+                  </div>
                 </Card>
               </li>
               <li>

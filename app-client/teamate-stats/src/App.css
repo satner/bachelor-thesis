@@ -166,6 +166,33 @@ blockquote, ol, p, ul {
 .section--home-beyond {
   background: #f9fbfc;
 }
+
+#pitch-header {
+  font-size: 3em;
+  font-weight: 500;
+}
+
+.pitch-paragraph {
+  font-size: 3em;
+  color: #f9fbfc;
+  font-family: "Muli", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+.sub {
+  font-size: 1.5em;
+  color: #f9fbfc;
+}
+
+.navlinks-li {
+  font-family: "Muli", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";;
+  color: white;
+  font-size: 20px;
+}
+
+.navlinks-li-space {
+  margin-left: 15px;
+}
+
 @media (min-width: 60em) {
   .section {
     padding-top: 1.618em;
@@ -174,10 +201,77 @@ blockquote, ol, p, ul {
   }
 }
 
-@media (min-width: 60em) {
+@media (max-width: 500px) {
+  .summoner {
+    margin-top: -11em;
+  }
+  #navlinks {
+    display: flex;
+    flex-direction: column;
+  }
+  .navlinks-li-space{
+    margin-left: 0;
+  }
+
+  .summoner--home .container{
+    margin-top: 90px;
+  }
+
+}
+
+@media (max-width: 340px) {
+  .summoner {
+    margin-top: -11.5em;
+  }
+  .summoner--home .container{
+    margin-top: 110px;
+  }
+}
+
+@media (max-width: 815px) {
+  .pitch-paragraph {
+    font-size: 2.5em;
+  }
+  .sub{
+    font-size: 1.4em;
+  }
+}
+
+@media (max-width: 652px) {
+  .pitch-paragraph {
+    font-size: 2.0em;
+  }
+  .sub{
+    font-size: 1.2em;
+  }
+}
+
+@media (max-width: 900px) {
   .grid {
-    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+  #pitch-header{
+    font-size: 2em;
+  }
+}
+
+@media (min-width: 900px) {
+  .grid {
     align-items: stretch;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left: 2.618em;
+  }
+  .section--home-core .grid {
+    text-align: left;
+  }
+}
+
+@media (min-width: 1090px) {
+  .grid {
+    align-items: stretch;
+    flex-direction: row;
     justify-content: space-between;
     margin-left: -2.618em;
   }
@@ -186,12 +280,19 @@ blockquote, ol, p, ul {
   }
 }
 
+
+
+
+
+
+/*
 @media (max-width: 1029px) {
   .container {
     padding: 0 2em;
     margin: 25px auto;
   }
 }
+*/
 
 .hr--top::after {
   top: 0;
@@ -255,6 +356,7 @@ blockquote, ol, p, ul {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
+  justify-content: center;
 }
 
 .summoner-card {

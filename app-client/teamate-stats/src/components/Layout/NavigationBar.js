@@ -17,7 +17,6 @@ const checkAuth = () => {
   return true;
 };
 
-// TODO: NavLink inside ol
 class NavigationBar extends Component {
   render() {
     return (
@@ -25,40 +24,23 @@ class NavigationBar extends Component {
         <header className="site-header">
           <div className="container">
             <nav className="nav nav--inline">
-              <div>
+              <div id={"navlinks"}>
                 <img
                   src={require("../../images/league-of-legends.svg")}
                   alt=""
                 />
-                <NavLink
-                  style={{
-                    fontFamily: "Muli",
-                    color: "White",
-                    fontSize: "20px"
-                  }}
-                  to="/"
-                >
+                <NavLink className={"navlinks-li"} to="/">
                   TeamMate
                 </NavLink>
                 <NavLink
-                  style={{
-                    fontFamily: "Muli",
-                    color: "White",
-                    fontSize: "20px",
-                    marginLeft: "20px"
-                  }}
+                  className={"navlinks-li navlinks-li-space"}
                   to="/summoners"
                 >
                   Summoners
                 </NavLink>
                 {checkAuth() ? (
                   <NavLink
-                    style={{
-                      fontFamily: "Muli",
-                      color: "White",
-                      fontSize: "20px",
-                      marginLeft: "20px"
-                    }}
+                    className={"navlinks-li navlinks-li-space"}
                     to="/account"
                   >
                     Account

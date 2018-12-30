@@ -5,7 +5,7 @@ import AccountSettings from "./UserProfile/AccountSettings";
 import DeleteAccount from "./UserProfile/DeleteAccount";
 import LinkedAccounts from "./UserProfile/LinkedAccounts";
 
-const { Footer, Sider, Content } = Layout;
+const { Footer, Content } = Layout;
 const TabPane = Tabs.TabPane;
 
 class UserProfile extends Component {
@@ -32,12 +32,11 @@ class UserProfile extends Component {
         </div>
         <Layout style={{ marginTop: "150px" }}>
           <Layout>
-            <Sider style={{ backgroundColor: "#fff" }} />
             <Content style={{ backgroundColor: "#fff" }}>
               <Tabs
                 defaultActiveKey="1"
                 tabPosition={"left"}
-                style={{ height: 450 }}
+                style={{ height: 570 }}
               >
                 <TabPane tab="Account Settings" key="1">
                   {" "}
@@ -52,7 +51,6 @@ class UserProfile extends Component {
                 </TabPane>
               </Tabs>
             </Content>
-            <Sider style={{ backgroundColor: "#fff" }} />
           </Layout>
           <Footer style={{ backgroundColor: "#fff" }} />
         </Layout>
