@@ -205,7 +205,7 @@ export default {
             await api.Summoner.gettingByName(_args.summoner, _args.server)
               .then(data => {
                 done = true;
-
+                console.log("🤷 Summoner name found");
                 finalData.summonerInfo = data;
               })
               .catch(err => {
@@ -224,29 +224,33 @@ export default {
           _args.server
         )
           .then(data => {
-            if (data[0].queueType.includes("SOLO")) {
-              finalData.summonerLeagueInfo = data[0];
-            } else {
-              finalData.summonerLeagueInfo = data[1];
-            }
-            // store win ratio to user Schema
-            newSummoner.winRatio = Math.floor(
-              (finalData.summonerLeagueInfo.wins /
-                (finalData.summonerLeagueInfo.wins +
-                  finalData.summonerLeagueInfo.losses)) *
-                100
-            );
-            // Store win ratio to summoner Schema
-            finalData.summonerLeagueInfo.winRatio = newSummoner.winRatio;
-
-            return api.Match.gettingListByAccount(
-              finalData.summonerInfo.accountId,
-              _args.server,
-              {
-                queue: [QUEUE],
-                season: [SEASON]
+            if (data.length > 0) {
+              if (data[0].queueType.includes("SOLO")) {
+                finalData.summonerLeagueInfo = data[0];
+              } else {
+                finalData.summonerLeagueInfo = data[1];
               }
-            );
+              // store win ratio to user Schema
+              newSummoner.winRatio = Math.floor(
+                (finalData.summonerLeagueInfo.wins /
+                  (finalData.summonerLeagueInfo.wins +
+                    finalData.summonerLeagueInfo.losses)) *
+                  100
+              );
+              // Store win ratio to summoner Schema
+              finalData.summonerLeagueInfo.winRatio = newSummoner.winRatio;
+
+              return api.Match.gettingListByAccount(
+                finalData.summonerInfo.accountId,
+                _args.server,
+                {
+                  queue: [QUEUE],
+                  season: [SEASON]
+                }
+              );
+            } else {
+              done = false;
+            }
           })
           .catch(err => {
             console.error(
@@ -254,26 +258,30 @@ export default {
             );
           })
           .then(matchList => {
-            finalData.startIndex = matchList.startIndex;
-            finalData.endIndex = matchList.endIndex;
-            finalData.totalGames = matchList.totalGames;
+            if (matchList) {
+              finalData.startIndex = matchList.startIndex;
+              finalData.endIndex = matchList.endIndex;
+              finalData.totalGames = matchList.totalGames;
 
-            // Convert each timestamp to normal data
-            matchList.matches.forEach(data => {
-              let temp = {};
-              temp.day = moment(data.timestamp).format("YYYY-MM-DD");
-              temp.value = 1;
-              timeStamps.push(temp);
-            });
-            finalTimeStamps = _(timeStamps)
-              .groupBy("day")
-              .map((objs, key) => ({
-                day: key,
-                value: _.sumBy(objs, "value")
-              }))
-              .value();
+              // Convert each timestamp to normal data
+              matchList.matches.forEach(data => {
+                let temp = {};
+                temp.day = moment(data.timestamp).format("YYYY-MM-DD");
+                temp.value = 1;
+                timeStamps.push(temp);
+              });
+              finalTimeStamps = _(timeStamps)
+                .groupBy("day")
+                .map((objs, key) => ({
+                  day: key,
+                  value: _.sumBy(objs, "value")
+                }))
+                .value();
 
-            return matchList.matches;
+              return matchList.matches;
+            } else {
+              done = false;
+            }
           })
           .catch(err => {
             console.error(
@@ -281,130 +289,149 @@ export default {
             );
           });
 
-        summonerNameApiPromise.then(matchList => {
-          Promise.all(
-            matchList.map(async function(match, index) {
-              await api.Match.gettingById(match.gameId, _args.server)
-                .then(async data => {
-                  // Pernw to participantid tou summoner
-                  let summonerID = data.participantIdentities.filter(function(
-                    summoner
-                  ) {
-                    return summoner.player.summonerName === _args.summoner;
-                  });
+        await summonerNameApiPromise
+          .then(matchList => {
+            if (matchList) {
+              Promise.all(
+                matchList.map(async function(match, index) {
+                  await api.Match.gettingById(match.gameId, _args.server)
+                    .then(async data => {
+                      // Pernw to participantid tou summoner
+                      let summonerID = data.participantIdentities.filter(
+                        function(summoner) {
+                          return (
+                            summoner.player.summonerName === _args.summoner
+                          );
+                        }
+                      );
 
-                  let myUserData = data.participants.filter(function(summoner) {
-                    return (
-                      summoner.participantId === summonerID[0].participantId
-                    );
-                  });
+                      let myUserData = data.participants.filter(function(
+                        summoner
+                      ) {
+                        return (
+                          summoner.participantId === summonerID[0].participantId
+                        );
+                      });
 
-                  // Calculate average GOLD and DAMAGE
-                  if (myUserData[0].stats.goldEarned) {
-                    avgGold += myUserData[0].stats.goldEarned;
-                  }
-                  if (myUserData[0].stats.totalDamageDealt) {
-                    avgDamage += myUserData[0].stats.totalDamageDealt;
-                  }
-                  if (matchList.length - 1 === index) {
-                    avgGold = Math.floor(avgGold / matchList.length);
-                    avgDamage = Math.floor(avgDamage / matchList.length);
-                  }
+                      // Calculate average GOLD and DAMAGE
+                      if (myUserData[0].stats.goldEarned) {
+                        avgGold += myUserData[0].stats.goldEarned;
+                      }
+                      if (myUserData[0].stats.totalDamageDealt) {
+                        avgDamage += myUserData[0].stats.totalDamageDealt;
+                      }
+                      if (matchList.length - 1 === index) {
+                        avgGold = Math.floor(avgGold / matchList.length);
+                        avgDamage = Math.floor(avgDamage / matchList.length);
+                      }
 
-                  // Calculate 5 most played champions
-                  let temp = { value: 1 };
-                  temp.championId = myUserData[0].championId;
-                  if (myUserData[0].stats.win) {
-                    temp.wins = 1;
-                  } else {
-                    temp.losses = 1;
-                  }
-                  championsCount.push(temp);
+                      // Calculate 5 most played champions
+                      let temp = { value: 1 };
+                      temp.championId = myUserData[0].championId;
+                      if (myUserData[0].stats.win) {
+                        temp.wins = 1;
+                      } else {
+                        temp.losses = 1;
+                      }
+                      championsCount.push(temp);
 
-                  if (matchList.length - 1 === index) {
-                    // Poses fores exei pexei auto to champion
-                    championsCount = _(championsCount)
-                      .groupBy("championId")
-                      .map((objs, key) => ({
-                        championId: key,
-                        wins: _.sumBy(objs, "wins") || 0,
-                        losses: _.sumBy(objs, "losses") || 0
-                      }))
-                      .value();
+                      if (matchList.length - 1 === index) {
+                        // Poses fores exei pexei auto to champion
+                        championsCount = _(championsCount)
+                          .groupBy("championId")
+                          .map((objs, key) => ({
+                            championId: key,
+                            wins: _.sumBy(objs, "wins") || 0,
+                            losses: _.sumBy(objs, "losses") || 0
+                          }))
+                          .value();
 
-                    // Getting champion name from champion id
-                    let championsNamePromises = championsCount.map(async d => {
-                      await api.StaticData.gettingChampionById(d.championId)
-                        .then(res => {
-                          d.name = res.name;
-                          d.winsColor = "hsl(88, 70%, 50%)";
-                          d.lossesColor = "hsl(352, 70%, 50%)";
-                        })
-                        .catch(err => {
-                          console.error("Getting champion names error");
+                        // Getting champion name from champion id
+                        let championsNamePromises = championsCount.map(
+                          async d => {
+                            await api.StaticData.gettingChampionById(
+                              d.championId
+                            )
+                              .then(res => {
+                                d.name = res.name;
+                                d.winsColor = "hsl(88, 70%, 50%)";
+                                d.lossesColor = "hsl(352, 70%, 50%)";
+                              })
+                              .catch(err => {
+                                console.error("Getting champion names error");
+                              });
+                          }
+                        );
+                        await Promise.all(championsNamePromises);
+                        // Ipologismos ton total games me kathe champion
+                        championsCount.forEach(data => {
+                          data.championTotalGames = data.wins + data.losses;
                         });
+
+                        // Sort tou array final data
+                        let results = _.orderBy(
+                          championsCount,
+                          ["championTotalGames"],
+                          ["desc"]
+                        );
+
+                        // Store mono ton pente champion me ta perisotera games
+                        championsCount = results.splice(0, 5);
+                      }
+
+                      matchDetails.push(myUserData[0]);
+                    })
+                    .catch(err => {
+                      console.error(
+                        ">>> setSummonerInfo resolver: Match Endpoint Error (details)" +
+                          err
+                      );
                     });
-                    await Promise.all(championsNamePromises);
-                    // Ipologismos ton total games me kathe champion
-                    championsCount.forEach(data => {
-                      data.championTotalGames = data.wins + data.losses;
-                    });
-
-                    // Sort tou array final data
-                    let results = _.orderBy(
-                      championsCount,
-                      ["championTotalGames"],
-                      ["desc"]
-                    );
-
-                    // Store mono ton pente champion me ta perisotera games
-                    championsCount = results.splice(0, 5);
-                  }
-
-                  matchDetails.push(myUserData[0]);
                 })
-                .catch(err => {
-                  console.error(
-                    ">>> setSummonerInfo resolver: Match Endpoint Error (details)" +
-                      err
-                  );
-                });
-            })
-          ).then(async () => {
-            // Store average GOLD and DAMAGE
-            newSummoner.avgGold = avgGold;
-            newSummoner.avgDamage = avgDamage;
-            finalData.summonerLeagueInfo.avgGold = avgGold;
-            finalData.summonerLeagueInfo.avgDamage = avgDamage;
+              ).then(async () => {
+                // Store average GOLD and DAMAGE
+                newSummoner.avgGold = avgGold;
+                newSummoner.avgDamage = avgDamage;
+                finalData.summonerLeagueInfo.avgGold = avgGold;
+                finalData.summonerLeagueInfo.avgDamage = avgDamage;
 
-            // Store 5 most played champions
-            newSummoner.mostPlayedChampions = championsCount;
-            finalData.summonerLeagueInfo.mostPlayedChampions = championsCount;
+                // Store 5 most played champions
+                newSummoner.mostPlayedChampions = championsCount;
+                finalData.summonerLeagueInfo.mostPlayedChampions = championsCount;
 
-            finalData.summonerMatchDetails = matchDetails;
-            finalData.userId = _args.id;
-            finalData.summonerInfo.server = _args.server;
-            finalData.matchesTimeline = finalTimeStamps;
-            SummonerSchema.create(finalData);
-            newSummoner.tier = finalData.summonerLeagueInfo.tier;
-            newSummoner.profileIconId = finalData.summonerInfo.profileIconId;
-            newSummoner.summonerLevel = finalData.summonerInfo.summonerLevel;
+                finalData.summonerMatchDetails = matchDetails;
+                finalData.userId = _args.id;
+                finalData.summonerInfo.server = _args.server;
+                finalData.matchesTimeline = finalTimeStamps;
+                SummonerSchema.create(finalData);
+                newSummoner.tier = finalData.summonerLeagueInfo.tier;
+                newSummoner.profileIconId =
+                  finalData.summonerInfo.profileIconId;
+                newSummoner.summonerLevel =
+                  finalData.summonerInfo.summonerLevel;
 
-            await UserSchema.findOneAndUpdate(
-              { _id: _args.id },
-              { $push: { summoner: newSummoner } }
-            )
-              .exec()
-              .then(d => {
-                console.log("Summoner added!");
-                done = true;
-              })
-              .catch(e => {
-                console.error("Add summoner error!", e);
+                await UserSchema.findOneAndUpdate(
+                  { _id: _args.id },
+                  { $push: { summoner: newSummoner } }
+                )
+                  .exec()
+                  .then(d => {
+                    console.log("Summoner added!");
+                    done = true;
+                  })
+                  .catch(e => {
+                    console.error("Add summoner error!", e);
+                  });
+                console.log("💾 Summoner saved!");
               });
-            console.log("💾 Summoner saved!");
+            } else {
+              done = false;
+            }
+          })
+          .catch(err => {
+            done = false;
           });
-        });
+        console.log("RET 1", done);
         return done;
       } else {
         // Den ipaxei EGIRO summoner-name H iparxei idi sto DB
@@ -617,7 +644,6 @@ export default {
         .catch(err => {
           console.error("❌ Updating user password", err);
         });
-      console.log("ddddddd", done);
       return done;
     },
     updateUserInfo: async (_source, _args) => {
@@ -625,12 +651,16 @@ export default {
 
       if (_args.email !== "") {
         // Check if email already exists!
-        await UserSchema.find({ email: _args.email })
+        await UserSchema.findOne({ email: _args.email })
           .exec()
           .then(user => {
-            if (user.length > 1) {
-              console.log("Email already exists!");
-              done = false;
+            if (user) {
+              if (ObjectId(user._id).toString() !== _args.id) {
+                console.log("Email already exists!");
+                done = false;
+              } else {
+                done = true;
+              }
             } else {
               done = true;
             }

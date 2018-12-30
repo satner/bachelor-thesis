@@ -138,7 +138,6 @@ class LinkedAccounts extends Component {
   };
 
   handleCancel = e => {
-    console.log(e);
     this.setState({
       visible: false
     });
@@ -201,6 +200,7 @@ class LinkedAccounts extends Component {
                         }
                       })
                         .then(d => {
+                          console.log(d.data.addSummoner);
                           if (d.data.addSummoner) {
                             openNotificationWithIcon(
                               "success",
@@ -212,7 +212,7 @@ class LinkedAccounts extends Component {
                             openNotificationWithIcon(
                               "warning",
                               "Error",
-                              "Summoner doe not exists!"
+                              "Summoner doe not exists! Or\nSummoner name already exists!"
                             );
                           }
                         })

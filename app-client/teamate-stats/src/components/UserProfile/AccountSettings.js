@@ -122,7 +122,7 @@ class AccountSettings extends Component {
                         openNotificationWithIcon(
                           "warning",
                           "Error",
-                          "Your account has not updated"
+                          "Your account has not updated! Maybe e-mail already exists!"
                         );
                       }
                     })
