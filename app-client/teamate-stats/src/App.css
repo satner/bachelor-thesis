@@ -364,7 +364,7 @@ blockquote, ol, p, ul {
 .summoners--container {
   display: flex;
   flex-flow: row wrap;
-  justify-content: space-around;
+  justify-content: center;
 }
 
 /* Filters */
@@ -388,7 +388,7 @@ blockquote, ol, p, ul {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: space-around;
 }
 
 .summoner-card {
