@@ -359,11 +359,16 @@ export default {
                                 d.lossesColor = "hsl(352, 70%, 50%)";
                               })
                               .catch(err => {
-                                console.error("Getting champion names error");
+                                console.error(
+                                  "Getting champion names error",
+                                  err
+                                );
                               });
                           }
                         );
                         await Promise.all(championsNamePromises);
+
+                        console.log("championsCount", championsCount);
                         // Ipologismos ton total games me kathe champion
                         championsCount.forEach(data => {
                           data.championTotalGames = data.wins + data.losses;
@@ -375,6 +380,11 @@ export default {
                           ["championTotalGames"],
                           ["desc"]
                         );
+
+                        // Check gia null or undefined values
+                        championsCount = championsCount.filter(data => {
+                          return data.name;
+                        });
 
                         // Store mono ton pente champion me ta perisotera games
                         championsCount = results.splice(0, 5);

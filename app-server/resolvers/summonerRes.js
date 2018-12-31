@@ -517,6 +517,7 @@ export default {
                       } else {
                         temp.losses = 1;
                       }
+
                       newChampionsCount.push(temp);
 
                       if (matchesList.matches.length - 1 === index) {
@@ -542,6 +543,11 @@ export default {
                           ["desc"]
                         );
 
+                        // Check gia null or undefined values
+                        newChampionsCount = newChampionsCount.filter(data => {
+                          return data.name;
+                        });
+
                         // Store mono ton pente champion me ta perisotera games
                         newChampionsCount = results.splice(0, 5);
                       }
@@ -556,6 +562,20 @@ export default {
                     });
                 })
               ).then(async () => {
+                // Take old value of avg stats
+                await SummonerSchema.findById(result._id)
+                  .exec()
+                  .then(data => {
+                    newAvgGold = Math.floor(
+                      (data.summonerLeagueInfo.avgGold + newAvgGold) / 2
+                    );
+                    newAvgDamage = Math.floor(
+                      (data.summonerLeagueInfo.avgDamage + newAvgDamage) / 2
+                    );
+                  })
+                  .catch(err => {
+                    console.error(">>> updateSummonerInfo resolver " + err);
+                  });
                 // Take old value of matchesTimeline and do stuff
                 await SummonerSchema.findById(result._id)
                   .exec()
@@ -595,13 +615,18 @@ export default {
                     // Getting champion name from champion id
                     let championsNamePromises = newChampionsCount.map(
                       async d => {
-                        await api.StaticData.gettingChampionById(
-                          d.championId
-                        ).then(res => {
-                          d.name = res.name;
-                          d.winsColor = "hsl(88, 70%, 50%)";
-                          d.lossesColor = "hsl(352, 70%, 50%)";
-                        });
+                        await api.StaticData.gettingChampionById(d.championId)
+                          .then(res => {
+                            d.name = res.name;
+                            d.winsColor = "hsl(88, 70%, 50%)";
+                            d.lossesColor = "hsl(352, 70%, 50%)";
+                          })
+                          .catch(err => {
+                            console.error(
+                              "TAKING CHAMPION NAME BACK ERRR",
+                              err
+                            );
+                          });
                       }
                     );
                     await Promise.all(championsNamePromises);
@@ -647,10 +672,8 @@ export default {
                     totalGames: matchesList.totalGames,
                     "summonerLeagueInfo.tier": newTier,
                     "summonerLeagueInfo.winRatio": newWinRatio,
-                    $inc: {
-                      "summonerLeagueInfo.avgGold": newAvgGold,
-                      "summonerLeagueInfo.avgDamage": newAvgDamage
-                    }
+                    "summonerLeagueInfo.avgGold": newAvgGold,
+                    "summonerLeagueInfo.avgDamage": newAvgDamage
                   },
                   { safe: true, upsert: true },
                   function(err, model) {
@@ -678,10 +701,8 @@ export default {
                       "summoner.$.tier": newTier,
                       "summoner.$.winRatio": newWinRatio
                     },
-                    $inc: {
-                      "summoner.$.avgGold": newAvgGold,
-                      "summoner.$.avgDamage": newAvgDamage
-                    },
+                    "summoner.$.avgGold": newAvgGold,
+                    "summoner.$.avgDamage": newAvgDamage,
                     "summoner.$.mostPlayedChampions": newChampionsCount,
                     "summoner.$.profileIconId": newProfileIconId
                   },
