@@ -21,11 +21,8 @@ class DeleteAccount extends Component {
       <Mutation mutation={DELETE_USER}>
         {(deleteUserInfo, { data }) => (
           <div>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt
-              dignissimos distinctio dolorum expedita explicabo fugiat
-              laudantium odit quis reprehenderit similique! Aspernatur beatae,
-              blanditiis dolorem eaque libero natus nesciunt suscipit vel!
+            <p style={{ marginLeft: 0, marginBottom: 10 }}>
+              Delete your account and all of current linked accounts
             </p>
             <Popconfirm
               title="Are you sure delete your account?"
