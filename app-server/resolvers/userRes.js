@@ -368,7 +368,6 @@ export default {
                         );
                         await Promise.all(championsNamePromises);
 
-                        console.log("championsCount", championsCount);
                         // Ipologismos ton total games me kathe champion
                         championsCount.forEach(data => {
                           data.championTotalGames = data.wins + data.losses;

@@ -103,6 +103,7 @@ const SummonerAccounts = props => (
       if (error) return `Error! ${error.message}`;
       return (
         <List
+          locale={{ emptyText: "Add League of Legends account..." }}
           itemLayout="horizontal"
           dataSource={data.getUserInfos.summoner}
           renderItem={item => (
@@ -206,7 +207,6 @@ class LinkedAccounts extends Component {
                         }
                       })
                         .then(d => {
-                          console.log(d.data.addSummoner);
                           if (d.data.addSummoner) {
                             openNotificationWithIcon(
                               "success",
