@@ -60,7 +60,13 @@ const DeleteSummoner = props => (
         onClick={e => {
           let temp = e.target.value.split("+");
           deleteSummoner({
-            variables: { id: temp[0], summoner: temp[1], server: temp[2] }
+            variables: { id: temp[0], summoner: temp[1], server: temp[2] },
+            refetchQueries: [
+              {
+                query: GET_SUMMONERS,
+                variables: { id: temp[0] }
+              }
+            ]
           })
             .then(res => {
               if (res.data.deleteSummoner) {
