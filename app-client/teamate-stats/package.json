@@ -18,6 +18,7 @@
     "graphql-tag": "^2.10.0",
     "jwt-decode": "^2.2.0",
     "leaguejs": "^1.10.1",
+    "lodash": "^4.17.11",
     "prop-types": "^15.6.2",
     "query-string": "^6.2.0",
     "react": "^16.6.3",

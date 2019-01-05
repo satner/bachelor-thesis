@@ -53,7 +53,8 @@ class Summoners extends Component {
     super(props);
     this.state = {
       selida: 1, // pagination stuff
-      values: {}
+      values: {},
+      sortValue: ""
     };
   }
 
@@ -81,6 +82,10 @@ class Summoners extends Component {
     this.setState({
       selida: page
     });
+  };
+
+  handleSort = sortValue => {
+    this.setState({ sortValue });
   };
 
   render() {
@@ -284,8 +289,27 @@ class Summoners extends Component {
 
           {/* Grid card layout of summoners*/}
           <div className="summoners--grid">
+            {/* Sort div area */}
+            <div style={{ display: "flex", justifyContent: "flex-end" }}>
+              <Select
+                style={{ width: 170 }}
+                onChange={this.handleSort}
+                allowClear
+                placeholder={"Sort by"}
+                size={"large"}
+              >
+                <Option value="mostPlayedChampions">Champion</Option>
+                <Option value="winRatio">Win ratio</Option>
+                <Option value="avgGold">Gold ratio</Option>
+                <Option value="avgDamage">Damage ratio</Option>
+              </Select>
+            </div>
             <div className="card--grid">
-              <Grid page={this.state.selida} data={this.state.values} />
+              <Grid
+                page={this.state.selida}
+                data={this.state.values}
+                sortValue={this.state.sortValue}
+              />
             </div>
             <Pagi onChange={this.handlePagination} data={this.state.values} />
           </div>

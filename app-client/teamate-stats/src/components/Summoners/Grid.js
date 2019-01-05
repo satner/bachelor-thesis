@@ -5,6 +5,7 @@ import gql from "graphql-tag";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCoins, faPercent, faBolt } from "@fortawesome/free-solid-svg-icons";
+import { sortBy, find } from "lodash";
 import lang from "../../languages-v2";
 import Link from "react-router-dom/es/Link";
 
@@ -142,6 +143,7 @@ class Grid extends Component {
   };
 
   render() {
+    console.log(this.props.sortValue);
     return (
       <Query
         query={PAGINATION_USERS}
@@ -169,184 +171,217 @@ class Grid extends Component {
                 type="error"
               />
             );
-          return data.getPaginationUsers.map((u, i) => {
-            return (
-              <Card
-                key={u.summoner[0].name + i}
-                hoverable={true}
-                className={"summoner-card"}
-                cover={
-                  <Divider>
-                    <Avatar
-                      size="large"
-                      src={`http://ddragon.leagueoflegends.com/cdn/${
-                        u.latestPatchNumber
-                      }/img/profileicon/${u.summoner[0].profileIconId}.png`}
-                    />
-                  </Divider>
+
+          let hasData = data.getPaginationUsers.length !== 0;
+
+          if (this.props.sortValue) {
+            if (this.props.sortValue === "mostPlayedChampions") {
+              data.getPaginationUsers = sortBy(
+                data.getPaginationUsers,
+                item => {
+                  return item.summoner[0].mostPlayedChampions[0];
                 }
-                actions={[
-                  <Tooltip title="Total accounts of that user">
-                    <span>
-                      <Icon type="team" /> {u.summoner.length}
-                    </span>
-                  </Tooltip>,
-                  <Tooltip title="User account level">
-                    <span>
-                      <Icon type="rise" /> {u.summoner[0].summonerLevel}
-                    </span>
-                  </Tooltip>,
-                  <Tooltip title="See stats">
-                    <Link
-                      to={{
-                        pathname: "/stats",
-                        state: {
-                          userId: u._id,
-                          summonersOfAccount: u.summoner
+              );
+            } else {
+              data.getPaginationUsers = sortBy(
+                data.getPaginationUsers,
+                item => {
+                  return item.summoner.map(s => {
+                    return s[this.props.sortValue];
+                  });
+                }
+              );
+            }
+          }
+
+          console.log("NO SORTED", data.getPaginationUsers);
+
+          return hasData ? (
+            data.getPaginationUsers.map((u, i) => {
+              return (
+                <Card
+                  key={u.summoner[0].name + i}
+                  hoverable={true}
+                  className={"summoner-card"}
+                  cover={
+                    <Divider>
+                      <Avatar
+                        size="large"
+                        src={`http://ddragon.leagueoflegends.com/cdn/${
+                          u.latestPatchNumber
+                        }/img/profileicon/${u.summoner[0].profileIconId}.png`}
+                      />
+                    </Divider>
+                  }
+                  actions={[
+                    <Tooltip title="Total accounts of that user">
+                      <span>
+                        <Icon type="team" /> {u.summoner.length}
+                      </span>
+                    </Tooltip>,
+                    <Tooltip title="User account level">
+                      <span>
+                        <Icon type="rise" /> {u.summoner[0].summonerLevel}
+                      </span>
+                    </Tooltip>,
+                    <Tooltip title="See stats">
+                      <Link
+                        to={{
+                          pathname: "/stats",
+                          state: {
+                            userId: u._id,
+                            summonersOfAccount: u.summoner
+                          }
+                        }}
+                      >
+                        <Icon type="area-chart" />
+                      </Link>
+                    </Tooltip>
+                  ]}
+                >
+                  <Meta
+                    title={u.summoner[0].name}
+                    description={this.unfoldServerName(u.summoner[0].server)}
+                    style={{ textAlign: "center", paddingBottom: "20px" }}
+                  />
+
+                  <Card.Grid style={gridStyleFirstLine}>
+                    <Meta
+                      title={
+                        <Tooltip title="Win Ratio">
+                          <FontAwesomeIcon icon={faPercent} />
+                        </Tooltip>
+                      }
+                      description={u.summoner[0].winRatio}
+                      className={"avg-stats"}
+                    />
+                  </Card.Grid>
+
+                  <Card.Grid style={gridStyleFirstLine}>
+                    <Meta
+                      title={
+                        <Tooltip title="Average Gold">
+                          <FontAwesomeIcon icon={faCoins} />
+                        </Tooltip>
+                      }
+                      description={u.summoner[0].avgGold
+                        .toString()
+                        .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.")}
+                      className={"avg-stats"}
+                    />
+                  </Card.Grid>
+
+                  <Card.Grid style={gridStyleFirstLine}>
+                    <Meta
+                      title={
+                        <Tooltip title="Average Damage">
+                          <FontAwesomeIcon icon={faBolt} />
+                        </Tooltip>
+                      }
+                      description={u.summoner[0].avgDamage
+                        .toString()
+                        .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.")}
+                      className={"avg-stats"}
+                    />
+                  </Card.Grid>
+
+                  <Card.Grid style={{ width: "100%" }}>
+                    <Meta
+                      title="Most Played Champions"
+                      description={u.summoner[0].mostPlayedChampions.map(
+                        data => {
+                          return (
+                            <div
+                              style={{ display: "inline", marginLeft: "15px" }}
+                              key={data.name}
+                            >
+                              <Tooltip
+                                title={
+                                  <div style={{ textAlign: "center" }}>
+                                    <span>{data.name}</span>
+                                    <br />
+                                    Total games: {data.championTotalGames}
+                                  </div>
+                                }
+                                placement="bottom"
+                              >
+                                <Avatar
+                                  size="large"
+                                  src={`http://ddragon.leagueoflegends.com/cdn/${
+                                    u.latestPatchNumber
+                                  }/img/champion/${data.name.replace(
+                                    /\s/g,
+                                    ""
+                                  )}.png`}
+                                />
+                              </Tooltip>
+                            </div>
+                          );
                         }
+                      )}
+                      style={{
+                        textAlign: "center",
+                        paddingBottom: "20px",
+                        fontSize: "20px"
                       }}
-                    >
-                      <Icon type="area-chart" />
-                    </Link>
-                  </Tooltip>
-                ]}
-              >
-                <Meta
-                  title={u.summoner[0].name}
-                  description={this.unfoldServerName(u.summoner[0].server)}
-                  style={{ textAlign: "center", paddingBottom: "20px" }}
-                />
+                    />
+                  </Card.Grid>
 
-                <Card.Grid style={gridStyleFirstLine}>
-                  <Meta
-                    title={
-                      <Tooltip title="Win Ratio">
-                        <FontAwesomeIcon icon={faPercent} />
-                      </Tooltip>
-                    }
-                    description={u.summoner[0].winRatio}
-                    className={"avg-stats"}
-                  />
-                </Card.Grid>
-
-                <Card.Grid style={gridStyleFirstLine}>
-                  <Meta
-                    title={
-                      <Tooltip title="Average Gold">
-                        <FontAwesomeIcon icon={faCoins} />
-                      </Tooltip>
-                    }
-                    description={u.summoner[0].avgGold
-                      .toString()
-                      .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.")}
-                    className={"avg-stats"}
-                  />
-                </Card.Grid>
-
-                <Card.Grid style={gridStyleFirstLine}>
-                  <Meta
-                    title={
-                      <Tooltip title="Average Damage">
-                        <FontAwesomeIcon icon={faBolt} />
-                      </Tooltip>
-                    }
-                    description={u.summoner[0].avgDamage
-                      .toString()
-                      .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.")}
-                    className={"avg-stats"}
-                  />
-                </Card.Grid>
-
-                <Card.Grid style={{ width: "100%" }}>
-                  <Meta
-                    title="Most Played Champions"
-                    description={u.summoner[0].mostPlayedChampions.map(data => {
-                      return (
-                        <div
-                          style={{ display: "inline", marginLeft: "15px" }}
-                          key={data.name}
-                        >
+                  <Card.Grid style={gridStyleThirdLine}>
+                    <Meta
+                      title="Roles"
+                      description={this.unfoldRoles(u.roles).map((i, index) => {
+                        return (
                           <Tooltip
-                            title={
-                              <div style={{ textAlign: "center" }}>
-                                <span>{data.name}</span>
-                                <br />
-                                Total games: {data.championTotalGames}
-                              </div>
-                            }
+                            title={u.roles[index]}
+                            key={i}
                             placement="bottom"
                           >
-                            <Avatar
-                              size="large"
-                              src={`http://ddragon.leagueoflegends.com/cdn/${
-                                u.latestPatchNumber
-                              }/img/champion/${data.name.replace(
-                                /\s/g,
-                                ""
-                              )}.png`}
-                            />
+                            <Avatar size="large" src={i} />
                           </Tooltip>
-                        </div>
-                      );
-                    })}
-                    style={{
-                      textAlign: "center",
-                      paddingBottom: "20px",
-                      fontSize: "20px"
-                    }}
-                  />
-                </Card.Grid>
+                        );
+                      })}
+                      style={{ textAlign: "center", paddingBottom: "20px" }}
+                    />
+                  </Card.Grid>
 
-                <Card.Grid style={gridStyleThirdLine}>
-                  <Meta
-                    title="Roles"
-                    description={this.unfoldRoles(u.roles).map((i, index) => {
-                      return (
-                        <Tooltip
-                          title={u.roles[index]}
-                          key={i}
-                          placement="bottom"
-                        >
-                          <Avatar size="large" src={i} />
+                  <Card.Grid style={gridStyleThirdLine}>
+                    <Meta
+                      title="Languages"
+                      description={this.unfoldLanguages(u.languages).map(i => {
+                        return (
+                          <div key={i} className={"card-lang"}>
+                            <Icon type="caret-right" />
+                            {i} <br />
+                          </div>
+                        );
+                      })}
+                    />
+                  </Card.Grid>
+
+                  <Card.Grid style={gridStyleThirdLine}>
+                    <Meta
+                      title="Tier"
+                      description={
+                        <Tooltip title={u.summoner[0].tier} placement="bottom">
+                          <Avatar
+                            className={"tier-avatar"}
+                            size="large"
+                            src={this.unfoldTier(u.summoner[0].tier)}
+                          />
                         </Tooltip>
-                      );
-                    })}
-                    style={{ textAlign: "center", paddingBottom: "20px" }}
-                  />
-                </Card.Grid>
-
-                <Card.Grid style={gridStyleThirdLine}>
-                  <Meta
-                    title="Languages"
-                    description={this.unfoldLanguages(u.languages).map(i => {
-                      return (
-                        <div key={i} className={"card-lang"}>
-                          <Icon type="caret-right" />
-                          {i} <br />
-                        </div>
-                      );
-                    })}
-                  />
-                </Card.Grid>
-
-                <Card.Grid style={gridStyleThirdLine}>
-                  <Meta
-                    title="Tier"
-                    description={
-                      <Tooltip title={u.summoner[0].tier} placement="bottom">
-                        <Avatar
-                          className={"tier-avatar"}
-                          size="large"
-                          src={this.unfoldTier(u.summoner[0].tier)}
-                        />
-                      </Tooltip>
-                    }
-                    style={{ textAlign: "center", paddingBottom: "20px" }}
-                  />
-                </Card.Grid>
-              </Card>
-            );
-          });
+                      }
+                      style={{ textAlign: "center", paddingBottom: "20px" }}
+                    />
+                  </Card.Grid>
+                </Card>
+              );
+            })
+          ) : (
+            <div>
+              <p>Nope. Try to change search fields!</p>
+            </div>
+          );
         }}
       </Query>
     );
