@@ -143,6 +143,10 @@ class Grid extends Component {
   };
 
   render() {
+    let sortValues;
+    if (this.props.sortValue) {
+      sortValues = this.props.sortValue.split(" ");
+    }
     return (
       <Query
         query={PAGINATION_USERS}
@@ -173,21 +177,12 @@ class Grid extends Component {
 
           let hasData = data.getPaginationUsers.length !== 0;
 
-          if (this.props.sortValue) {
-            if (this.props.sortValue === "mostPlayedChampions") {
-              data.getPaginationUsers = sortBy(
-                data.getPaginationUsers,
-                item => {
-                  return item.summoner[0].mostPlayedChampions[0];
-                }
-              );
-            } else {
-              data.getPaginationUsers = sortBy(
-                data.getPaginationUsers,
-                item => {
-                  return item.summoner[0][this.props.sortValue];
-                }
-              );
+          if (sortValues) {
+            data.getPaginationUsers = sortBy(data.getPaginationUsers, item => {
+              return item.summoner[0][sortValues[0]];
+            });
+            if (sortValues[1] === "desc") {
+              data.getPaginationUsers.reverse();
             }
           }
 

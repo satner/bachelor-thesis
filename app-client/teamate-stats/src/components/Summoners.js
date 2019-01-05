@@ -5,10 +5,14 @@ import champions from "../champions";
 import Grid from "./Summoners/Grid";
 import Pagi from "./Summoners/Pagi";
 import "./summoners.css";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCoins, faPercent, faBolt } from "@fortawesome/free-solid-svg-icons";
 
-const Option = Select.Option;
+const { Option, OptGroup } = Select;
 const CheckboxGroup = Checkbox.Group;
 const FormItem = Form.Item;
+library.add(faCoins, faPercent, faBolt); // Icons
 
 const tiers = [
   {
@@ -292,16 +296,36 @@ class Summoners extends Component {
             {/* Sort div area */}
             <div style={{ display: "flex", justifyContent: "flex-end" }}>
               <Select
-                style={{ width: 170 }}
+                style={{ width: 200 }}
                 onChange={this.handleSort}
                 allowClear
                 placeholder={"Sort by"}
                 size={"large"}
               >
-                <Option value="mostPlayedChampions">Champion</Option>
-                <Option value="winRatio">Win ratio</Option>
-                <Option value="avgGold">Gold ratio</Option>
-                <Option value="avgDamage">Damage ratio</Option>
+                <OptGroup label="Win Ratio">
+                  <Option value="winRatio asc">
+                    <FontAwesomeIcon icon={faPercent} /> Low --> High
+                  </Option>
+                  <Option value="winRatio desc">
+                    <FontAwesomeIcon icon={faPercent} /> High --> Low
+                  </Option>
+                </OptGroup>
+                <OptGroup label="Gold Ratio">
+                  <Option value="avgGold asc">
+                    <FontAwesomeIcon icon={faCoins} /> Low --> High
+                  </Option>
+                  <Option value="avgGold desc">
+                    <FontAwesomeIcon icon={faCoins} /> High --> Low
+                  </Option>
+                </OptGroup>
+                <OptGroup label="Damage Ratio">
+                  <Option value="avgDamage asc">
+                    <FontAwesomeIcon icon={faBolt} /> Low --> High
+                  </Option>
+                  <Option value="avgDamage desc">
+                    <FontAwesomeIcon icon={faBolt} /> High --> Low
+                  </Option>
+                </OptGroup>
               </Select>
             </div>
             <div className="card--grid">
