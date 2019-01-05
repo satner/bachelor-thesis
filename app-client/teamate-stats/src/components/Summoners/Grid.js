@@ -143,7 +143,6 @@ class Grid extends Component {
   };
 
   render() {
-    console.log(this.props.sortValue);
     return (
       <Query
         query={PAGINATION_USERS}
@@ -186,15 +185,11 @@ class Grid extends Component {
               data.getPaginationUsers = sortBy(
                 data.getPaginationUsers,
                 item => {
-                  return item.summoner.map(s => {
-                    return s[this.props.sortValue];
-                  });
+                  return item.summoner[0][this.props.sortValue];
                 }
               );
             }
           }
-
-          console.log("NO SORTED", data.getPaginationUsers);
 
           return hasData ? (
             data.getPaginationUsers.map((u, i) => {
