@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Query } from "react-apollo";
-import { Avatar, Card, Icon, Spin, Divider, Tooltip, Alert } from "antd";
+import { Avatar, Card, Icon, Spin, Divider, Tooltip, Alert, Badge } from "antd";
 import gql from "graphql-tag";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -204,11 +204,19 @@ class Grid extends Component {
                     </Divider>
                   }
                   actions={[
-                    <Tooltip title="Total accounts of that user">
-                      <span>
-                        <Icon type="team" /> {u.summoner.length}
-                      </span>
-                    </Tooltip>,
+                    u.summoner.length <= 1 ? (
+                      <Tooltip title="Total accounts of that user">
+                        <Icon type="team" />
+                        {u.summoner.length}
+                      </Tooltip>
+                    ) : (
+                      <Tooltip title="Total accounts of that user">
+                        <Badge dot offset={[9, -2]}>
+                          <Icon type="team" />
+                        </Badge>
+                        {u.summoner.length}
+                      </Tooltip>
+                    ),
                     <Tooltip title="User account level">
                       <span>
                         <Icon type="rise" /> {u.summoner[0].summonerLevel}
