@@ -11,10 +11,8 @@ import forgotPasswordEmailHTML from "../forgotPasswordEmailHTML";
 import forgotPasswordEmailTXT from "../forgotPasswordEmailTXT";
 
 const api = new LeagueJs(API_KEY, {
-  caching: {
-    isEnabled: true,
-    defaults: { stdTTL: 120 } // add a TTL to all Endpoints
-  }
+  useV4: true,
+  PLATFORM_ID: "eun1"
 });
 
 // oi tris katw lines gia na epistrefei to id pou einai tipou _bsontype

@@ -149,7 +149,7 @@ class SignUp extends Component {
                               openNotificationWithIcon(
                                 "warning",
                                 "Error",
-                                "Email or Summoner already exists!"
+                                "Email already exists!"
                               );
                             }
                           })

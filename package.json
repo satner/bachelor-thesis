@@ -6,7 +6,9 @@
   "scripts": {
     "server": "nodemon -r esm index.js",
     "client": "npm start --prefix app-client\\teamate-stats",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "client-linux": "npm start --prefix app-client/teamate-stats",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "dev-linux": "concurrently \"npm run server\" \"npm run client-linux\""
   },
   "keywords": [
     "league of legends",
@@ -20,7 +22,7 @@
     "url": "https://github.com/satner/bachelor-thesis.git"
   },
   "devDependencies": {
-    "nodemon": "^1.18.6",
+    "nodemon": "^1.18.9",
     "prettier": "^1.15.3"
   },
   "dependencies": {
@@ -35,7 +37,7 @@
     "graphql": "^14.0.2",
     "graphql-type-json": "^0.2.1",
     "jsonwebtoken": "^8.4.0",
-    "leaguejs": "^1.10.1",
+    "leaguejs": "^1.11.4",
     "lodash": "^4.17.11",
     "moment": "^2.23.0",
     "mongoose": "^5.3.12",

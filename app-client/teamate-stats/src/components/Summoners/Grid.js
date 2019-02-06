@@ -5,7 +5,7 @@ import gql from "graphql-tag";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCoins, faPercent, faBolt } from "@fortawesome/free-solid-svg-icons";
-import { sortBy, find } from "lodash";
+import { sortBy } from "lodash";
 import lang from "../../languages-v2";
 import Link from "react-router-dom/es/Link";
 
@@ -303,15 +303,19 @@ class Grid extends Component {
                                 }
                                 placement="bottom"
                               >
-                                <Avatar
-                                  size="large"
-                                  src={`http://ddragon.leagueoflegends.com/cdn/${
-                                    u.latestPatchNumber
-                                  }/img/champion/${data.name.replace(
-                                    /\s/g,
-                                    ""
-                                  )}.png`}
-                                />
+                                {data.name ? (
+                                  <Avatar
+                                    size="large"
+                                    src={`http://ddragon.leagueoflegends.com/cdn/${
+                                      u.latestPatchNumber
+                                    }/img/champion/${data.name.replace(
+                                      /\s/g,
+                                      ""
+                                    )}.png`}
+                                  />
+                                ) : (
+                                  <span style={{ visibility: "hidden" }} />
+                                )}
                               </Tooltip>
                             </div>
                           );

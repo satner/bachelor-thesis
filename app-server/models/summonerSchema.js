@@ -4,8 +4,9 @@ const summonerSchema = new mongoose.Schema(
   {
     userId: mongoose.Schema.Types.ObjectId,
     summonerInfo: {
-      accountId: Number,
-      id: Number,
+      accountId: String,
+      id: String,
+      puuid: String,
       profileIconId: Number,
       summonerLevel: Number,
       name: String,

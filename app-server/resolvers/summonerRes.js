@@ -3,12 +3,10 @@ import { SummonerSchema, UserSchema } from "../models";
 import { API_KEY, QUEUE, SEASON } from "../lol-config";
 const _ = require("lodash");
 import LeagueJs from "leaguejs";
+
 const api = new LeagueJs(API_KEY, {
-  // TODO: test burst mode
-  caching: {
-    isEnabled: true,
-    defaults: { stdTTL: 120 } // add a TTL to all Endpoints
-  }
+  useV4: true,
+  PLATFORM_ID: "eun1"
 });
 
 export default {
