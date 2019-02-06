@@ -64,7 +64,7 @@ class Stats extends Component {
                   <TabPane tab={`Account #${index + 1}`} key={index + 1}>
                     <div className="card card-1">
                       <h1>
-                        {data.name}{" "}
+                        {data.name}
                         <span>
                           <UpdateSummoner
                             summonerName={data.name}
@@ -73,7 +73,7 @@ class Stats extends Component {
                         </span>
                       </h1>
                       <h3>{this.unfoldServerName(data.server)}</h3>
-                      <h3>{data.tier}</h3>
+                      <h3>{data.tier ? data.tier : "PROVISIONAL"}</h3>
                     </div>
 
                     <div className="card card-1">

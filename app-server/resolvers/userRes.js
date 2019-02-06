@@ -185,6 +185,8 @@ export default {
       let finalTimeStamps = [];
       let avgGold = 0;
       let avgDamage = 0;
+      let win = 0;
+      let loss = 0;
       let championsCount = [];
       // Cheak ama iparxei idi sto DB
       await SummonerSchema.findOne({
@@ -227,27 +229,17 @@ export default {
               } else {
                 finalData.summonerLeagueInfo = data[1];
               }
-              // store win ratio to user Schema
-              newSummoner.winRatio = Math.floor(
-                (finalData.summonerLeagueInfo.wins /
-                  (finalData.summonerLeagueInfo.wins +
-                    finalData.summonerLeagueInfo.losses)) *
-                  100
-              );
-              // Store win ratio to summoner Schema
-              finalData.summonerLeagueInfo.winRatio = newSummoner.winRatio;
-
-              return api.Match.gettingListByAccount(
-                finalData.summonerInfo.accountId,
-                _args.server,
-                {
-                  queue: [QUEUE],
-                  season: [SEASON]
-                }
-              );
             } else {
-              done = false;
+              finalData.summonerLeagueInfo = {};
             }
+            return api.Match.gettingListByAccount(
+              finalData.summonerInfo.accountId,
+              _args.server,
+              {
+                queue: [QUEUE],
+                season: [SEASON]
+              }
+            );
           })
           .catch(err => {
             console.error(
@@ -322,6 +314,13 @@ export default {
                       if (matchList.length - 1 === index) {
                         avgGold = Math.floor(avgGold / matchList.length);
                         avgDamage = Math.floor(avgDamage / matchList.length);
+                      }
+
+                      // Store wins and losses
+                      if (myUserData[0].stats.win) {
+                        win++;
+                      } else {
+                        loss++;
                       }
 
                       // Calculate 5 most played champions
@@ -402,6 +401,11 @@ export default {
                 newSummoner.avgDamage = avgDamage;
                 finalData.summonerLeagueInfo.avgGold = avgGold;
                 finalData.summonerLeagueInfo.avgDamage = avgDamage;
+
+                // store win ratio to user Schema
+                newSummoner.winRatio = Math.floor((win / (win + loss)) * 100);
+                // Store win ratio to summoner Schema
+                finalData.summonerLeagueInfo.winRatio = newSummoner.winRatio;
 
                 // Store 5 most played champions
                 newSummoner.mostPlayedChampions = championsCount;

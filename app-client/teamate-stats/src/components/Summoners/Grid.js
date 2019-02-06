@@ -369,7 +369,11 @@ class Grid extends Component {
                           <Avatar
                             className={"tier-avatar"}
                             size="large"
-                            src={this.unfoldTier(u.summoner[0].tier)}
+                            src={
+                              u.summoner[0].tier
+                                ? this.unfoldTier(u.summoner[0].tier)
+                                : this.unfoldTier("PROVISIONAL")
+                            }
                           />
                         </Tooltip>
                       }

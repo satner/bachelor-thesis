@@ -416,6 +416,8 @@ export default {
       let newWinRatio = 0;
       let newAvgGold = 0;
       let newAvgDamage = 0;
+      let newWin = 0;
+      let newLoss = 0;
       let newChampionsCount = [];
       let newProfileIconId = 0;
       SummonerSchema.findOne(
@@ -429,18 +431,12 @@ export default {
             result.summonerInfo.id,
             _args.server
           ).then(d => {
-            if (d[0].queueType.includes("SOLO")) {
-              newTier = d[0].tier;
-              // calculate new win ratio
-              newWinRatio = Math.floor(
-                (d[0].wins / (d[0].wins + d[0].losses)) * 100
-              );
-            } else {
-              newTier = d[1].tier;
-              // calculate new win ratio
-              newWinRatio = Math.floor(
-                (d[1].wins / (d[1].wins + d[1].losses)) * 100
-              );
+            if (d.length > 0) {
+              if (d[0].queueType.includes("SOLO")) {
+                newTier = d[0].tier;
+              } else {
+                newTier = d[1].tier;
+              }
             }
           });
 
@@ -498,12 +494,22 @@ export default {
                       if (myUserData[0].stats.totalDamageDealt) {
                         newAvgDamage += myUserData[0].stats.totalDamageDealt;
                       }
+                      // Store wins and losses
+                      if (myUserData[0].stats.win) {
+                        newWin++;
+                      } else {
+                        newLoss++;
+                      }
+
                       if (matchesList.matches.length - 1 === index) {
                         newAvgGold = Math.floor(
                           newAvgGold / matchesList.matches.length
                         );
                         newAvgDamage = Math.floor(
                           newAvgDamage / matchesList.matches.length
+                        );
+                        newWinRatio = Math.floor(
+                          (newWin / (newWin + newLoss)) * 100
                         );
                       }
 
@@ -564,12 +570,28 @@ export default {
                 await SummonerSchema.findById(result._id)
                   .exec()
                   .then(data => {
-                    newAvgGold = Math.floor(
-                      (data.summonerLeagueInfo.avgGold + newAvgGold) / 2
-                    );
-                    newAvgDamage = Math.floor(
-                      (data.summonerLeagueInfo.avgDamage + newAvgDamage) / 2
-                    );
+                    if (newAvgGold !== 0) {
+                      newAvgGold = Math.floor(
+                        (data.summonerLeagueInfo.avgGold + newAvgGold) / 2
+                      );
+                    } else {
+                      newAvgGold = data.summonerLeagueInfo.avgGold;
+                    }
+                    if (newAvgDamage !== 0) {
+                      newAvgDamage = Math.floor(
+                        (data.summonerLeagueInfo.avgDamage + newAvgDamage) / 2
+                      );
+                    } else {
+                      newAvgDamage = data.summonerLeagueInfo.avgDamage;
+                    }
+                    if (newWinRatio !== 0) {
+                      newWinRatio =
+                        Math.floor(
+                          data.summonerLeagueInfo.winRatio + newWinRatio
+                        ) / 2;
+                    } else {
+                      newWinRatio = data.summonerLeagueInfo.winRatio;
+                    }
                   })
                   .catch(err => {
                     console.error(">>> updateSummonerInfo resolver " + err);
@@ -685,6 +707,17 @@ export default {
                     }
                   }
                 );
+                let clearEmptyTier = {};
+                if (newTier !== "") {
+                  clearEmptyTier = {
+                    "summoner.$.tier": newTier,
+                    "summoner.$.winRatio": newWinRatio
+                  };
+                } else {
+                  clearEmptyTier = {
+                    "summoner.$.winRatio": newWinRatio
+                  };
+                }
                 UserSchema.updateOne(
                   {
                     summoner: {
@@ -695,10 +728,7 @@ export default {
                     }
                   },
                   {
-                    $set: {
-                      "summoner.$.tier": newTier,
-                      "summoner.$.winRatio": newWinRatio
-                    },
+                    $set: clearEmptyTier,
                     "summoner.$.avgGold": newAvgGold,
                     "summoner.$.avgDamage": newAvgDamage,
                     "summoner.$.mostPlayedChampions": newChampionsCount,
