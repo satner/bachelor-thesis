@@ -208,7 +208,7 @@ export default {
                 finalData.summonerInfo = data;
               })
               .catch(err => {
-                console.log("❌ Summoner name IS NOT lol-API", err);
+                console.log("❌ Summoner name IS NOT in lol-API", err);
               });
           }
         })
