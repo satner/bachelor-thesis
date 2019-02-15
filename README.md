@@ -2,8 +2,6 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/satner/diplomatiki/badge.svg?targetFile=package.json)](https://snyk.io/test/github/satner/diplomatiki?targetFile=package.json)
 [![CodeFactor](https://www.codefactor.io/repository/github/satner/diplomatiki/badge/leaguejsratelimit)](https://www.codefactor.io/repository/github/satner/diplomatiki/overview/leaguejsratelimit)
 
-The project is a part of my bachelor's thesis at Dept. of Computer Science & Engineering, University of Ioannina. The main purpose of that project is to combine the data of players and it uses them in order to create a healthy community. Furthermore, the project generates a user profile that graphically displays the user's performance in order to other players will have the chance to find the ideal playmate. The API methods i am using are: League-V3, Match-V3 and Summoner-V3. The project aims to be: 
-* effective with big data management
-* effective with rate limits of API 
-* uses modern technologies
+The goal of this diploma thesis was the development of a web app, with specific purpose of finding teammates for the online video game League of Legends. The teammate search feature is being supported by the representation of the personal data of the player, which are collected from the official API of the game. The final system that resulted offers each individual user the possibility of filtered search but also has the option for each player to add himself to the result of the search. Lastly, this web app provides satisfactory response time for the search requests.
 
+Keywords: league of legends, API, data visualization, response time

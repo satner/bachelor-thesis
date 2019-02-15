@@ -93,7 +93,6 @@ export default {
         latestPatchNumber = data[0];
       });
 
-      console.log("QUERY", query);
       await UserSchema.find(query)
         .skip(_args.skip)
         .limit(_args.limit)
