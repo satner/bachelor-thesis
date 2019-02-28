@@ -93,6 +93,11 @@ export default {
         latestPatchNumber = data[0];
       });
 
+      /*
+       * Επιστροφή των αποτελεσμάτων αναζήτησης αγνοόντας
+       * (skip(_args.skip)) κάποια και περιορίζοντας σε
+       * ένα μέγιστο πλήθος
+       * */
       await UserSchema.find(query)
         .skip(_args.skip)
         .limit(_args.limit)
@@ -187,7 +192,7 @@ export default {
       let win = 0;
       let loss = 0;
       let championsCount = [];
-      // Cheak ama iparxei idi sto DB
+      // Αναζήτηση στην βάση δεδομένων εάν το όνομα υπάρχει ήδη
       await SummonerSchema.findOne({
         "summonerInfo.name": _args.summoner,
         "summonerInfo.server": _args.server
@@ -200,6 +205,7 @@ export default {
             console.log(
               "🤷 Summoner name IS NOT already in the database!\n🏁 Start searching in the LOL-API"
             );
+            // Αίτηση στην υπηρεσία /summoners/by-name
             await api.Summoner.gettingByName(_args.summoner, _args.server)
               .then(data => {
                 done = true;
@@ -212,17 +218,22 @@ export default {
           }
         })
         .catch(err => {
-          console.error("❌ Add user error: search error");
+          console.error("❌ Add user error: search error", err);
         });
 
       if (done) {
         // Ean o xristis den einai sto DB and IPARXEI sto lol-API MPES edw
+        // Αίτηση στην υπηρεσία /positions/by-summoner
         let summonerNameApiPromise = api.League.gettingPositionsForSummonerId(
           finalData.summonerInfo.id,
           _args.server
         )
           .then(data => {
             if (data.length > 0) {
+              /*
+               * Αποθήκευση των δεδομένων που αφορούν μόνο τον τρόπο
+               * παιχνιδιού solo queue
+               * */
               if (data[0].queueType.includes("SOLO")) {
                 finalData.summonerLeagueInfo = data[0];
               } else {
@@ -231,6 +242,10 @@ export default {
             } else {
               finalData.summonerLeagueInfo = {};
             }
+            /*
+             * Αίτηση στην υπηρεσία /matchlists/by-account με τα
+             * ορίσματα server, queue, season
+             * */
             return api.Match.gettingListByAccount(
               finalData.summonerInfo.accountId,
               _args.server,
@@ -251,7 +266,7 @@ export default {
               finalData.endIndex = matchList.endIndex;
               finalData.totalGames = matchList.totalGames;
 
-              // Convert each timestamp to normal data
+              // Μετατροπή κάθε χρονοσφραγίδας σε κανονική ημερομηνία
               matchList.matches.forEach(data => {
                 let temp = {};
                 temp.day = moment(data.timestamp).format("YYYY-MM-DD");
@@ -266,6 +281,7 @@ export default {
                 }))
                 .value();
 
+              // Επιστροφή της λίστας των αγώνων
               return matchList.matches;
             } else {
               done = false;
@@ -281,10 +297,16 @@ export default {
           .then(matchList => {
             if (matchList) {
               Promise.all(
+                /*
+                 * Αίτηση στην υπηρεσία /matches με όρισμα το gameId
+                 * Το πλήθος των αιτήσεων είναι ίσο με μέγεθος της λίστας που
+                 * επιστρέφεται από την αίτηση στην υπηρεσία /matchlists/by-account
+                 * */
                 matchList.map(async function(match, index) {
                   await api.Match.gettingById(match.gameId, _args.server)
                     .then(async data => {
-                      // Pernw to participantid tou summoner
+                      // Εύρεση του participantid για το όνομα του παίκτη
+                      // της αρχικής αναζήτησης
                       let summonerID = data.participantIdentities.filter(
                         function(summoner) {
                           return (
@@ -495,6 +517,10 @@ export default {
       await UserSchema.findOne({ email: _args.email })
         .exec()
         .then(async user => {
+          /*
+           * Σύγκριση του κωδικού της φόρμας με αυτόν της βάσης δεδομένων
+           * και δημιουργία του token διάρκειας μιας ώρας
+           * */
           await bcrypt.compare(_args.password, user.password).then(res => {
             if (res) {
               token = jwt.sign(
@@ -528,6 +554,7 @@ export default {
             console.log("User already exists!");
           } else {
             done = true;
+            // Κωδικοποίηση του κωδικού με την βιβλιοθήκη bcrypt
             await bcrypt
               .hash(_args.password, 10)
               .then(hash => {
@@ -559,6 +586,7 @@ export default {
     forgotPassword: async (_source, _args) => {
       let done = false;
       let token = "";
+
       await UserSchema.findOneAndUpdate({ email: _args.email })
         .exec()
         .then(user => {
@@ -582,6 +610,11 @@ export default {
           );
         })
         .then(async () => {
+          /*
+           * Αποθήκευση του token στο κατάλληλο έγγραφο, δηλαδή στο έγγραφο
+           * που αντιστοιχεί στον χρήστη που έκανε την αίτηση της
+           * αλλαγής/ανάκτησης του κωδικού πρόσβασης
+           * */
           await UserSchema.findOneAndUpdate(
             { email: _args.email },
             { resetPasswordToken: token }
@@ -589,6 +622,7 @@ export default {
             .exec()
             .then(user => {
               if (user) {
+                // Έναρξη των διαδικασιών για την αποστολή του e-mail
                 let transporter = nodemailer.createTransport({
                   service: "gmail",
                   auth: {
@@ -608,6 +642,7 @@ export default {
                   html: forgotPasswordEmailHTML(token)
                 };
 
+                // Αποστολή του e-mail
                 transporter.sendMail(mailOptions, (error, info) => {
                   if (error) {
                     return console.log(error);
@@ -771,6 +806,7 @@ export default {
       let oldData = jwt.decode(_args.token);
       let done = false;
 
+      // Διεγραφή του χρήστη από την συλλογή UserSchema
       await UserSchema.findOneAndDelete({ _id: oldData.id })
         .exec()
         .then(d => {
@@ -786,6 +822,7 @@ export default {
           console.error("❌ User has not deleted!", e);
           done = false;
         });
+      // Διεγραφή του χρήστη από την συλλογή SummonerSchema
       await SummonerSchema.deleteMany({ userId: oldData.id })
         .exec()
         .then(d => {

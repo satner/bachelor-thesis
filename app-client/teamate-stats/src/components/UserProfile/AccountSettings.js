@@ -16,6 +16,8 @@ import lang from "../../languages-v2";
 const FormItem = Form.Item;
 const Option = Select.Option;
 const CheckboxGroup = Checkbox.Group;
+// Το graphql mutation που πραγματοποιεί την
+// ανανέωση των προσωπικών δεδομένων ενός χρήστη
 const UPDATE_USER = gql`
   mutation(
     $id: String!

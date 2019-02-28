@@ -6,6 +6,8 @@ import ReactLoading from "react-loading";
 import "./graphs.css";
 import { Alert } from "antd";
 
+// Το graphql query που πραγματοποιεί την αίτηση στον server για τα
+// δεδομένα που αφορούν την γραφική παράσταση vision per game
 const GET_VISION_SCORE = gql`
   query($userId: String!, $summonerName: String!, $server: String!) {
     getVisionScore(
@@ -52,6 +54,7 @@ const VisionScore = props => {
             />
           );
         return (
+          // Δημιουργία της διεπαφής του γραφήματος vision per game
           <Chart height={400} data={data.getVisionScore} scale={scale} forceFit>
             <Axis name="gameCounter" />
             <Axis name="value" />

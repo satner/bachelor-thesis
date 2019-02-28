@@ -193,6 +193,7 @@ class LinkedAccounts extends Component {
               onCancel={this.handleCancel}
               footer={null}
             >
+              {/* Εμαφάνιση της διεπαφής πρόσθεσης νέων λογαριασμών*/}
               <Form
                 layout={"vertical"}
                 onSubmit={e => {

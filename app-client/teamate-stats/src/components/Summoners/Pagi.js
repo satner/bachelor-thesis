@@ -28,6 +28,10 @@ const PAGINATION_NUMBER = gql`
 `;
 
 const Pagi = props => (
+  /*
+   * Εμφάνιση της διεπαφής του pagination με την βοήθεια του
+   * graphql query: PAGINATION_NUMBER
+   * */
   <Query
     query={PAGINATION_NUMBER}
     variables={{

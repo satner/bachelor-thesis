@@ -186,6 +186,10 @@ class Grid extends Component {
             }
           }
 
+          /*
+           * Έλεγχος εάν υπάρχουν δεδομένα. Στον θετικό έλεγχο
+           * εμαφάνιση όλων των δεδομένων με την μορφή κάρτας
+           * */
           return hasData ? (
             data.getPaginationUsers.map((u, i) => {
               return (
