@@ -32,7 +32,7 @@
     "bcrypt": "^3.0.2",
     "concurrently": "^4.1.0",
     "cors": "^2.8.5",
-    "esm": "^3.0.84",
+    "esm": "^3.1.0",
     "event-stream": "^3.3.4",
     "express": "^4.16.4",
     "graphql": "^14.0.2",
