@@ -8,7 +8,9 @@
     "client": "npm start --prefix app-client\\teamate-stats",
     "client-linux": "npm start --prefix app-client/teamate-stats",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "dev-linux": "concurrently \"npm run server\" \"npm run client-linux\""
+    "dev-linux": "concurrently \"npm run server\" \"npm run client-linux\"",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "keywords": [
     "league of legends",
@@ -45,6 +47,8 @@
     "morgan": "^1.9.1",
     "nodemailer": "^4.7.0",
     "promise": "^8.0.2",
-    "qs-middleware": "^1.0.3"
-  }
+    "qs-middleware": "^1.0.3",
+    "snyk": "^1.258.2"
+  },
+  "snyk": true
 }
