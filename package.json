@@ -30,7 +30,7 @@
     "apollo-engine": "^1.1.2",
     "apollo-server-express": "^2.2.2",
     "bcrypt": "^3.0.2",
-    "concurrently": "^4.1.0",
+    "concurrently": "^5.0.1",
     "cors": "^2.8.5",
     "esm": "^3.1.0",
     "event-stream": "^3.3.4",
