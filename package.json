@@ -41,7 +41,7 @@
     "leaguejs": "^1.14.5",
     "lodash": "^4.17.11",
     "moment": "^2.23.0",
-    "mongoose": "^5.3.12",
+    "mongoose": "^5.12.2",
     "morgan": "^1.9.1",
     "nodemailer": "^4.7.0",
     "promise": "^8.0.2",
